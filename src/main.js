@@ -28,9 +28,6 @@ let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 let keyLEFT, keyRIGHT;
 
-// High score variable
-var highScore = 0;
-var currScore = 0;
 
 // Background music variable
 var musicStarted = false;
