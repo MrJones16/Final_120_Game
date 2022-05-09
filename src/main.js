@@ -16,17 +16,17 @@ let config = {
     physics: {
       default: 'arcade',
       arcade: {
-        gravity: {y: 1000},
+        //gravity: {y: 1000},
         debug: false
       }
     },
-    scene: [Menu, Play]
+    scene: [Menu, Play, Instruction]
   }
 
 let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
-let keyLEFT, keyRIGHT;
+let keyW, keyA, keyS, keyD;
 
 
 // Background music variable

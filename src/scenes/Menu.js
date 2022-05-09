@@ -11,6 +11,8 @@ class Menu extends Phaser.Scene {
       }
 
     create(){
+        //this.scene.start('playScene');
+
         // Play and loop background music
         // if (!musicStarted) {
         //   let musicConfig = {
@@ -48,13 +50,13 @@ class Menu extends Phaser.Scene {
         menuConfig.color = "yellow";
         this.instrButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 75, "Instructions", menuConfig).setOrigin(0.5).setInteractive();
         this.instrButton.on('pointerdown', () => { this.scene.start('instructionScene'); })
-        menuConfig.color = "red";
-        this.exitButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 150, "Exit", menuConfig).setOrigin(0.5).setInteractive();
-        this.exitButton.on('pointerdown', () => { game.destroy(); })
-        menuConfig.color = "darkorchid";
-        menuConfig.fontSize = '20px';
-        this.creditsButton = this.add.text(game.config.width/2 - 275, game.config.height/2 + borderUISize + borderPadding + 175, "Credits", menuConfig).setOrigin(0.5).setInteractive();
-        this.creditsButton.on('pointerdown', () => { this.scene.start('creditsScene'); })
-        this.add.text(game.config.width/2 + 200, game.config.height/2 + borderUISize + borderPadding + 175, "Version 1.0");
+        // menuConfig.color = "red";
+        // this.exitButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 150, "Exit", menuConfig).setOrigin(0.5).setInteractive();
+        // this.exitButton.on('pointerdown', () => { game.destroy(); })
+        // menuConfig.color = "darkorchid";
+        // menuConfig.fontSize = '20px';
+        // this.creditsButton = this.add.text(game.config.width/2 - 275, game.config.height/2 + borderUISize + borderPadding + 175, "Credits", menuConfig).setOrigin(0.5).setInteractive();
+        // this.creditsButton.on('pointerdown', () => { this.scene.start('creditsScene'); })
+        // this.add.text(game.config.width/2 + 200, game.config.height/2 + borderUISize + borderPadding + 175, "Version 1.0");
     }
 }
