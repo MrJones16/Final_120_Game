@@ -16,6 +16,23 @@ class Play extends Phaser.Scene {
     create(){
         //Add player
         this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player').setOrigin(0.5, 0.5);
+        this.player.touchClique = false;
+        this.player.timerActive = false;
+        //this.player.timerExpired = false;
+        this.player.cliqueLockout = false;
+        this.player.status = 0;
+        this.statusConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            color: 'yellow',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
+        this.statusText = this.add.text(game.config.width - (borderUISize + borderPadding * 25), borderUISize + borderPadding * 2, "Unsafe", this.statusConfig);
 
         //key definitions
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -39,7 +56,7 @@ class Play extends Phaser.Scene {
         this.cliqueGroup.create(1000, 150, 'clique').setOrigin(0, 0).setImmovable(true);
 
         //Timer text config
-        let timerConfig = {
+        this.timerConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
             color: 'red',
@@ -54,12 +71,13 @@ class Play extends Phaser.Scene {
         //Player collisions and overlaps
         this.physics.add.collider(this.player, this.wallGroup);
         this.physics.add.overlap(this.player, this.cliqueGroup, () => {
-            this.timeRemaining = this.time.delayedCall(5000, () => {
-                //do something
-            }, null, this);
-            this.clockRight = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.timeRemaining.getRemainingSeconds(), timerConfig);
+            this.player.touchClique = true;
         });
 
+        // this.timeRemaining = this.time.delayedCall(5000, () => {
+        //     //do something
+        // }, null, this);
+        // this.clockRight = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.timeRemaining.getRemainingSeconds(), timerConfig);
 
         //Sound add
         //this.explosionSfx = this.sound.add('sfx_explosion', {volume: 0.25});
@@ -111,6 +129,71 @@ class Play extends Phaser.Scene {
 
         //Wrap world (temporary)
         this.physics.world.wrap(this.player, 0);
+
+        //Player status
+        switch (this.player.status){
+            //Player is unsafe (not hiding, but not spotted)
+            case 0:
+                this.statusText.setColor('yellow');
+                this.statusText.text = "Unsafe";
+                break;
+            //Player is safe (hiding)
+            case 1:
+                this.statusText.setColor('green');
+                this.statusText.text = "Safe";
+                break;
+            //Player is found (spotted)
+            case 2:
+                this.statusText.setColor('red');
+                this.statusText.text = "Found!";
+                break;
+        }
+
+        //Clique collision checking and timer
+        //console.log("Touching clique: ", this.player.touchClique);
+        console.log("Timer active: ", this.player.timerActive);
+
+        if (this.player.touchClique && !this.player.cliqueLockout) {
+            this.player.status = 1;
+            if (!this.player.timerActive) {
+                this.cliqueTimer = this.time.delayedCall(5000, () => {
+                    this.player.status = 2;
+                    this.player.timerActive = false;
+                    this.player.cliqueLockout = true;
+                    this.timerText.destroy();
+                    this.lockoutText = this.add.text(game.config.width - (borderUISize + borderPadding * 35), borderUISize + borderPadding * 2, "[LOCK]", this.timerConfig);
+                    this.lockoutTimer = this.time.delayedCall(10000, () => {
+                        this.player.cliqueLockout = false;
+                        this.lockoutText.destroy();
+                    });
+                    //this.add.text(game.config.width - (borderUISize + borderPadding * 20), borderUISize + borderPadding * 2, 'Found!', this.timerConfig);
+                }, null, this);
+                this.timerText = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.cliqueTimer.getRemainingSeconds(), this.timerConfig);
+            }   
+            this.player.timerActive = true;
+            //this.timerText = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.cliqueTimer.getRemainingSeconds(), this.timerConfig);
+        } else {
+            if (this.player.status != 2) {
+                this.player.status = 0;
+            }
+            if (this.player.timerActive) {
+                this.player.timerActive = false;
+                this.timerText.destroy();
+                this.cliqueTimer.destroy();
+            }
+        }
+
+        if (this.player.timerActive) {
+            this.timerText.text = this.cliqueTimer.getRemainingSeconds();
+        }
+
+        // if (!this.player.touchClique && this.player.timerActive) {
+        //     this.player.timerActive = false;
+        //     this.timerText.destroy();
+        //     this.cliqueTimer.destroy();
+        // }
+
+        this.player.touchClique = false;
 
     }
 
