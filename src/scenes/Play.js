@@ -7,11 +7,13 @@ class Play extends Phaser.Scene {
         this.load.image('player', './assets/placeholder_player.png');
         this.load.image('wall', './assets/placeholder_wall.png');
         this.load.image('clique', './assets/placeholder_clique.png');
+        this.load.image('guard', './assets/placeholder_guard.png');
         // this.load.image('rocket', './assets/missile.png');
         // this.load.audio('sfx_explosion', './assets/rocket_explosion.wav');
         // this.load.atlas('playeranims', './assets/Player_Sprite_Move.png', './assets/Player_Sprite_Move.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
     }
+    
 
     create(){
         //Add player
@@ -74,6 +76,28 @@ class Play extends Phaser.Scene {
             this.player.touchClique = true;
         });
 
+        //testing with paths and guards
+        this.graphics = this.add.graphics();
+        this.path = new Phaser.Curves.Path(10,10);
+        this.path.lineTo(750,10);
+        this.path.lineTo(750,300);
+
+        this.guard = this.add.follower(this.path, 10,10, 'guard');
+        this.guard.startFollow(
+            {
+                from:0,
+                to:1,
+                delay:2000,
+                duration:10000,
+                ease: 'Linear',
+                hold:2000,
+                repeat:-1,
+                yoyo:true,
+                rotateToPath:true
+            }
+        )
+        
+
         // this.timeRemaining = this.time.delayedCall(5000, () => {
         //     //do something
         // }, null, this);
@@ -103,6 +127,10 @@ class Play extends Phaser.Scene {
     }
     
     update() {
+        //draw path lines
+        this.graphics.clear();
+        this.graphics.lineStyle(2, 0xffffff, 1);
+        this.path.draw(this.graphics);
         //Player movement (preferred to move into player prefab; further debugging for that is required)
         if (keyA.isDown) {
             this.player.body.setVelocityX(-350);
