@@ -1,3 +1,5 @@
+var touchClique = false;
+
 class Play extends Phaser.Scene {
     constructor(){
         super("playScene");
@@ -18,7 +20,7 @@ class Play extends Phaser.Scene {
     create(){
         //Add player
         this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player').setOrigin(0.5, 0.5);
-        this.player.touchClique = false;
+        //this.player.touchClique = false;
         this.player.timerActive = false;
         //this.player.timerExpired = false;
         this.player.cliqueLockout = false;
@@ -72,8 +74,9 @@ class Play extends Phaser.Scene {
 
         //Player collisions and overlaps
         this.physics.add.collider(this.player, this.wallGroup);
-        this.physics.add.overlap(this.player, this.cliqueGroup, () => {
-            this.player.touchClique = true;
+        this.physics.add.overlap(this.cliqueGroup, this.player, (clique, player) => {
+            //this.player.touchClique = true;
+            touchClique = true;
         });
 
         //testing with paths and guards
@@ -178,10 +181,10 @@ class Play extends Phaser.Scene {
         }
 
         //Clique collision checking and timer
-        //console.log("Touching clique: ", this.player.touchClique);
-        console.log("Timer active: ", this.player.timerActive);
+        console.log("Touching clique: ", touchClique);
+        //console.log("Timer active: ", this.player.timerActive);
 
-        if (this.player.touchClique && !this.player.cliqueLockout) {
+        if (touchClique && !this.player.cliqueLockout) {
             this.player.status = 1;
             if (!this.player.timerActive) {
                 this.cliqueTimer = this.time.delayedCall(5000, () => {
@@ -221,7 +224,7 @@ class Play extends Phaser.Scene {
         //     this.cliqueTimer.destroy();
         // }
 
-        this.player.touchClique = false;
+        touchClique = false;
 
     }
 
