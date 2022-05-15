@@ -13,6 +13,10 @@ let config = {
     type: Phaser.CANVAS,
     width: 1200,
     height: 675,
+    fps: {
+      target: 60,
+      forceSetTimeOut: true
+    },
     physics: {
       default: 'arcade',
       arcade: {
@@ -22,7 +26,6 @@ let config = {
     },
     scene: [Menu, Play, Instruction]
   }
-
 let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;

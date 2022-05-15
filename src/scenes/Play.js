@@ -19,10 +19,13 @@ class Play extends Phaser.Scene {
         // this.load.audio('sfx_explosion', './assets/rocket_explosion.wav');
         // this.load.atlas('playeranims', './assets/Player_Sprite_Move.png', './assets/Player_Sprite_Move.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
+        
     }
+    
     
 
     create(){
+        
         //Add player
         this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5);
         this.player.type = 0;
@@ -92,6 +95,7 @@ class Play extends Phaser.Scene {
             }
         });
 
+
         //Store group and creations
         this.storeGroup = this.physics.add.group();
         this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
@@ -124,6 +128,20 @@ class Play extends Phaser.Scene {
             }
         });
 
+        //game over text
+        this.gameover = this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "", this.timerConfig).setOrigin(0.5);
+        //guard group and collisions
+        this.guardGroup = this.physics.add.group();
+        this.physics.add.collider(this.guardGroup, this.wallGroup);
+        this.physics.add.collider(this.guardGroup, this.player, (guard, player) => {
+            //Guard collides with player
+
+            //handle actual game over stuff here
+            this.gameover.text = "Game Over";
+            console.log("you've been caught!");
+           
+        });
+
         //testing with paths and guards
         this.graphics = this.add.graphics();
         this.path = new Phaser.Curves.Path(10,10);
@@ -131,6 +149,12 @@ class Play extends Phaser.Scene {
         this.path.lineTo(750,300);
 
         this.guard = this.add.follower(this.path, 10,10, 'guard');
+        this.guard.storeX = 0;
+        this.guard.storeY = 0;
+        this.guard.state = 0;
+        //adding collision to the guard
+        this.physics.world.enable(this.guard);
+        this.guardGroup.add(this.guard);
         this.guard.startFollow(
             {
                 from:0,
@@ -171,10 +195,18 @@ class Play extends Phaser.Scene {
         //     frameRate: 30,
         //     repeat: -1
         // });
-
+        //send guard after player
+        this.timeRemaining = this.time.delayedCall(2000, () => {
+            this.playerSpotted(this.guard, this.player);
+        }, null, this);
+        this.timeRemaining = this.time.delayedCall(5000, () => {
+            this.returnToPath(this.guard);
+        }, null, this);
     }
     
-    update() {
+    update(time, delta) {
+        this.physics.world.setFPS(60);
+        
         //draw path lines
         this.graphics.clear();
         this.graphics.lineStyle(2, 0xffffff, 1);
@@ -306,7 +338,23 @@ class Play extends Phaser.Scene {
         //console.log("Player type: ", this.player.type);
 
         this.player.touchClique = false;
+    }
 
+    playerSpotted(guard, player){
+        guard.storeX = guard.x;
+        guard.storeY = guard.y;
+        guard.state = 1;
+        guard.pauseFollow();
+        this.physics.moveTo(guard, player.x, player.y, 300);
+    }
+
+    returnToPath(guard){
+        this.physics.moveTo(guard, guard.storeX, guard.storeY, 300, 3000);
+        this.timeRemaining = this.time.delayedCall(3000, () => {
+            guard.body.setVelocityX(0);
+            guard.body.setVelocityY(0);
+            guard.resumeFollow();
+        }, null, this);
     }
 
 }
