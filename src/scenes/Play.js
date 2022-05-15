@@ -27,7 +27,7 @@ class Play extends Phaser.Scene {
         this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5);
         this.player.type = 0;
         this.player.touchClique = false;
-        this.player.timerActive = false;
+        //this.player.timerActive = false;
         //this.player.timerExpired = false;
         this.player.cliqueLockout = false;
         this.player.status = 0;
@@ -43,6 +43,20 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.statusText = this.add.text(game.config.width - (borderUISize + borderPadding * 25), borderUISize + borderPadding * 2, "Unsafe", this.statusConfig);
+        this.lockoutShow = false;
+
+        //Timer text config
+        this.timerConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            color: 'red',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
 
         //key definitions
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -64,6 +78,11 @@ class Play extends Phaser.Scene {
         this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true);
 
         this.cliqueGroup.getChildren().forEach((clique) => {
+            clique.timer = 330;
+            clique.active = false;
+            clique.touching = false;
+            clique.timeText = this.add.text(clique.x - 55, clique.y - 35, Math.trunc(clique.timer / 60), this.timerConfig);
+            clique.timeText.setAlpha(0);
             if (clique.texture.key == 'clique_yellow'){
                 clique.type = 0;
             } else if (clique.texture.key == 'clique_green'){
@@ -79,24 +98,13 @@ class Play extends Phaser.Scene {
         this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
         this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
 
-        //Timer text config
-        this.timerConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            color: 'red',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 100
-        }
-
         //Player collisions and overlaps
         this.physics.add.collider(this.player, this.wallGroup);
         this.physics.add.overlap(this.player, this.cliqueGroup, (player, clique) => {
-            if (clique.type == this.player.type){
+            if (clique.type == this.player.type && !this.player.cliqueLockout){
                 this.player.touchClique = true;
+                clique.touching = true;
+                clique.active = true;
             } else {
                 this.player.status = 2;
             }
@@ -198,50 +206,80 @@ class Play extends Phaser.Scene {
         //Wrap world (temporary)
         this.physics.world.wrap(this.player, 0);
 
-        //Clique collision and timer
+        // Clique touching player flag reset
+        if (!this.player.touchClique) {
+            this.cliqueGroup.getChildren().forEach((clique) => {
+                clique.touching = false;
+            });
+        }
+
+        // Individual clique timer code
+        this.cliqueGroup.getChildren().forEach((clique) => {
+            if ((!clique.touching || this.player.status == 2) && clique.timer < 330) {
+                clique.timer += 0.5;
+            } else if (clique.touching && clique.timer > 30) {
+                clique.timer -= 1;
+            } else if (clique.timer == 30) {
+                this.player.status = 2;
+                this.player.cliqueLockout = true;
+            }
+        });
+
+        //Individual clique timer text
+        this.cliqueGroup.getChildren().forEach((clique) => {
+            if (clique.timer == 330){
+                clique.timeText.setAlpha(0);
+                clique.active = false;
+            }
+            if (clique.active) {
+                clique.timeText.setAlpha(100);
+                clique.timeText.text = Math.trunc(clique.timer / 60);
+            }
+        });
+
+        //Clique lockout
+        if (this.player.cliqueLockout && !this.lockoutShow) {
+            this.lockoutShow = true;
+            this.lockoutText = this.add.text(game.config.width - (borderUISize + borderPadding * 35), borderUISize + borderPadding * 2, "[LOCK]", this.timerConfig);
+            this.lockoutTimer = this.time.delayedCall(10000, () => {
+                this.player.cliqueLockout = false;
+                this.lockoutText.destroy();
+                this.lockoutShow = false;
+            }, null, this); 
+        }
+
+        //Clique collision and timer (some old code commented out)
         if (this.player.touchClique && !this.player.cliqueLockout) {
             this.player.status = 1;
-            if (!this.player.timerActive) {
-                this.cliqueTimer = this.time.delayedCall(5000, () => {
-                    this.player.status = 2;
-                    this.player.timerActive = false;
-                    this.player.cliqueLockout = true;
-                    this.timerText.destroy();
-                    this.lockoutText = this.add.text(game.config.width - (borderUISize + borderPadding * 35), borderUISize + borderPadding * 2, "[LOCK]", this.timerConfig);
-                    this.lockoutTimer = this.time.delayedCall(10000, () => {
-                        this.player.cliqueLockout = false;
-                        this.lockoutText.destroy();
-                    });
-                    //this.add.text(game.config.width - (borderUISize + borderPadding * 20), borderUISize + borderPadding * 2, 'Found!', this.timerConfig);
-                }, null, this);
-                this.timerText = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.cliqueTimer.getRemainingSeconds(), this.timerConfig);
-            }   
-            this.player.timerActive = true;
-            //this.timerText = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.cliqueTimer.getRemainingSeconds(), this.timerConfig);
+            // if (!this.player.timerActive) {
+            //     this.cliqueTimer = this.time.delayedCall(5000, () => {
+            //         this.player.status = 2;
+            //         this.player.timerActive = false;
+            //         this.player.cliqueLockout = true;
+            //         this.timerText.destroy();
+            //         this.lockoutText = this.add.text(game.config.width - (borderUISize + borderPadding * 35), borderUISize + borderPadding * 2, "[LOCK]", this.timerConfig);
+            //         this.lockoutTimer = this.time.delayedCall(10000, () => {
+            //             this.player.cliqueLockout = false;
+            //             this.lockoutText.destroy();
+            //         });
+            //     }, null, this);
+            //     this.timerText = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.cliqueTimer.getRemainingSeconds(), this.timerConfig);
+            // }   
+            // this.player.timerActive = true;
         } else {
             if (this.player.status != 2) {
                 this.player.status = 0;
             }
-            if (this.player.timerActive) {
-                this.player.timerActive = false;
-                this.timerText.destroy();
-                this.cliqueTimer.destroy();
-            }
+            // if (this.player.timerActive) {
+            //     this.player.timerActive = false;
+            //     this.timerText.destroy();
+            //     this.cliqueTimer.destroy();
+            // }
         }
 
-        //If spotted, lockout of hiding for a few seconds
-        //if (this.lockoutFlag) {
-
-        //}
-
-        if (this.player.timerActive) {
-            this.timerText.text = this.cliqueTimer.getRemainingSeconds();
-        }
-
-        // if (!this.player.touchClique && this.player.timerActive) {
-        //     this.player.timerActive = false;
-        //     this.timerText.destroy();
-        //     this.cliqueTimer.destroy();
+        // Show timer (old)
+        // if (this.player.timerActive) {
+        //     this.timerText.text = this.cliqueTimer.getRemainingSeconds();
         // }
 
         //Player status
