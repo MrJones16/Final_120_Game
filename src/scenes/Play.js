@@ -17,6 +17,8 @@ class Play extends Phaser.Scene {
         this.load.image('store_pink', './assets/placeholder_store_pink.png');
         this.load.audio('sfx_alert', './assets/alert.wav');
         this.load.audio('sfx_clothes', './assets/change_clothes.wav');
+        this.load.audio('bgm_alert', './assets/POL-elevators-short.wav');
+        this.load.audio('bgm_normal', './assets/POL-jazzy-duck-short.wav');
         
         // this.load.image('rocket', './assets/missile.png');
         // this.load.audio('sfx_explosion', './assets/rocket_explosion.wav');
@@ -53,7 +55,13 @@ class Play extends Phaser.Scene {
 
         //SFX
         this.sfxAlert = this.sound.add('sfx_alert', {volume: 0.5});
-        this.sfxClothes = this.sound.add('sfx_clothes', {volume: 0.5});
+        this.sfxClothes = this.sound.add('sfx_clothes', {volume: 0.65});
+
+        //BGM
+        this.bgmNormal = this.sound.add('bgm_normal', {volume: 0.2, loop: true, rate: 0.95});
+        this.bgmAlert = this.sound.add('bgm_alert', {volume: 0.2, loop: true, rate: 1.05});
+        this.bgmPlaying = 0;
+        this.bgmNormal.play();
 
         //Timer text config
         this.timerConfig = {
@@ -237,6 +245,17 @@ class Play extends Phaser.Scene {
     
     update(time, delta) {
         this.physics.world.setFPS(60);
+
+        //BGM updating
+        if (this.player.status == 2 && this.bgmPlaying == 0) {
+            this.bgmNormal.stop();
+            this.bgmAlert.play();
+            this.bgmPlaying = 1;
+        } else if (this.player.status != 2 && this.bgmPlaying == 1) {
+            this.bgmAlert.stop();
+            this.bgmNormal.play();
+            this.bgmPlaying = 0;
+        }
         
         //draw path lines
         this.graphics.clear();
