@@ -206,28 +206,12 @@ class Play extends Phaser.Scene {
                 yoyo:true,
                 rotateToPath:true
             }
-        )
-        
-
-        // this.timeRemaining = this.time.delayedCall(5000, () => {
-        //     //do something
-        // }, null, this);
-        // this.clockRight = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.timeRemaining.getRemainingSeconds(), timerConfig);
-
-        //Sound add
-        //this.explosionSfx = this.sound.add('sfx_explosion', {volume: 0.25});
-
-        
+        );
+        //Guard Vision Range:
+        this.visionRange = 200;
 
         //Creating background tileSprites
         //this.add.tileSprite(0, 0, 640, 480, 'sun').setOrigin(0, 0);
-
-        //Physics Group
-        //this.floorGroup = this.physics.add.group();
-
-
-        //Physics Collisions
-        //this.physics.add.collider(this.floorGroup, this.wallOfDeath, (floor, wall) => {floor.destroy();});
 
         // Create animations
         // this.anims.create({
@@ -237,10 +221,6 @@ class Play extends Phaser.Scene {
         //     repeat: -1
         // });
 
-
-
-        //Guard Vision Range:
-        this.visionRange = 200;
     }
     
     update(time, delta) {
@@ -333,36 +313,11 @@ class Play extends Phaser.Scene {
         //Clique collision and timer (some old code commented out)
         if (this.player.touchClique && !this.player.cliqueLockout) {
             this.player.status = 1;
-            // if (!this.player.timerActive) {
-            //     this.cliqueTimer = this.time.delayedCall(5000, () => {
-            //         this.player.status = 2;
-            //         this.player.timerActive = false;
-            //         this.player.cliqueLockout = true;
-            //         this.timerText.destroy();
-            //         this.lockoutText = this.add.text(game.config.width - (borderUISize + borderPadding * 35), borderUISize + borderPadding * 2, "[LOCK]", this.timerConfig);
-            //         this.lockoutTimer = this.time.delayedCall(10000, () => {
-            //             this.player.cliqueLockout = false;
-            //             this.lockoutText.destroy();
-            //         });
-            //     }, null, this);
-            //     this.timerText = this.add.text(game.config.width - (borderUISize + borderPadding * 10), borderUISize + borderPadding * 2, this.cliqueTimer.getRemainingSeconds(), this.timerConfig);
-            // }   
-            // this.player.timerActive = true;
         } else {
             if (this.player.status != 2) {
                 this.player.status = 0;
             }
-            // if (this.player.timerActive) {
-            //     this.player.timerActive = false;
-            //     this.timerText.destroy();
-            //     this.cliqueTimer.destroy();
-            // }
         }
-
-        // Show timer (old)
-        // if (this.player.timerActive) {
-        //     this.timerText.text = this.cliqueTimer.getRemainingSeconds();
-        // }
 
         //Player status
         switch (this.player.status){
@@ -383,12 +338,6 @@ class Play extends Phaser.Scene {
                 break;
         }
 
-        //console.log("Touching clique: ", this.player.touchClique);
-        //console.log("Timer active: ", this.player.timerActive);
-        //console.log("Player type: ", this.player.type);
-
-        this.player.touchClique = false;
-
         
         //updating the guards
         this.guardGroup.getChildren().forEach((guard) => {
@@ -406,17 +355,20 @@ class Play extends Phaser.Scene {
                     this.physics.moveTo(guard, this.player.x, this.player.y, 300);
                     console.log("moving to player");
                     if (this.player.status == 1){
-                        this.returnToPath(guard, this.player);
+                        this.returnToPath(guard);
                         console.log("player is safe, go back to path");
                     }
                     break;
-                case (3)://going back to path
+                case (2)://going back to path
                     this.physics.moveTo(guard, guard.storeX, guard.storeY, 300);
+                    console.log("moving back to path");
                     break;
                 default:
                     break;
             }
         });
+
+        this.player.touchClique = false;
     }
 
     playerSpotted(guard, player){
@@ -426,13 +378,14 @@ class Play extends Phaser.Scene {
         guard.state = 1;
         guard.pauseFollow();
         this.physics.moveTo(guard, player.x, player.y, 300);
-        this.sfxAlert.play()
-
+        this.sfxAlert.play();
+        player.status = 2;
     }
 
     returnToPath(guard){
         this.physics.moveTo(guard, guard.storeX, guard.storeY, 300, 3000);
-        guard.state = 3;
+        guard.state = 2;
+        console.log("calling return to path");
         this.timeRemaining = this.time.delayedCall(3000, () => {
             guard.body.setVelocityX(0);
             guard.body.setVelocityY(0);
