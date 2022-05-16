@@ -181,33 +181,37 @@ class Play extends Phaser.Scene {
            
         });
 
-        //testing with paths and guards
-        this.graphics = this.add.graphics();
-        this.path = new Phaser.Curves.Path(10,10);
-        this.path.lineTo(750,10);
-        this.path.lineTo(750,300);
+        
 
-        this.guard = this.add.follower(this.path, 10,10, 'guard');
+        //this.guard = this.add.follower(this.path, 10,10, 'guard');
+        this.guard = this.guardGroup.create(10, 10, 'guard');
         this.guard.storeX = 0;
         this.guard.storeY = 0;
         this.guard.state = 0;
-        //adding collision to the guard
-        this.physics.world.enable(this.guard);
-        this.guardGroup.add(this.guard);
 
-        this.guard.startFollow(
-            {
-                from:0,
-                to:1,
-                delay:2000,
-                duration:10000,
-                ease: 'Linear',
-                hold:2000,
-                repeat:-1,
-                yoyo:true,
-                rotateToPath:true
-            }
-        );
+        //testing with paths and guards
+        this.graphics = this.add.graphics();
+        this.guard.path = new Phaser.Curves.Path(10,10);
+        this.guard.path.lineTo(750,10);
+        this.guard.path.lineTo(750,300);
+
+        //adding collision to the guard
+        // this.physics.world.enable(this.guard);
+        // this.guardGroup.add(this.guard);
+
+        // this.guard.startFollow(
+        //     {
+        //         from:0,
+        //         to:1,
+        //         delay:2000,
+        //         duration:10000,
+        //         ease: 'Linear',
+        //         hold:2000,
+        //         repeat:-1,
+        //         yoyo:true,
+        //         rotateToPath:true
+        //     }
+        // );
 
         //Guard Vision Range:
         this.visionRange = 200;
@@ -223,6 +227,20 @@ class Play extends Phaser.Scene {
         //     repeat: -1
         // });
 
+        this.guard.follower = { t: 0, vec: new Phaser.Math.Vector2() };
+
+        this.guard.tween = this.tweens.add({
+        	targets: this.guard.follower,
+        	t: 1,
+            delay:2000,
+            ease: 'Linear',
+            duration: 10000,
+            hold:2000,
+            yoyo: true,
+            repeat: -1
+        });
+
+        
     }
     
     update(time, delta) {
@@ -242,7 +260,7 @@ class Play extends Phaser.Scene {
         //draw path lines
         this.graphics.clear();
         this.graphics.lineStyle(2, 0xffffff, 1);
-        this.path.draw(this.graphics);
+        this.guard.path.draw(this.graphics);
         //Player movement (preferred to move into player prefab; further debugging for that is required)
         if (keyA.isDown) {
             this.player.body.setVelocityX(-250);
@@ -343,8 +361,13 @@ class Play extends Phaser.Scene {
         
         //updating the guards
         this.guardGroup.getChildren().forEach((guard) => {
+            guard.path.getPoint(guard.follower.t, guard.follower.vec);
             switch(guard.state){
                 case(0)://patrolling 
+                    //moving the guard on the path
+                    guard.x = guard.follower.vec.x;
+                    guard.y = guard.follower.vec.y;
+                    //checking for the player
                     if (Phaser.Math.Distance.Between(guard.x, guard.y, this.player.x, this.player.y) <= this.visionRange && this.player.status == 0){
                         this.playerSpotted(guard, this.player);
                         console.log("Player is in range to begin hunting");
@@ -378,7 +401,7 @@ class Play extends Phaser.Scene {
         guard.storeX = guard.x;
         guard.storeY = guard.y;
         guard.state = 1;
-        guard.pauseFollow();
+        guard.tween.pause();
         this.physics.moveTo(guard, player.x, player.y, 300);
         this.sfxAlert.play();
         player.status = 2;
@@ -392,7 +415,7 @@ class Play extends Phaser.Scene {
             guard.body.setVelocityX(0);
             guard.body.setVelocityY(0);
             console.log("Setting guard velocity to 0");
-            guard.resumeFollow();
+            guard.tween.resume();
             guard.state = 0;
         }, null, this);
     }
