@@ -8,7 +8,7 @@ class Menu extends Phaser.Scene {
         // this.load.audio('sfx_select', './assets/blip_select12.wav');
         // this.load.image('background', './assets/runner_bg.png');
         // this.load.audio('bgm', './assets/POL-rocket-station-short.wav');
-      }
+    }
 
     create(){
         //this.scene.start('playScene');
@@ -42,8 +42,8 @@ class Menu extends Phaser.Scene {
         }
 
         //show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "FINAL PROJECT", menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 - 75, "da boi in da mall", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "FINAL PROJECT PROTOTYPE", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - 75, "Dat Boi in Da Mall", menuConfig).setOrigin(0.5);
         menuConfig.color = "lime";
         this.startButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Start", menuConfig).setOrigin(0.5).setInteractive();
         this.startButton.on('pointerdown', () => { this.scene.start('playScene'); })
