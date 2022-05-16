@@ -394,7 +394,7 @@ class Play extends Phaser.Scene {
         this.guardGroup.getChildren().forEach((guard) => {
             switch(guard.state){
                 case(0)://patrolling 
-                    if (Phaser.Math.Distance.Between(guard.x, guard.y, this.player.x, this.player.y) < this.visionRange){
+                    if (Phaser.Math.Distance.Between(guard.x, guard.y, this.player.x, this.player.y) <= this.visionRange && this.player.status == 0){
                         this.playerSpotted(guard, this.player);
                         console.log("Player is in range to begin hunting");
                     } else if (this.player.status == 2){
