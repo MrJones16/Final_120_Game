@@ -15,11 +15,14 @@ class Play extends Phaser.Scene {
         this.load.image('store_green', './assets/placeholder_store_green.png');
         this.load.image('store_yellow', './assets/placeholder_store_yellow.png');
         this.load.image('store_pink', './assets/placeholder_store_pink.png');
+        this.load.audio('sfx_alert', './assets/alert.wav');
+        this.load.audio('sfx_clothes', './assets/change_clothes.wav');
+        
         // this.load.image('rocket', './assets/missile.png');
         // this.load.audio('sfx_explosion', './assets/rocket_explosion.wav');
         // this.load.atlas('playeranims', './assets/Player_Sprite_Move.png', './assets/Player_Sprite_Move.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
-        
+        this.changeClothesSound = false;
     }
     
     
@@ -47,6 +50,10 @@ class Play extends Phaser.Scene {
         }
         this.statusText = this.add.text(game.config.width - (borderUISize + borderPadding * 25), borderUISize + borderPadding * 2, "Unsafe", this.statusConfig);
         this.lockoutShow = false;
+
+        //SFX
+        this.sfxAlert = this.sound.add('sfx_alert', {volume: 0.5});
+        this.sfxClothes = this.sound.add('sfx_clothes', {volume: 0.5});
 
         //Timer text config
         this.timerConfig = {
@@ -113,17 +120,39 @@ class Play extends Phaser.Scene {
                 this.player.status = 2;
             }
         });
+        
         this.physics.add.overlap(this.player, this.storeGroup, (player, store) => {
             if (keySPACE.isDown) {
                 if (store.texture.key == 'store_yellow'){
                     this.player.setTexture('player_yellow');
                     this.player.type = 0;
+                    if (!this.changeClothesSound){
+                        this.sfxClothes.play();
+                        this.changeClothesSound = true;
+                        this.time.delayedCall(1000, () => {
+                            this.changeClothesSound = false;
+                        }, null, this);
+                    }
                 } else if (store.texture.key == 'store_green'){
                     this.player.setTexture('player_green');
                     this.player.type = 1;
+                    if (!this.changeClothesSound){
+                        this.sfxClothes.play();
+                        this.changeClothesSound = true;
+                        this.time.delayedCall(1000, () => {
+                            this.changeClothesSound = false;
+                        }, null, this);
+                    }
                 } else if (store.texture.key == 'store_pink'){
                     this.player.setTexture('player_pink');
                     this.player.type = 2;
+                    if (!this.changeClothesSound){
+                        this.sfxClothes.play();
+                        this.changeClothesSound = true;
+                        this.time.delayedCall(1000, () => {
+                            this.changeClothesSound = false;
+                        }, null, this);
+                    }
                 }
             }
         });
@@ -180,6 +209,8 @@ class Play extends Phaser.Scene {
         //Sound add
         //this.explosionSfx = this.sound.add('sfx_explosion', {volume: 0.25});
 
+        
+
         //Creating background tileSprites
         //this.add.tileSprite(0, 0, 640, 480, 'sun').setOrigin(0, 0);
 
@@ -197,13 +228,11 @@ class Play extends Phaser.Scene {
         //     frameRate: 30,
         //     repeat: -1
         // });
-        //send guard after player
-        this.timeRemaining = this.time.delayedCall(2000, () => {
-            this.playerSpotted(this.guard, this.player);
-        }, null, this);
-        this.timeRemaining = this.time.delayedCall(5000, () => {
-            this.returnToPath(this.guard);
-        }, null, this);
+
+
+
+        //Guard Vision Range:
+        this.visionRange = 200;
     }
     
     update(time, delta) {
@@ -340,22 +369,57 @@ class Play extends Phaser.Scene {
         //console.log("Player type: ", this.player.type);
 
         this.player.touchClique = false;
+
+        
+        //updating the guards
+        this.guardGroup.getChildren().forEach((guard) => {
+            switch(guard.state){
+                case(0)://patrolling 
+                    if (Phaser.Math.Distance.Between(guard.x, guard.y, this.player.x, this.player.y) < this.visionRange){
+                        this.playerSpotted(guard, this.player);
+                        console.log("Player is in range to begin hunting");
+                    } else if (this.player.status == 2){
+                        this.playerSpotted(guard, this.player);
+                        console.log("Player is in range to begin hunting");
+                    }
+                    break;
+                case(1)://hunting player
+                    this.physics.moveTo(guard, this.player.x, this.player.y, 300);
+                    console.log("moving to player");
+                    if (this.player.status == 1){
+                        this.returnToPath(guard, this.player);
+                        console.log("player is safe, go back to path");
+                    }
+                    break;
+                case (3)://going back to path
+                    this.physics.moveTo(guard, guard.storeX, guard.storeY, 300);
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     playerSpotted(guard, player){
+        console.log("Player Spotted");
         guard.storeX = guard.x;
         guard.storeY = guard.y;
         guard.state = 1;
         guard.pauseFollow();
         this.physics.moveTo(guard, player.x, player.y, 300);
+        this.sfxAlert.play()
+
     }
 
     returnToPath(guard){
         this.physics.moveTo(guard, guard.storeX, guard.storeY, 300, 3000);
+        guard.state = 3;
         this.timeRemaining = this.time.delayedCall(3000, () => {
             guard.body.setVelocityX(0);
             guard.body.setVelocityY(0);
+            console.log("Setting guard velocity to 0");
             guard.resumeFollow();
+            guard.state = 0;
         }, null, this);
     }
 
