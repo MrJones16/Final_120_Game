@@ -194,6 +194,7 @@ class Play extends Phaser.Scene {
         //adding collision to the guard
         this.physics.world.enable(this.guard);
         this.guardGroup.add(this.guard);
+
         this.guard.startFollow(
             {
                 from:0,
@@ -207,6 +208,7 @@ class Play extends Phaser.Scene {
                 rotateToPath:true
             }
         );
+
         //Guard Vision Range:
         this.visionRange = 200;
 
