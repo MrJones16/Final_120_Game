@@ -4,9 +4,12 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('player_yellow', './assets/placeholder_player_yellow.png');
-        this.load.image('player_green', './assets/placeholder_player_green.png');
-        this.load.image('player_pink', './assets/placeholder_player_pink.png');
+        // this.load.image('player_yellow', './assets/placeholder_player_yellow.png');
+        // this.load.image('player_green', './assets/placeholder_player_green.png');
+        // this.load.image('player_pink', './assets/placeholder_player_pink.png');
+        this.load.image('player_yellow', './assets/sprite_boy_Y.png');
+        this.load.image('player_green', './assets/sprite_boy_G.png');
+        this.load.image('player_pink', './assets/sprite_boy_P.png');
         this.load.image('wall', './assets/placeholder_wall.png');
         this.load.image('clique_green', './assets/placeholder_clique_green.png');
         this.load.image('clique_yellow', './assets/placeholder_clique_yellow.png');
@@ -32,7 +35,7 @@ class Play extends Phaser.Scene {
     create(){
         
         //Add player
-        this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5);
+        this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
         this.player.type = 0;
         this.player.touchClique = false;
         //this.player.timerActive = false;
