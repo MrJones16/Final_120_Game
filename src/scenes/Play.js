@@ -129,7 +129,7 @@ class Play extends Phaser.Scene {
         });
 
         //game over text
-        this.gameover = this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "", this.timerConfig).setOrigin(0.5);
+        //this.gameover = this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "", this.timerConfig).setOrigin(0.5);
         //guard group and collisions
         this.guardGroup = this.physics.add.group();
         this.physics.add.collider(this.guardGroup, this.wallGroup);
@@ -137,8 +137,10 @@ class Play extends Phaser.Scene {
             //Guard collides with player
 
             //handle actual game over stuff here
-            this.gameover.text = "Game Over";
+            //this.gameover.text = "Game Over";
             console.log("you've been caught!");
+            this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "GAME", this.timerConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 80, "OVER", this.timerConfig).setOrigin(0.5);
            
         });
 
