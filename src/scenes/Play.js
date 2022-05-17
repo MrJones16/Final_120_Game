@@ -33,6 +33,13 @@ class Play extends Phaser.Scene {
     
 
     create(){
+        //var to show guard paths
+        this.showpath = false;
+        //initialize path graphics FOR DEBUGGING
+        this.graphics = this.add.graphics();
+        this.graphics.clear();
+        this.graphics.lineStyle(2, 0xffffff, 1);
+        //music bool
         musicStarted = true;
         //Add player
         this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
@@ -112,28 +119,10 @@ class Play extends Phaser.Scene {
                 this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
                 this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);    
                 //Level 1 guard creation
-                this.guard = this.guardGroup.create(10, 10, 'guard').setScale(0.5);
-                this.guard.storeX = 0;
-                this.guard.storeY = 0;
-                this.guard.state = 0;
-                this.graphics = this.add.graphics();
-                this.guard.path = new Phaser.Curves.Path(10,10);
-                this.guard.path.lineTo(750,10);
-                this.guard.path.lineTo(750,300);
-                this.guard.follower = { t: 0, vec: new Phaser.Math.Vector2() };
-                this.guard.tween = this.tweens.add({
-                    targets: this.guard.follower,
-                    t: 1,
-                    delay:2000,
-                    ease: 'Linear',
-                    duration: 10000,
-                    hold:2000,
-                    yoyo: true,
-                    repeat: -1
-                });
-                this.graphics.clear();
-                this.graphics.lineStyle(2, 0xffffff, 1);
-                this.guard.path.draw(this.graphics);
+                //uncomment for guard paths//this.showpath = true;
+                this.guard = this.createGuard(10,10);
+                this.GuardLineTo(this.guard,750,10);
+                this.GuardLineTo(this.guard,750,300);
                 break;
             //Level 2
             case 2:
@@ -449,6 +438,9 @@ class Play extends Phaser.Scene {
         //updating the guards
         this.guardGroup.getChildren().forEach((guard) => {
             guard.path.getPoint(guard.follower.t, guard.follower.vec);
+            //draw the path for debugging
+            if (this.showpath)
+            guard.path.draw(this.graphics);
             switch(guard.state){
                 case(0)://patrolling 
                     //moving the guard on the path
@@ -457,23 +449,23 @@ class Play extends Phaser.Scene {
                     //checking for the player
                     if (Phaser.Math.Distance.Between(guard.x, guard.y, this.player.x, this.player.y) <= this.visionRange && this.player.status == 0){
                         this.playerSpotted(guard, this.player);
-                        console.log("Player is in range to begin hunting");
+                        //console.log("Player is in range to begin hunting");
                     } else if (this.player.status == 2){
                         this.playerSpotted(guard, this.player);
-                        console.log("Player is in range to begin hunting");
+                        //console.log("Player is in range to begin hunting");
                     }
                     break;
                 case(1)://hunting player
                     this.physics.moveTo(guard, this.player.x, this.player.y, 300);
-                    console.log("moving to player");
+                    //console.log("moving to player");
                     if (this.player.status == 1){
                         this.returnToPath(guard);
-                        console.log("player is safe, go back to path");
+                        //console.log("player is safe, go back to path");
                     }
                     break;
                 case (2)://going back to path
                     this.physics.moveTo(guard, guard.storeX, guard.storeY, 300);
-                    console.log("moving back to path");
+                    //console.log("moving back to path");
                     break;
                 default:
                     break;
@@ -484,7 +476,7 @@ class Play extends Phaser.Scene {
     }
 
     playerSpotted(guard, player){
-        console.log("Player Spotted");
+        //console.log("Player Spotted");
         guard.storeX = guard.x;
         guard.storeY = guard.y;
         guard.state = 1;
@@ -497,11 +489,11 @@ class Play extends Phaser.Scene {
     returnToPath(guard){
         this.physics.moveTo(guard, guard.storeX, guard.storeY, 300, 3000);
         guard.state = 2;
-        console.log("calling return to path");
+        //console.log("calling return to path");
         this.timeRemaining = this.time.delayedCall(3000, () => {
             guard.body.setVelocityX(0);
             guard.body.setVelocityY(0);
-            console.log("Setting guard velocity to 0");
+            //console.log("Setting guard velocity to 0");
             guard.tween.resume();
             guard.state = 0;
         }, null, this);
@@ -514,4 +506,31 @@ class Play extends Phaser.Scene {
             this.bgmAlert.stop();
         }
     }
+
+    createGuard(x, y){
+        let guard = this.guardGroup.create(x, y, 'guard').setScale(0.5);
+        guard.storeX = 0;
+        guard.storeY = 0;
+        guard.state = 0;
+        guard.path = new Phaser.Curves.Path(x,y);
+        guard.follower = { t: 0, vec: new Phaser.Math.Vector2() };
+        guard.tween = this.tweens.add({
+            targets: guard.follower,
+            t: 1,
+            delay:2000,
+            ease: 'Linear',
+            duration: 10000,
+            hold:2000,
+            yoyo: true,
+            repeat: -1
+        });
+        return guard;
+    }
+
+    GuardLineTo(guard, x, y){
+        guard.path.lineTo(x,y);
+    }
+
+
+
 }
