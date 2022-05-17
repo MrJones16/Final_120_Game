@@ -3,10 +3,10 @@ class Instruction extends Phaser.Scene{
         super("instructionScene");
     }
     preload() {
-        this.load.image('clique', './assets/placeholder_clique_green.png');
+        this.load.image('clique', './assets/sprite_NPC_G.png');
         this.load.image('player', './assets/sprite_boy_Y.png');
         this.load.image('store', './assets/placeholder_store_pink.png');
-        this.load.image('guard', './assets/placeholder_guard.png');
+        this.load.image('guard', './assets/sprite_Officer.png');
     }
     create(){
         // Back button
@@ -44,11 +44,11 @@ class Instruction extends Phaser.Scene{
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding - 125, "Hiding in a clique for too long will alert security and lock you out of hiding!", instructionConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding - 50, "You can only hide in cliques the same color as you.", instructionConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 25, "Change into different clothes (colors) at stores.", instructionConfig).setOrigin(0.5);
-        this.add.image(game.config.width/2 - 450, game.config.height/2 + borderUISize + borderPadding + 125, 'clique');
+        this.add.image(game.config.width/2 - 450, game.config.height/2 + borderUISize + borderPadding + 125, 'clique').setScale(0.5);
         this.add.text(game.config.width/2 - 450, game.config.height/2 + borderUISize + borderPadding + 200, "Clique", instructionConfig).setOrigin(0.5);
         this.add.image(game.config.width/2 - 250, game.config.height/2 + borderUISize + borderPadding + 125, 'player').setScale(0.75);
         this.add.text(game.config.width/2 - 250, game.config.height/2 + borderUISize + borderPadding + 200, "Player", instructionConfig).setOrigin(0.5);
-        this.add.image(game.config.width/2 + 250, game.config.height/2 + borderUISize + borderPadding + 125, 'guard');
+        this.add.image(game.config.width/2 + 250, game.config.height/2 + borderUISize + borderPadding + 125, 'guard').setScale(0.5);
         this.add.text(game.config.width/2 + 250, game.config.height/2 + borderUISize + borderPadding + 200, "Guard", instructionConfig).setOrigin(0.5);
         this.add.image(game.config.width/2 + 450, game.config.height/2 + borderUISize + borderPadding + 125, 'store');
         this.add.text(game.config.width/2 + 450, game.config.height/2 + borderUISize + borderPadding + 200, "Store", instructionConfig).setOrigin(0.5);

@@ -11,6 +11,7 @@ class Menu extends Phaser.Scene {
     }
 
     create(){
+        currentLevel = 0;
         //this.scene.start('playScene');
 
         // Play and loop background music
@@ -46,7 +47,7 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2 - 75, "Dat Boi in Da Mall", menuConfig).setOrigin(0.5);
         menuConfig.color = "lime";
         this.startButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Start", menuConfig).setOrigin(0.5).setInteractive();
-        this.startButton.on('pointerdown', () => { this.scene.start('playScene'); })
+        this.startButton.on('pointerdown', () => { this.scene.start('levelLoadScene'); })
         menuConfig.color = "yellow";
         this.instrButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 75, "Instructions", menuConfig).setOrigin(0.5).setInteractive();
         this.instrButton.on('pointerdown', () => { this.scene.start('instructionScene'); })

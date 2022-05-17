@@ -11,10 +11,10 @@ class Play extends Phaser.Scene {
         this.load.image('player_green', './assets/sprite_boy_G.png');
         this.load.image('player_pink', './assets/sprite_boy_P.png');
         this.load.image('wall', './assets/placeholder_wall.png');
-        this.load.image('clique_green', './assets/placeholder_clique_green.png');
-        this.load.image('clique_yellow', './assets/placeholder_clique_yellow.png');
-        this.load.image('clique_pink', './assets/placeholder_clique_pink.png');
-        this.load.image('guard', './assets/placeholder_guard.png');
+        this.load.image('clique_green', './assets/sprite_NPC_G.png');
+        this.load.image('clique_yellow', './assets/sprite_NPC_Y.png');
+        this.load.image('clique_pink', './assets/sprite_NPC_P.png');
+        this.load.image('guard', './assets/sprite_Officer.png');
         this.load.image('store_green', './assets/placeholder_store_green.png');
         this.load.image('store_yellow', './assets/placeholder_store_yellow.png');
         this.load.image('store_pink', './assets/placeholder_store_pink.png');
@@ -33,7 +33,7 @@ class Play extends Phaser.Scene {
     
 
     create(){
-        
+        musicStarted = true;
         //Add player
         this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
         this.player.type = 0;
@@ -86,23 +86,93 @@ class Play extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        //Wall group and creations
+        //TEMPORARY CHEAT TO GET TO DIFFERENT LEVELS
+        keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
+        //Group creations (must be before level loading)
+        this.cliqueGroup = this.physics.add.group();
+        this.storeGroup = this.physics.add.group();
         this.wallGroup = this.physics.add.group();
-        this.wallGroup.create(100, 100, 'wall').setOrigin(0, 0).setImmovable(true);
-        this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
-        this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);
+        this.guardGroup = this.physics.add.group();
+
+        //Different level loading
+        switch (currentLevel){
+            //Level 1
+            case 1:
+                //Level 1 clique creation
+                this.cliqueGroup.create(250, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                this.cliqueGroup.create(700, 500, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                //Level 1 store creation
+                this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
+                this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
+                this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
+                //Level 1 walls creation
+                this.wallGroup.create(100, 100, 'wall').setOrigin(0, 0).setImmovable(true);
+                this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
+                this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);    
+                //Level 1 guard creation
+                this.guard = this.guardGroup.create(10, 10, 'guard').setScale(0.5);
+                this.guard.storeX = 0;
+                this.guard.storeY = 0;
+                this.guard.state = 0;
+                this.graphics = this.add.graphics();
+                this.guard.path = new Phaser.Curves.Path(10,10);
+                this.guard.path.lineTo(750,10);
+                this.guard.path.lineTo(750,300);
+                this.guard.follower = { t: 0, vec: new Phaser.Math.Vector2() };
+                this.guard.tween = this.tweens.add({
+                    targets: this.guard.follower,
+                    t: 1,
+                    delay:2000,
+                    ease: 'Linear',
+                    duration: 10000,
+                    hold:2000,
+                    yoyo: true,
+                    repeat: -1
+                });
+                this.graphics.clear();
+                this.graphics.lineStyle(2, 0xffffff, 1);
+                this.guard.path.draw(this.graphics);
+                break;
+            //Level 2
+            case 2:
+                //Level 2 clique creation
+                this.cliqueGroup.create(100, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                this.cliqueGroup.create(500, 250, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                this.cliqueGroup.create(900, 250, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                //Level 2 store creation
+                this.storeGroup.create(500, 500, 'store_yellow').setOrigin(0, 0).setImmovable(true);
+                this.storeGroup.create(100, 500, 'store_green').setOrigin(0, 0).setImmovable(true);
+                this.storeGroup.create(900, 500, 'store_pink').setOrigin(0, 0).setImmovable(true);
+                //Level 2 walls creation
+                this.wallGroup.create(0, -50, 'wall').setOrigin(0, 0).setImmovable(true);
+                this.wallGroup.create(400, -50, 'wall').setOrigin(0, 0).setImmovable(true);
+                this.wallGroup.create(800, -50, 'wall').setOrigin(0, 0).setImmovable(true);
+                break;
+            //Level 3
+            case 3:
+                
+                break;
+        }
+
+        //Wall group and creations
+        // this.wallGroup = this.physics.add.group();
+        // this.wallGroup.create(100, 100, 'wall').setOrigin(0, 0).setImmovable(true);
+        // this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
+        // this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);
 
         //Clique group and creations
-        this.cliqueGroup = this.physics.add.group();
-        this.cliqueGroup.create(250, 250, 'clique_green').setOrigin(0, 0).setImmovable(true);
-        this.cliqueGroup.create(700, 500, 'clique_yellow').setOrigin(0, 0).setImmovable(true);
-        this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true);
+        // this.cliqueGroup = this.physics.add.group();
+        // this.cliqueGroup.create(250, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+        // this.cliqueGroup.create(700, 500, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+        // this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
 
         this.cliqueGroup.getChildren().forEach((clique) => {
             clique.timer = 330;
             clique.active = false;
             clique.touching = false;
-            clique.timeText = this.add.text(clique.x - 55, clique.y - 35, Math.trunc(clique.timer / 60), this.timerConfig);
+            clique.timeText = this.add.text(clique.x - 45, clique.y - 35, Math.trunc(clique.timer / 60), this.timerConfig);
             clique.timeText.setAlpha(0);
             if (clique.texture.key == 'clique_yellow'){
                 clique.type = 0;
@@ -115,10 +185,10 @@ class Play extends Phaser.Scene {
 
 
         //Store group and creations
-        this.storeGroup = this.physics.add.group();
-        this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
-        this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
-        this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
+        // this.storeGroup = this.physics.add.group();
+        // this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
+        // this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
+        // this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
 
         //Player collisions and overlaps
         this.physics.add.collider(this.player, this.wallGroup);
@@ -171,7 +241,7 @@ class Play extends Phaser.Scene {
         //game over text
         //this.gameover = this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "", this.timerConfig).setOrigin(0.5);
         //guard group and collisions
-        this.guardGroup = this.physics.add.group();
+        //this.guardGroup = this.physics.add.group();
         this.physics.add.collider(this.guardGroup, this.wallGroup);
         this.physics.add.collider(this.guardGroup, this.player, (guard, player) => {
             //Guard collides with player
@@ -181,22 +251,26 @@ class Play extends Phaser.Scene {
             console.log("you've been caught!");
             this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "GAME", this.timerConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 80, "OVER", this.timerConfig).setOrigin(0.5);
+            this.stopMusicPlay();
+            this.time.delayedCall(1000, () => {
+                this.scene.start('menuScene');
+            }, null, this);
            
         });
 
         
 
         //this.guard = this.add.follower(this.path, 10,10, 'guard');
-        this.guard = this.guardGroup.create(10, 10, 'guard');
-        this.guard.storeX = 0;
-        this.guard.storeY = 0;
-        this.guard.state = 0;
+        // this.guard = this.guardGroup.create(10, 10, 'guard').setScale(0.5);
+        // this.guard.storeX = 0;
+        // this.guard.storeY = 0;
+        // this.guard.state = 0;
 
-        //testing with paths and guards
-        this.graphics = this.add.graphics();
-        this.guard.path = new Phaser.Curves.Path(10,10);
-        this.guard.path.lineTo(750,10);
-        this.guard.path.lineTo(750,300);
+        // //testing with paths and guards
+        // this.graphics = this.add.graphics();
+        // this.guard.path = new Phaser.Curves.Path(10,10);
+        // this.guard.path.lineTo(750,10);
+        // this.guard.path.lineTo(750,300);
 
         //adding collision to the guard
         // this.physics.world.enable(this.guard);
@@ -230,19 +304,23 @@ class Play extends Phaser.Scene {
         //     repeat: -1
         // });
 
-        this.guard.follower = { t: 0, vec: new Phaser.Math.Vector2() };
+        // this.guard.follower = { t: 0, vec: new Phaser.Math.Vector2() };
 
-        this.guard.tween = this.tweens.add({
-        	targets: this.guard.follower,
-        	t: 1,
-            delay:2000,
-            ease: 'Linear',
-            duration: 10000,
-            hold:2000,
-            yoyo: true,
-            repeat: -1
-        });
+        // this.guard.tween = this.tweens.add({
+        // 	targets: this.guard.follower,
+        // 	t: 1,
+        //     delay:2000,
+        //     ease: 'Linear',
+        //     duration: 10000,
+        //     hold:2000,
+        //     yoyo: true,
+        //     repeat: -1
+        // });
 
+        // //draw path lines
+        // this.graphics.clear();
+        // this.graphics.lineStyle(2, 0xffffff, 1);
+        // this.guard.path.draw(this.graphics);
         
     }
     
@@ -260,10 +338,6 @@ class Play extends Phaser.Scene {
             this.bgmPlaying = 0;
         }
         
-        //draw path lines
-        this.graphics.clear();
-        this.graphics.lineStyle(2, 0xffffff, 1);
-        this.guard.path.draw(this.graphics);
         //Player movement (preferred to move into player prefab; further debugging for that is required)
         if (keyA.isDown) {
             this.player.body.setVelocityX(-250);
@@ -290,6 +364,16 @@ class Play extends Phaser.Scene {
 
         //Wrap world (temporary)
         this.physics.world.wrap(this.player, 0);
+
+        //LEVEL CHEAT (TEMP)
+        if (keyP.isDown) {
+            this.stopMusicPlay();
+            if (currentLevel == 3) {
+                this.scene.start('menuScene');
+            } else {
+                this.scene.start('levelLoadScene');
+            }
+        }
 
         // Clique touching player flag reset
         if (!this.player.touchClique) {
@@ -423,4 +507,11 @@ class Play extends Phaser.Scene {
         }, null, this);
     }
 
+    stopMusicPlay(){
+        if (this.bgmPlaying == 0){
+            this.bgmNormal.stop();
+        } else {
+            this.bgmAlert.stop();
+        }
+    }
 }

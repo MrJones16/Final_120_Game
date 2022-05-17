@@ -20,17 +20,18 @@ let config = {
     physics: {
       default: 'arcade',
       arcade: {
-        //gravity: {y: 1000},
-        debug: true
+        //debug: true
       }
     },
-    scene: [Menu, Play, Instruction]
+    scene: [Menu, Play, Instruction, LevelLoad]
   }
 let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
-let keyW, keyA, keyS, keyD, keySPACE;
+let keyW, keyA, keyS, keyD, keySPACE, keyP;
 
+// Global level tracker
+var currentLevel = 0;
 
 // Background music variable
 var musicStarted = false;
