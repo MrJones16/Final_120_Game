@@ -22,6 +22,7 @@ class Play extends Phaser.Scene {
         this.load.audio('sfx_clothes', './assets/change_clothes.wav');
         this.load.audio('bgm_alert', './assets/POL-elevators-short.wav');
         this.load.audio('bgm_normal', './assets/POL-jazzy-duck-short.wav');
+        this.load.image('floor_bg', './assets/Floor.png');
         
         // this.load.image('rocket', './assets/missile.png');
         // this.load.audio('sfx_explosion', './assets/rocket_explosion.wav');
@@ -33,6 +34,7 @@ class Play extends Phaser.Scene {
     
 
     create(){
+        this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
         //var to show guard paths
         this.showpath = false;
         //initialize path graphics FOR DEBUGGING
@@ -54,7 +56,10 @@ class Play extends Phaser.Scene {
             fontSize: '40px',
             fontStyle: 'bold',
             color: 'yellow',
-            align: 'right',
+            backgroundColor: 'khaki',
+            stroke: 'black',
+            strokeThickness: 5,
+            align: 'center',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -246,8 +251,8 @@ class Play extends Phaser.Scene {
 
             //handle actual game over stuff here
             //this.gameover.text = "Game Over";
-            console.log("you've been caught!");
-            if(!this.gameOverShow){
+            //console.log("you've been caught!");
+            if(!this.gameOverShow && this.player.status == 2){
                 this.statusConfig.color = 'red';
                 this.statusConfig.fontSize = 72;
                 this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, "GAME", this.statusConfig).setOrigin(0.5).setScrollFactor(0,0);
@@ -413,7 +418,8 @@ class Play extends Phaser.Scene {
         if (this.player.cliqueLockout && !this.lockoutShow) {
             this.lockoutShow = true;
             this.statusConfig.color = 'red';
-            this.lockoutText = this.add.text(game.config.width - (borderUISize + borderPadding * 15), borderUISize + borderPadding * 3.5, "[LOCKED]", this.statusConfig).setScrollFactor(0,0);
+            this.statusConfig.backgroundColor = 'lightcoral';
+            this.lockoutText = this.add.text(game.config.width - (borderUISize + borderPadding * 15), borderUISize + borderPadding * 4, "[LOCKED]", this.statusConfig).setScrollFactor(0,0);
             this.lockoutTimer = this.time.delayedCall(10000, () => {
                 this.player.cliqueLockout = false;
                 this.lockoutText.destroy();
@@ -436,16 +442,19 @@ class Play extends Phaser.Scene {
             case 0:
                 this.statusText.setColor('yellow');
                 this.statusText.text = "Unsafe";
+                this.statusText.setBackgroundColor('khaki');
                 break;
             //Player is safe (hiding)
             case 1:
                 this.statusText.setColor('lime');
                 this.statusText.text = "Safe";
+                this.statusText.setBackgroundColor('palegreen');
                 break;
             //Player is found (spotted)
             case 2:
                 this.statusText.setColor('red');
                 this.statusText.text = "Found!";
+                this.statusText.setBackgroundColor('lightcoral');
                 break;
         }
 
