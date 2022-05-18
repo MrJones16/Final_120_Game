@@ -1,0 +1,260 @@
+{ "frames": {
+   "boy_chibi_sprite (Layer Green) 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 1.aseprite": {
+    "frame": { "x": 61, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 2.aseprite": {
+    "frame": { "x": 122, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 3.aseprite": {
+    "frame": { "x": 183, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 4.aseprite": {
+    "frame": { "x": 244, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 5.aseprite": {
+    "frame": { "x": 305, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 6.aseprite": {
+    "frame": { "x": 366, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 7.aseprite": {
+    "frame": { "x": 427, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 8.aseprite": {
+    "frame": { "x": 488, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Green) 9.aseprite": {
+    "frame": { "x": 549, "y": 0, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 0.aseprite": {
+    "frame": { "x": 0, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 1.aseprite": {
+    "frame": { "x": 61, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 2.aseprite": {
+    "frame": { "x": 122, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 3.aseprite": {
+    "frame": { "x": 183, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 4.aseprite": {
+    "frame": { "x": 244, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 5.aseprite": {
+    "frame": { "x": 305, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 6.aseprite": {
+    "frame": { "x": 366, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 7.aseprite": {
+    "frame": { "x": 427, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 8.aseprite": {
+    "frame": { "x": 488, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Pink) 9.aseprite": {
+    "frame": { "x": 549, "y": 70, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 0.aseprite": {
+    "frame": { "x": 0, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 1.aseprite": {
+    "frame": { "x": 61, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 2.aseprite": {
+    "frame": { "x": 122, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 3.aseprite": {
+    "frame": { "x": 183, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 4.aseprite": {
+    "frame": { "x": 244, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 5.aseprite": {
+    "frame": { "x": 305, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 6.aseprite": {
+    "frame": { "x": 366, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 7.aseprite": {
+    "frame": { "x": 427, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 8.aseprite": {
+    "frame": { "x": 488, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   },
+   "boy_chibi_sprite (Layer Yellow) 9.aseprite": {
+    "frame": { "x": 549, "y": 140, "w": 61, "h": 70 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 61, "h": 70 },
+    "sourceSize": { "w": 61, "h": 70 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.34.1-x64",
+  "image": "sprite_boy_sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 610, "h": 210 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer Green", "opacity": 255, "blendMode": "normal" },
+   { "name": "Layer Pink", "opacity": 255, "blendMode": "normal" },
+   { "name": "Layer Yellow", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
