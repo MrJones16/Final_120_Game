@@ -23,6 +23,7 @@ class Play extends Phaser.Scene {
         this.load.audio('bgm_alert', './assets/POL-elevators-short.wav');
         this.load.audio('bgm_normal', './assets/POL-jazzy-duck-short.wav');
         this.load.image('floor_bg', './assets/Floor.png');
+        this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         
         // this.load.image('rocket', './assets/missile.png');
         // this.load.audio('sfx_explosion', './assets/rocket_explosion.wav');
@@ -44,7 +45,9 @@ class Play extends Phaser.Scene {
         //music bool
         musicStarted = true;
         //Add player
-        this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
+        this.createPlayerAnims();
+        this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'idle_down_yellow').setOrigin(0.5, 0.5).setScale(0.75);
+        this.player.anims.play('idle_down_yellow');
         this.player.type = 0;
         this.player.touchClique = false;
         //this.player.timerActive = false;
@@ -208,7 +211,7 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.storeGroup, (player, store) => {
             if (keySPACE.isDown) {
                 if (store.texture.key == 'store_yellow'){
-                    this.player.setTexture('player_yellow');
+                    this.player.anims.play('idle_down_yellow');
                     this.player.type = 0;
                     if (!this.changeClothesSound){
                         this.sfxClothes.play();
@@ -218,7 +221,7 @@ class Play extends Phaser.Scene {
                         }, null, this);
                     }
                 } else if (store.texture.key == 'store_green'){
-                    this.player.setTexture('player_green');
+                    this.player.anims.play('idle_down_green');
                     this.player.type = 1;
                     if (!this.changeClothesSound){
                         this.sfxClothes.play();
@@ -228,7 +231,7 @@ class Play extends Phaser.Scene {
                         }, null, this);
                     }
                 } else if (store.texture.key == 'store_pink'){
-                    this.player.setTexture('player_pink');
+                    this.player.anims.play('idle_down_pink');
                     this.player.type = 2;
                     if (!this.changeClothesSound){
                         this.sfxClothes.play();
@@ -262,6 +265,7 @@ class Play extends Phaser.Scene {
                 this.stopMusicPlay();
                 this.time.delayedCall(1000, () => {
                     this.scene.start('menuScene');
+                    this.stopMusicPlay();
                 }, null, this);
             }     
         });
@@ -350,12 +354,13 @@ class Play extends Phaser.Scene {
         }
         
         //Player movement (preferred to move into player prefab; further debugging for that is required)
+        this.whichRun(this.player);
         if (keyA.isDown) {
             this.player.body.setVelocityX(-250);
         }
         if (keyD.isDown) {
             this.player.body.setVelocityX(250);
-        } 
+        }
         if (keyW.isDown) {
             this.player.body.setVelocityY(-250);
         }
@@ -371,6 +376,7 @@ class Play extends Phaser.Scene {
         if (!keyD.isDown && !keyA.isDown && !keyW.isDown && !keyS.isDown) {
             this.player.body.setVelocityX(0);
             this.player.body.setVelocityY(0);
+            this.whichIdle(this.player);
         }
 
         //LEVEL CHEAT (TEMP)
@@ -427,7 +433,7 @@ class Play extends Phaser.Scene {
             }, null, this); 
         }
 
-        //Clique collision and timer (some old code commented out)
+        //Clique collision and timer
         if (this.player.touchClique && !this.player.cliqueLockout) {
             this.player.status = 1;
         } else {
@@ -555,6 +561,419 @@ class Play extends Phaser.Scene {
         guard.path.lineTo(x,y);
     }
 
+    // Figure out what current anim should be
+    // 0 = yellow, 1 = green, 2 = pink
+    determineAnim(player, anim){
+        switch (player.type){
+            case 0:
+                switch (anim){
+                    case 'idle_down':
+                        this.player.anims.play('idle_down_yellow');
+                        break;
+                    case 'idle_up':
+                        this.player.anims.play('idle_up_yellow');
+                        break;
+                    case 'idle_left':
+                        this.player.anims.play('idle_left_yellow');
+                        break;
+                    case 'idle_right':
+                        this.player.anims.play('idle_right_yellow');
+                        break;
+                    case 'run_down':
+                        this.player.anims.play('run_down_yellow', true);
+                        break;
+                    case 'run_up':
+                        this.player.anims.play('run_up_yellow', true);
+                        break;
+                    case 'run_left':
+                        this.player.anims.play('run_left_yellow', true);
+                        break;
+                    case 'run_right':
+                        this.player.anims.play('run_right_yellow', true);
+                        break;
+                }
+                break;
+            case 1:
+                switch (anim){
+                    case 'idle_down':
+                        this.player.anims.play('idle_down_green');
+                        break;
+                    case 'idle_up':
+                        this.player.anims.play('idle_up_green');
+                        break;
+                    case 'idle_left':
+                        this.player.anims.play('idle_left_green');
+                        break;
+                    case 'idle_right':
+                        this.player.anims.play('idle_right_green');
+                        break;
+                    case 'run_down':
+                        this.player.anims.play('run_down_green', true);
+                        break;
+                    case 'run_up':
+                        this.player.anims.play('run_up_green', true);
+                        break;
+                    case 'run_left':
+                        this.player.anims.play('run_left_green', true);
+                        break;
+                    case 'run_right':
+                        this.player.anims.play('run_right_green', true);
+                        break;
+                }
+                break;
+            case 2:
+                switch (anim){
+                    case 'idle_down':
+                        this.player.anims.play('idle_down_pink');
+                        break;
+                    case 'idle_up':
+                        this.player.anims.play('idle_up_pink');
+                        break;
+                    case 'idle_left':
+                        this.player.anims.play('idle_left_pink');
+                        break;
+                    case 'idle_right':
+                        this.player.anims.play('idle_right_pink');
+                        break;
+                    case 'run_down':
+                        this.player.anims.play('run_down_pink', true);
+                        break;
+                    case 'run_up':
+                        this.player.anims.play('run_up_pink', true);
+                        break;
+                    case 'run_left':
+                        this.player.anims.play('run_left_pink', true);
+                        break;
+                    case 'run_right':
+                        this.player.anims.play('run_right_pink', true);
+                        break;
+                }
+                break;
+        }
+    }
 
+    // Find out what idle anim to play
+    whichIdle(player){
+        if (this.player.anims.currentAnim.key == 'run_up_pink' || this.player.anims.currentAnim.key == 'run_up_yellow' || this.player.anims.currentAnim.key == 'run_up_green'){
+            this.determineAnim(player, 'idle_up');
+        }
+        if (this.player.anims.currentAnim.key == 'run_down_pink' || this.player.anims.currentAnim.key == 'run_down_yellow' || this.player.anims.currentAnim.key == 'run_down_green'){
+            this.determineAnim(player, 'idle_down');
+        }
+        if (this.player.anims.currentAnim.key == 'run_left_pink' || this.player.anims.currentAnim.key == 'run_left_yellow' || this.player.anims.currentAnim.key == 'run_left_green'){
+            this.determineAnim(player, 'idle_left');
+        }
+        if (this.player.anims.currentAnim.key == 'run_right_pink' || this.player.anims.currentAnim.key == 'run_right_yellow' || this.player.anims.currentAnim.key == 'run_right_green'){
+            this.determineAnim(player, 'idle_right');
+        }
+    }
+
+    //Find out which run to play (needed for diagonal movement)
+    whichRun(player){
+        if ((keyA.isDown && !keyD.isDown && !keyW.isDown && !keyS.isDown) || (keyA.isDown && !keyD.isDown && keyW.isDown && !keyS.isDown) || (keyA.isDown && !keyD.isDown && !keyW.isDown && keyS.isDown)) {
+            this.determineAnim(this.player, 'run_left');
+        }
+        else if ((!keyA.isDown && keyD.isDown && !keyW.isDown && !keyS.isDown) || (!keyA.isDown && keyD.isDown && keyW.isDown && !keyS.isDown) || (!keyA.isDown && keyD.isDown && !keyW.isDown && keyS.isDown)) {
+            this.determineAnim(this.player, 'run_right');
+        }
+        else if (!keyA.isDown && !keyD.isDown && keyW.isDown && !keyS.isDown) {
+            this.determineAnim(this.player, 'run_up');
+        }
+        else if (!keyA.isDown && !keyD.isDown && !keyW.isDown && keyS.isDown) {
+            this.determineAnim(this.player, 'run_down');
+        }
+    }
+
+    // Set up animations
+    createPlayerAnims(){
+        // Idle down green
+        this.anims.create({
+            key: 'idle_down_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_down_',
+                start: 1,
+                end: 1,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle down pink
+        this.anims.create({
+            key: 'idle_down_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_down_',
+                start: 1,
+                end: 1,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle down yellow
+        this.anims.create({
+            key: 'idle_down_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_down_',
+                start: 1,
+                end: 1,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle up green
+        this.anims.create({
+            key: 'idle_up_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_up_',
+                start: 2,
+                end: 2,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle up pink
+        this.anims.create({
+            key: 'idle_up_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_up_',
+                start: 2,
+                end: 2,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle up green
+        this.anims.create({
+            key: 'idle_up_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_up_',
+                start: 2,
+                end: 2,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle left green
+        this.anims.create({
+            key: 'idle_left_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_left_',
+                start: 1,
+                end: 1,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle left pink
+        this.anims.create({
+            key: 'idle_left_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_left_',
+                start: 1,
+                end: 1,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle left yellow
+        this.anims.create({
+            key: 'idle_left_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_left_',
+                start: 1,
+                end: 1,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle right green
+        this.anims.create({
+            key: 'idle_right_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_right_',
+                start: 1,
+                end: 1,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle right pink
+        this.anims.create({
+            key: 'idle_right_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_right_',
+                start: 1,
+                end: 1,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Idle right yellow
+        this.anims.create({
+            key: 'idle_right_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_right_',
+                start: 1,
+                end: 1,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        // Run down green
+        this.anims.create({
+            key: 'run_down_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_down_',
+                start: 1,
+                end: 3,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run down pink
+        this.anims.create({
+            key: 'run_down_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_down_',
+                start: 1,
+                end: 3,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run down yellow
+        this.anims.create({
+            key: 'run_down_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_down_',
+                start: 1,
+                end: 3,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run up green
+        this.anims.create({
+            key: 'run_up_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_up_',
+                start: 1,
+                end: 3,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run up pink
+        this.anims.create({
+            key: 'run_up_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_up_',
+                start: 1,
+                end: 3,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run up yellow
+        this.anims.create({
+            key: 'run_up_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_up_',
+                start: 1,
+                end: 3,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run left green
+        this.anims.create({
+            key: 'run_left_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_left_',
+                start: 1,
+                end: 2,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run left pink
+        this.anims.create({
+            key: 'run_left_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_left_',
+                start: 1,
+                end: 2,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run left yellow
+        this.anims.create({
+            key: 'run_left_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_left_',
+                start: 1,
+                end: 2,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run right green
+        this.anims.create({
+            key: 'run_right_green',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_right_',
+                start: 1,
+                end: 2,
+                suffix: '_green',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run right pink
+        this.anims.create({
+            key: 'run_right_pink',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_right_',
+                start: 1,
+                end: 2,
+                suffix: '_pink',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+        // Run right yellow
+        this.anims.create({
+            key: 'run_right_yellow',
+            frames: this.anims.generateFrameNames('player_atlas', {
+                prefix: 'player_right_',
+                start: 1,
+                end: 2,
+                suffix: '_yellow',
+            }),
+            frameRate: 15,
+            repeat: -1
+        });
+    }
 
 }
