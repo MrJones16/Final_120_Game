@@ -4,9 +4,6 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        // this.load.image('player_yellow', './assets/placeholder_player_yellow.png');
-        // this.load.image('player_green', './assets/placeholder_player_green.png');
-        // this.load.image('player_pink', './assets/placeholder_player_pink.png');
         this.load.image('player_yellow', './assets/sprite_boy_Y.png');
         this.load.image('player_green', './assets/sprite_boy_G.png');
         this.load.image('player_pink', './assets/sprite_boy_P.png');
@@ -24,12 +21,7 @@ class Play extends Phaser.Scene {
         this.load.audio('bgm_normal', './assets/POL-jazzy-duck-short.wav');
         this.load.image('floor_bg', './assets/Floor.png');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
-        
-        // this.load.image('rocket', './assets/missile.png');
-        // this.load.audio('sfx_explosion', './assets/rocket_explosion.wav');
-        // this.load.atlas('playeranims', './assets/Player_Sprite_Move.png', './assets/Player_Sprite_Move.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
-        this.changeClothesSound = false;
     }
     
     
@@ -38,6 +30,10 @@ class Play extends Phaser.Scene {
         this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
         //var to show guard paths
         this.showpath = false;
+        //Guard Vision Range:
+        this.visionRange = 200;
+        //clothes sound bool
+        this.changeClothesSound = false;
         //initialize path graphics FOR DEBUGGING
         this.graphics = this.add.graphics();
         this.graphics.clear();
@@ -162,18 +158,6 @@ class Play extends Phaser.Scene {
                 break;
         }
 
-        //Wall group and creations
-        // this.wallGroup = this.physics.add.group();
-        // this.wallGroup.create(100, 100, 'wall').setOrigin(0, 0).setImmovable(true);
-        // this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
-        // this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);
-
-        //Clique group and creations
-        // this.cliqueGroup = this.physics.add.group();
-        // this.cliqueGroup.create(250, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-        // this.cliqueGroup.create(700, 500, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-        // this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-
         this.cliqueGroup.getChildren().forEach((clique) => {
             clique.timer = 330;
             clique.active = false;
@@ -189,13 +173,6 @@ class Play extends Phaser.Scene {
             }
         });
 
-
-        //Store group and creations
-        // this.storeGroup = this.physics.add.group();
-        // this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
-        // this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
-        // this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
-
         //Player collisions and overlaps
         this.physics.add.collider(this.player, this.wallGroup);
         this.physics.add.overlap(this.player, this.cliqueGroup, (player, clique) => {
@@ -207,7 +184,9 @@ class Play extends Phaser.Scene {
                 this.player.status = 2;
             }
         });
-        
+
+
+        //player and store interation
         this.physics.add.overlap(this.player, this.storeGroup, (player, store) => {
             if (keySPACE.isDown) {
                 if (store.texture.key == 'store_yellow'){
@@ -244,17 +223,12 @@ class Play extends Phaser.Scene {
             }
         });
 
-        //game over text
-        //this.gameover = this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "", this.timerConfig).setOrigin(0.5);
-        //guard group and collisions
-        //this.guardGroup = this.physics.add.group();
+
         this.physics.add.collider(this.guardGroup, this.wallGroup);
         this.physics.add.collider(this.guardGroup, this.player, (guard, player) => {
             //Guard collides with player
 
             //handle actual game over stuff here
-            //this.gameover.text = "Game Over";
-            //console.log("you've been caught!");
             if(!this.gameOverShow && this.player.status == 2){
                 this.statusConfig.color = 'red';
                 this.statusConfig.fontSize = 72;
@@ -270,72 +244,7 @@ class Play extends Phaser.Scene {
             }     
         });
 
-        
-
-        //this.guard = this.add.follower(this.path, 10,10, 'guard');
-        // this.guard = this.guardGroup.create(10, 10, 'guard').setScale(0.5);
-        // this.guard.storeX = 0;
-        // this.guard.storeY = 0;
-        // this.guard.state = 0;
-
-        // //testing with paths and guards
-        // this.graphics = this.add.graphics();
-        // this.guard.path = new Phaser.Curves.Path(10,10);
-        // this.guard.path.lineTo(750,10);
-        // this.guard.path.lineTo(750,300);
-
-        //adding collision to the guard
-        // this.physics.world.enable(this.guard);
-        // this.guardGroup.add(this.guard);
-
-        // this.guard.startFollow(
-        //     {
-        //         from:0,
-        //         to:1,
-        //         delay:2000,
-        //         duration:10000,
-        //         ease: 'Linear',
-        //         hold:2000,
-        //         repeat:-1,
-        //         yoyo:true,
-        //         rotateToPath:true
-        //     }
-        // );
-
-        //Guard Vision Range:
-        this.visionRange = 200;
-
-        //Creating background tileSprites
-        //this.add.tileSprite(0, 0, 640, 480, 'sun').setOrigin(0, 0);
-
-        // Create animations
-        // this.anims.create({
-        //     key: 'fly',
-        //     frames: this.anims.generateFrameNumbers('helicopter', {frames: [0, 1, 2]}),
-        //     frameRate: 30,
-        //     repeat: -1
-        // });
-
-        // this.guard.follower = { t: 0, vec: new Phaser.Math.Vector2() };
-
-        // this.guard.tween = this.tweens.add({
-        // 	targets: this.guard.follower,
-        // 	t: 1,
-        //     delay:2000,
-        //     ease: 'Linear',
-        //     duration: 10000,
-        //     hold:2000,
-        //     yoyo: true,
-        //     repeat: -1
-        // });
-
-        // //draw path lines
-        // this.graphics.clear();
-        // this.graphics.lineStyle(2, 0xffffff, 1);
-        // this.guard.path.draw(this.graphics);
-
         this.statusText.setDepth(100);
-        
     }
     
     update(time, delta) {
