@@ -42,7 +42,8 @@ class Play extends Phaser.Scene {
         musicStarted = true;
         //Add player
         this.createPlayerAnims();
-        this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'idle_down_yellow').setOrigin(0.5, 0.5).setScale(0.75);
+        //this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'idle_down_yellow').setOrigin(0.5, 0.5).setScale(0.75);
+        this.player = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
         this.player.anims.play('idle_down_yellow');
         this.player.type = 0;
         this.player.touchClique = false;
