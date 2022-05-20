@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="38" height="22" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="118">
+ <tileset firstgid="1" source="test_tileset.tsx"/>
+ <layer id="1" name="Background" width="38" height="22" locked="1">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="5" name="Player" locked="1">
+  <object id="1" name="player" gid="2" x="289.333" y="353.333" width="64" height="64">
+   <properties>
+    <property name="collision" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="Objects">
+  <object id="3" name="guard" gid="3" x="64" y="128" width="64" height="64">
+   <properties>
+    <property name="collision" value=""/>
+   </properties>
+  </object>
+  <object id="4" name="path" gid="8" x="128" y="128" width="64" height="64"/>
+  <object id="5" name="path" gid="8" x="192" y="128" width="64" height="64"/>
+  <object id="6" name="path" gid="8" x="256" y="128" width="64" height="64"/>
+  <object id="7" name="path" gid="8" x="320" y="128" width="64" height="64"/>
+  <object id="8" name="path" gid="8" x="384" y="128" width="64" height="64"/>
+  <object id="9" name="path" gid="8" x="448" y="128" width="64" height="64"/>
+  <object id="10" name="path" gid="8" x="512" y="128" width="64" height="64"/>
+  <object id="11" name="path" gid="8" x="512" y="192" width="64" height="64"/>
+  <object id="12" name="path" gid="8" x="512" y="256" width="64" height="64"/>
+  <object id="13" name="path" gid="8" x="512" y="320" width="64" height="64"/>
+  <object id="14" name="path" gid="8" x="512" y="384" width="64" height="64"/>
+  <object id="15" name="level_goal" gid="12" x="2368" y="1280" width="64" height="64"/>
+  <object id="16" name="level_goal" gid="12" x="2368" y="1344" width="64" height="64"/>
+  <object id="17" name="y_clique" gid="7" x="384" y="512" width="64" height="64"/>
+  <object id="18" name="g_store" gid="9" x="64" y="384" width="64" height="64"/>
+  <object id="20" name="g_clique" gid="5" x="704" y="256" width="64" height="64"/>
+  <object id="21" name="guard" gid="3" x="2176" y="1344" width="64" height="64"/>
+  <object id="22" name="path" gid="8" x="2176" y="1280" width="64" height="64"/>
+  <object id="23" name="path" gid="8" x="2176" y="1216" width="64" height="64"/>
+  <object id="24" name="path" gid="8" x="2176" y="1152" width="64" height="64"/>
+  <object id="25" name="path" gid="8" x="2176" y="1088" width="64" height="64"/>
+  <object id="26" name="path" gid="8" x="2176" y="1024" width="64" height="64"/>
+  <object id="27" name="path" gid="8" x="2176" y="896" width="64" height="64"/>
+  <object id="28" name="path" gid="8" x="2176" y="960" width="64" height="64"/>
+  <object id="29" name="path" gid="8" x="2176" y="832" width="64" height="64"/>
+  <object id="30" name="path" gid="8" x="2112" y="832" width="64" height="64"/>
+  <object id="31" name="path" gid="8" x="2048" y="832" width="64" height="64"/>
+  <object id="32" name="path" gid="8" x="1984" y="832" width="64" height="64"/>
+  <object id="33" name="path" gid="8" x="1856" y="832" width="64" height="64"/>
+  <object id="34" name="path" gid="8" x="1920" y="832" width="64" height="64"/>
+  <object id="35" name="path" gid="8" x="1856" y="896" width="64" height="64"/>
+  <object id="36" name="path" gid="8" x="1856" y="960" width="64" height="64"/>
+  <object id="37" name="path" gid="8" x="1856" y="1024" width="64" height="64"/>
+  <object id="38" name="path" gid="8" x="1856" y="1088" width="64" height="64"/>
+  <object id="39" name="path" gid="8" x="1856" y="1152" width="64" height="64"/>
+  <object id="40" name="path" gid="8" x="1856" y="1216" width="64" height="64"/>
+  <object id="41" name="path" gid="8" x="1856" y="1280" width="64" height="64"/>
+  <object id="42" name="p_clique" gid="6" x="2304" y="896" width="64" height="64"/>
+  <object id="43" name="y_store" gid="11" x="128" y="576" width="64" height="64"/>
+  <object id="44" name="guard" gid="3" x="1216" y="1088" width="64" height="64"/>
+  <object id="46" name="path" gid="8" x="1216" y="1024" width="64" height="64"/>
+  <object id="47" name="path" gid="8" x="1216" y="960" width="64" height="64"/>
+  <object id="48" name="path" gid="8" x="1216" y="896" width="64" height="64"/>
+  <object id="49" name="path" gid="8" x="1216" y="832" width="64" height="64"/>
+  <object id="50" name="path" gid="8" x="1216" y="768" width="64" height="64"/>
+  <object id="51" name="path" gid="8" x="1216" y="640" width="64" height="64"/>
+  <object id="52" name="path" gid="8" x="1216" y="704" width="64" height="64"/>
+  <object id="53" name="path" gid="8" x="1216" y="576" width="64" height="64"/>
+  <object id="54" name="path" gid="8" x="1216" y="512" width="64" height="64"/>
+  <object id="55" name="path" gid="8" x="1216" y="448" width="64" height="64"/>
+  <object id="56" name="path" gid="8" x="1216" y="384" width="64" height="64"/>
+  <object id="57" name="path" gid="8" x="1216" y="320" width="64" height="64"/>
+  <object id="58" name="p_store" gid="10" x="384" y="768" width="64" height="64"/>
+  <object id="60" name="p_clique" gid="6" x="896" y="576" width="64" height="64"/>
+  <object id="61" name="y_clique" gid="7" x="1472" y="448" width="64" height="64"/>
+  <object id="62" name="y_store" gid="11" x="1024" y="384" width="64" height="64"/>
+  <object id="64" name="g_store" gid="9" x="832" y="896" width="64" height="64"/>
+  <object id="65" name="guard" gid="3" x="192" y="1088" width="64" height="64"/>
+  <object id="66" name="path" gid="8" x="192" y="1152" width="64" height="64"/>
+  <object id="75" name="path" gid="8" x="512" y="1152" width="64" height="64"/>
+  <object id="76" name="path" gid="8" x="512" y="1088" width="64" height="64"/>
+  <object id="77" name="path" gid="8" x="512" y="1024" width="64" height="64"/>
+  <object id="78" name="path" gid="8" x="512" y="960" width="64" height="64"/>
+  <object id="79" name="path" gid="8" x="512" y="896" width="64" height="64"/>
+  <object id="80" name="path" gid="8" x="512" y="832" width="64" height="64"/>
+  <object id="81" name="path" gid="8" x="576" y="768" width="64" height="64"/>
+  <object id="82" name="path" gid="8" x="640" y="704" width="64" height="64"/>
+  <object id="83" name="path" gid="8" x="704" y="704" width="64" height="64"/>
+  <object id="84" name="path" gid="8" x="256" y="1216" width="64" height="64"/>
+  <object id="85" name="path" gid="8" x="320" y="1280" width="64" height="64"/>
+  <object id="86" name="path" gid="8" x="384" y="1280" width="64" height="64"/>
+  <object id="87" name="path" gid="8" x="448" y="1216" width="64" height="64"/>
+  <object id="89" name="path" gid="8" x="768" y="704" width="64" height="64"/>
+  <object id="90" name="path" gid="8" x="832" y="704" width="64" height="64"/>
+  <object id="91" name="y_clique" gid="7" x="384" y="1088" width="64" height="64"/>
+  <object id="93" name="y_store" gid="11" x="192" y="1344" width="64" height="64"/>
+  <object id="94" name="g_clique" gid="5" x="640" y="1280" width="64" height="64"/>
+  <object id="95" name="p_store" gid="10" x="1664" y="960" width="64" height="64"/>
+  <object id="96" name="y_clique" gid="7" x="1408" y="1024" width="64" height="64"/>
+  <object id="97" name="p_store" gid="10" x="896" y="1216" width="64" height="64"/>
+  <object id="98" name="g_clique" gid="5" x="1728" y="704" width="64" height="64"/>
+  <object id="99" name="g_store" gid="9" x="1344" y="832" width="64" height="64"/>
+  <object id="100" name="guard" gid="3" x="1728" y="512" width="64" height="64"/>
+  <object id="101" name="path" gid="8" x="1792" y="448" width="64" height="64"/>
+  <object id="102" name="path" gid="8" x="1856" y="384" width="64" height="64"/>
+  <object id="103" name="path" gid="8" x="1920" y="320" width="64" height="64"/>
+  <object id="104" name="path" gid="8" x="1984" y="256" width="64" height="64"/>
+  <object id="105" name="path" gid="8" x="2048" y="192" width="64" height="64"/>
+  <object id="106" name="path" gid="8" x="2112" y="256" width="64" height="64"/>
+  <object id="107" name="path" gid="8" x="2176" y="320" width="64" height="64"/>
+  <object id="108" name="path" gid="8" x="2240" y="384" width="64" height="64"/>
+  <object id="109" name="path" gid="8" x="2304" y="448" width="64" height="64"/>
+  <object id="111" name="y_clique" gid="7" x="2240" y="640" width="64" height="64"/>
+  <object id="112" name="y_store" gid="11" x="2240" y="192" width="64" height="64"/>
+  <object id="113" name="p_clique" gid="6" x="1344" y="128" width="64" height="64"/>
+  <object id="115" name="g_clique" gid="5" x="1536" y="1344" width="64" height="64"/>
+  <object id="116" name="p_clique" gid="6" x="64" y="1024" width="64" height="64"/>
+  <object id="117" name="g_store" gid="9" x="1728" y="128" width="64" height="64"/>
+ </objectgroup>
+ <layer id="4" name="Walls" width="38" height="22">
+  <properties>
+   <property name="collision" value=""/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,4,4,4,4,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,
+0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,4,4,4,4,0,0,0,0,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,4,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,
+4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,
+4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,
+4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0
+</data>
+ </layer>
+</map>
