@@ -15,6 +15,7 @@ class Play extends Phaser.Scene {
         this.load.image('store_green', './assets/placeholder_store_green.png');
         this.load.image('store_yellow', './assets/placeholder_store_yellow.png');
         this.load.image('store_pink', './assets/placeholder_store_pink.png');
+        this.load.image('goal', './assets/placeholder_goal.png');
         this.load.audio('sfx_alert', './assets/alert.wav');
         this.load.audio('sfx_clothes', './assets/change_clothes.wav');
         this.load.audio('bgm_alert', './assets/POL-elevators-short.wav');
@@ -22,6 +23,8 @@ class Play extends Phaser.Scene {
         this.load.image('floor_bg', './assets/Floor.png');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
+        this.load.tilemapTiledJSON("level1", "./assets/tilemap_level1.json");
+        this.load.image('test_tileset', "./assets/test_tileset.png");
     }
     
     
@@ -43,14 +46,14 @@ class Play extends Phaser.Scene {
         //Add player
         this.createPlayerAnims();
         //this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'idle_down_yellow').setOrigin(0.5, 0.5).setScale(0.75);
-        this.player = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
-        this.player.anims.play('idle_down_yellow');
-        this.player.type = 0;
-        this.player.touchClique = false;
-        //this.player.timerActive = false;
-        //this.player.timerExpired = false;
-        this.player.cliqueLockout = false;
-        this.player.status = 0;
+        // this.player = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
+        // this.player.anims.play('idle_down_yellow');
+        // this.player.type = 0;
+        // this.player.touchClique = false;
+        // //this.player.timerActive = false;
+        // //this.player.timerExpired = false;
+        // this.player.cliqueLockout = false;
+        // this.player.status = 0;
         this.statusConfig = {
             fontFamily: 'Courier',
             fontSize: '40px',
@@ -72,9 +75,9 @@ class Play extends Phaser.Scene {
         
         //Camera and world bounds stuff
         this.physics.world.setBounds(0, 0, game.config.width * 2, game.config.height * 2);
-        this.player.setCollideWorldBounds(true);
+        //this.player.setCollideWorldBounds(true);
         this.cameras.main.setBounds(0, 0, game.config.width * 2, game.config.height * 2);
-        this.cameras.main.startFollow(this.player);
+        //this.cameras.main.startFollow(this.player);
 
         //SFX
         this.sfxAlert = this.sound.add('sfx_alert', {volume: 0.5});
@@ -113,45 +116,96 @@ class Play extends Phaser.Scene {
         //Group creations (must be before level loading)
         this.cliqueGroup = this.physics.add.group();
         this.storeGroup = this.physics.add.group();
-        this.wallGroup = this.physics.add.group();
+        // this.wallGroup = this.physics.add.group();
         this.guardGroup = this.physics.add.group();
+        this.goalGroup = this.physics.add.group();
 
         //Different level loading
         switch (currentLevel){
             //Level 1
             case 1:
-                //Level 1 clique creation
-                this.cliqueGroup.create(250, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                this.cliqueGroup.create(700, 500, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                //Level 1 store creation
-                this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
-                this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
-                this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
-                //Level 1 walls creation
-                this.wallGroup.create(100, 100, 'wall').setOrigin(0, 0).setImmovable(true);
-                this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
-                this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);    
-                //Level 1 guard creation
-                //uncomment for guard paths//this.showpath = true;
-                this.guard = this.createGuard(10,10);
-                this.GuardLineTo(this.guard,750,10);
-                this.GuardLineTo(this.guard,750,300);
+                //Load tilemap and tileset, create layers
+                const map1 = this.add.tilemap("level1");
+                const tileset1 = map1.addTilesetImage("test_tileset");
+                const backgroundLayer = map1.createLayer("Background", tileset1, 0, 0);
+                //Create player after background and before everything else
+                const playerSpawn = map1.findObject("Player", obj => obj.name === "player");
+                this.createPlayer(playerSpawn.x, playerSpawn.y);
+                //Walls and collision
+                const wallLayer = map1.createLayer("Walls", tileset1, 0, 0);
+                wallLayer.setCollisionByProperty({ 
+                    collides: true 
+                });
+                //Placing game objects at respective Tiled objects positions
+                map1.filterObjects("Objects", (obj) => {
+                    //Create cliques
+                    if (obj.name == 'p_clique'){
+                        this.cliqueGroup.create(obj.x - 25, obj.y - 50, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                    }
+                    if (obj.name == 'g_clique'){
+                        this.cliqueGroup.create(obj.x - 25, obj.y - 50, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                    }
+                    if (obj.name == 'y_clique'){
+                        this.cliqueGroup.create(obj.x - 25, obj.y - 50, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                    }
+                    //Create stores
+                    if (obj.name == 'p_store'){
+                        this.storeGroup.create(obj.x, obj.y - 75, 'store_pink').setOrigin(0, 0).setImmovable(true);
+                    }
+                    if (obj.name == 'g_store'){
+                        this.storeGroup.create(obj.x, obj.y - 75, 'store_green').setOrigin(0, 0).setImmovable(true);
+                    }
+                    if (obj.name == 'y_store'){
+                        this.storeGroup.create(obj.x, obj.y - 75, 'store_yellow').setOrigin(0, 0).setImmovable(true);
+                    }
+                    //Create guards (bugged, only creates the top left one)
+                    if (obj.name == 'guard'){
+                        this.createGuard(obj.x, obj.y);
+                    }
+                    //Create paths
+                    if (obj.name == 'path'){
+                        //path code 
+                    }
+                    //Create goal
+                    if (obj.name == 'level_goal'){
+                        this.goalGroup.create(obj.x, obj.y, 'goal').setImmovable(true);
+                    }
+                });
+                this.physics.add.collider(this.player, wallLayer);
+                this.physics.add.collider(this.guardGroup, wallLayer);
+
+                // //Level 1 clique creation
+                // this.cliqueGroup.create(250, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                // this.cliqueGroup.create(700, 500, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                // this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                // //Level 1 store creation
+                // this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
+                // this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
+                // this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
+                // //Level 1 walls creation
+                // this.wallGroup.create(100, 100, 'wall').setOrigin(0, 0).setImmovable(true);
+                // this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
+                // this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);    
+                // //Level 1 guard creation
+                // //uncomment for guard paths//this.showpath = true;
+                // this.guard = this.createGuard(10,10);
+                // this.GuardLineTo(this.guard,750,10);
+                // this.GuardLineTo(this.guard,750,300);
                 break;
             //Level 2
             case 2:
-                //Level 2 clique creation
-                this.cliqueGroup.create(100, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                this.cliqueGroup.create(500, 250, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                this.cliqueGroup.create(900, 250, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                //Level 2 store creation
-                this.storeGroup.create(500, 500, 'store_yellow').setOrigin(0, 0).setImmovable(true);
-                this.storeGroup.create(100, 500, 'store_green').setOrigin(0, 0).setImmovable(true);
-                this.storeGroup.create(900, 500, 'store_pink').setOrigin(0, 0).setImmovable(true);
-                //Level 2 walls creation
-                this.wallGroup.create(0, -50, 'wall').setOrigin(0, 0).setImmovable(true);
-                this.wallGroup.create(400, -50, 'wall').setOrigin(0, 0).setImmovable(true);
-                this.wallGroup.create(800, -50, 'wall').setOrigin(0, 0).setImmovable(true);
+                // //Level 2 clique creation
+                // this.cliqueGroup.create(100, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                // this.cliqueGroup.create(500, 250, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                // this.cliqueGroup.create(900, 250, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                // //Level 2 store creation
+                // this.storeGroup.create(500, 500, 'store_yellow').setOrigin(0, 0).setImmovable(true);
+                // this.storeGroup.create(100, 500, 'store_green').setOrigin(0, 0).setImmovable(true);
+                // this.storeGroup.create(900, 500, 'store_pink').setOrigin(0, 0).setImmovable(true);
+                // //Level 2 walls creation
+                // this.wallGroup.create(0, -50, 'wall').setOrigin(0, 0).setImmovable(true);
+                // this.wallGroup.create(400, -50, 'wall').setOrigin(0, 0).setImmovable(true);
+                // this.wallGroup.create(800, -50, 'wall').setOrigin(0, 0).setImmovable(true);
                 break;
             //Level 3
             case 3:
@@ -175,7 +229,7 @@ class Play extends Phaser.Scene {
         });
 
         //Player collisions and overlaps
-        this.physics.add.collider(this.player, this.wallGroup);
+        //this.physics.add.collider(this.player, wallLayer);
         this.physics.add.overlap(this.player, this.cliqueGroup, (player, clique) => {
             if (clique.type == this.player.type && !this.player.cliqueLockout){
                 this.player.touchClique = true;
@@ -186,6 +240,15 @@ class Play extends Phaser.Scene {
             }
         });
 
+        //Player touches goal/exit of level, go to next
+        this.physics.add.collider(this.player, this.goalGroup, () => {
+            this.stopMusicPlay();
+            if (currentLevel == 1) {
+                this.scene.start('menuScene');
+            } else {
+                this.scene.start('levelLoadScene');
+            }
+        });
 
         //player and store interation
         this.physics.add.overlap(this.player, this.storeGroup, (player, store) => {
@@ -225,7 +288,7 @@ class Play extends Phaser.Scene {
         });
 
 
-        this.physics.add.collider(this.guardGroup, this.wallGroup);
+        //this.physics.add.collider(this.guardGroup, this.wallGroup);
         this.physics.add.collider(this.guardGroup, this.player, (guard, player) => {
             //Guard collides with player
 
@@ -445,6 +508,17 @@ class Play extends Phaser.Scene {
         } else {
             this.bgmAlert.stop();
         }
+    }
+
+    createPlayer(x, y){
+        this.player = this.physics.add.sprite(x, y, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
+        this.player.anims.play('idle_down_yellow');
+        this.player.type = 0;
+        this.player.touchClique = false;
+        this.player.cliqueLockout = false;
+        this.player.status = 0;
+        this.player.setCollideWorldBounds(true);
+        this.cameras.main.startFollow(this.player);
     }
 
     createGuard(x, y){

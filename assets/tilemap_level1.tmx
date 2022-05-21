@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="38" height="22" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="118">
- <tileset firstgid="1" source="test_tileset.tsx"/>
+ <editorsettings>
+  <export target="tilemap_level1.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="test_tileset" tilewidth="64" tileheight="64" tilecount="12" columns="4">
+  <image source="test_tileset.png" width="256" height="192"/>
+  <tile id="2">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer id="1" name="Background" width="38" height="22" locked="1">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -30,14 +45,14 @@
  <objectgroup id="5" name="Player" locked="1">
   <object id="1" name="player" gid="2" x="289.333" y="353.333" width="64" height="64">
    <properties>
-    <property name="collision" value=""/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="2" name="Objects">
+ <objectgroup id="2" name="Objects" locked="1">
   <object id="3" name="guard" gid="3" x="64" y="128" width="64" height="64">
    <properties>
-    <property name="collision" value=""/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </object>
   <object id="4" name="path" gid="8" x="128" y="128" width="64" height="64"/>
@@ -79,7 +94,11 @@
   <object id="41" name="path" gid="8" x="1856" y="1280" width="64" height="64"/>
   <object id="42" name="p_clique" gid="6" x="2304" y="896" width="64" height="64"/>
   <object id="43" name="y_store" gid="11" x="128" y="576" width="64" height="64"/>
-  <object id="44" name="guard" gid="3" x="1216" y="1088" width="64" height="64"/>
+  <object id="44" name="guard" gid="3" x="1216" y="1088" width="64" height="64">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="46" name="path" gid="8" x="1216" y="1024" width="64" height="64"/>
   <object id="47" name="path" gid="8" x="1216" y="960" width="64" height="64"/>
   <object id="48" name="path" gid="8" x="1216" y="896" width="64" height="64"/>
@@ -97,7 +116,11 @@
   <object id="61" name="y_clique" gid="7" x="1472" y="448" width="64" height="64"/>
   <object id="62" name="y_store" gid="11" x="1024" y="384" width="64" height="64"/>
   <object id="64" name="g_store" gid="9" x="832" y="896" width="64" height="64"/>
-  <object id="65" name="guard" gid="3" x="192" y="1088" width="64" height="64"/>
+  <object id="65" name="guard" gid="3" x="192" y="1088" width="64" height="64">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="66" name="path" gid="8" x="192" y="1152" width="64" height="64"/>
   <object id="75" name="path" gid="8" x="512" y="1152" width="64" height="64"/>
   <object id="76" name="path" gid="8" x="512" y="1088" width="64" height="64"/>
@@ -139,9 +162,9 @@
   <object id="116" name="p_clique" gid="6" x="64" y="1024" width="64" height="64"/>
   <object id="117" name="g_store" gid="9" x="1728" y="128" width="64" height="64"/>
  </objectgroup>
- <layer id="4" name="Walls" width="38" height="22">
+ <layer id="4" name="Walls" width="38" height="22" locked="1">
   <properties>
-   <property name="collision" value=""/>
+   <property name="collides" type="bool" value="false"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
