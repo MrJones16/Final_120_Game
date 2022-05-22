@@ -32,7 +32,7 @@ class Play extends Phaser.Scene {
     create(){
         this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
         //var to show guard paths
-        this.showpath = false;
+        this.showpath = true;
         //Guard Vision Range:
         this.visionRange = 200;
         //clothes sound bool
@@ -158,14 +158,17 @@ class Play extends Phaser.Scene {
                     if (obj.name == 'y_store'){
                         this.storeGroup.create(obj.x, obj.y - 75, 'store_yellow').setOrigin(0, 0).setImmovable(true);
                     }
-                    //Create guards (bugged, only creates the top left one)
                     if (obj.name == 'guard'){
-                        this.createGuard(obj.x, obj.y);
+                        let path_array = map1.filterObjects("Objects", obj => obj.name === "path");
+                        let guard = this.createGuard(obj.x, obj.y);
+                        this.createGuardPath(guard, obj.x, obj.y, path_array);
+                        //deleting the array after, although this did not help with the lag :(
+                        for (let i = 0; i < path_array.length; ++i){
+                            delete path_array[i];
+                        }
+                        console.log("Creating Guard");
                     }
-                    //Create paths
-                    if (obj.name == 'path'){
-                        //path code 
-                    }
+                    
                     //Create goal
                     if (obj.name == 'level_goal'){
                         this.goalGroup.create(obj.x, obj.y, 'goal').setImmovable(true);
@@ -522,7 +525,9 @@ class Play extends Phaser.Scene {
     }
 
     createGuard(x, y){
-        let guard = this.guardGroup.create(x, y, 'guard').setScale(0.5);
+        let guard = this.physics.add.sprite(x,y,'guard').setScale(0.5);
+        this.guardGroup.add(guard);
+        //let guard = this.guardGroup.create(x, y, 'guard').setScale(0.5);
         guard.storeX = 0;
         guard.storeY = 0;
         guard.state = 0;
@@ -538,12 +543,54 @@ class Play extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-        return guard;
+        return guard
     }
 
     GuardLineTo(guard, x, y){
         guard.path.lineTo(x,y);
     }
+
+    createGuardPath(guard, x, y, pathArray){
+        var currx = x;
+        var curry = y;
+        let index = 0;
+        //sorting the array by distance to the next point
+        for (let i = 0; i < pathArray.length; ++i){
+            let minDistance = 1000;
+            for (let j = i; j < pathArray.length; ++j){
+                //find closest point to current path spot
+                let distance = Phaser.Math.Distance.Between(currx,curry, pathArray[j].x, pathArray[j].y);
+                if (distance < minDistance){
+                    minDistance = distance;
+                    index = j;
+                }
+                
+            }
+            //Swap elements
+            let temp = pathArray[i];
+            pathArray[i] = pathArray[index];
+            pathArray[index] = temp;
+            //set next position to new path spot
+            currx = pathArray[i].x;
+            curry = pathArray[i].y;
+        }
+        //now that the array is sorted by their distance to the next point in the array, 
+        //go through the array and extend the path accordingly if the distance is small enough
+        currx = x;
+        curry = y;
+        for (let k = 0; k < pathArray.length; ++k){
+            let distance = Phaser.Math.Distance.Between(currx,curry, pathArray[k].x, pathArray[k].y);
+            if (distance < 100){ // enough to make diagonals count :)
+                currx = pathArray[k].x;
+                curry = pathArray[k].y;
+                this.GuardLineTo(guard, currx, curry);
+            }else{
+                return;
+            }
+        }
+        
+    }
+
 
     // Figure out what current anim should be
     // 0 = yellow, 1 = green, 2 = pink
