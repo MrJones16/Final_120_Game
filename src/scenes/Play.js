@@ -23,8 +23,9 @@ class Play extends Phaser.Scene {
         this.load.image('floor_bg', './assets/Floor.png');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
-        this.load.tilemapTiledJSON("level1", "./assets/tilemap_level1.json");
+        this.load.tilemapTiledJSON("level1", "./assets/tilemap_level1_fixed.json");
         this.load.image('test_tileset', "./assets/test_tileset.png");
+        this.load.image('MallTileSet', "./assets/MallTileSet.png");
     }
     
     
@@ -126,7 +127,7 @@ class Play extends Phaser.Scene {
             case 1:
                 //Load tilemap and tileset, create layers
                 const map1 = this.add.tilemap("level1");
-                const tileset1 = map1.addTilesetImage("test_tileset");
+                const tileset1 = map1.addTilesetImage("MallTileSet", null, 64, 64, 1, 2);
                 const backgroundLayer = map1.createLayer("Background", tileset1, 0, 0);
                 //Create player after background and before everything else
                 const playerSpawn = map1.findObject("Player", obj => obj.name === "player");
@@ -543,7 +544,7 @@ class Play extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-        return guard
+        return guard;
     }
 
     GuardLineTo(guard, x, y){

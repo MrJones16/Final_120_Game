@@ -42,7 +42,7 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <objectgroup id="5" name="Player" locked="1">
+ <objectgroup id="5" name="Player">
   <object id="1" name="player" gid="2" x="289.333" y="353.333" width="64" height="64">
    <properties>
     <property name="collides" type="bool" value="true"/>
