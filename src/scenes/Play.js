@@ -32,8 +32,6 @@ class Play extends Phaser.Scene {
 
     create(){
         this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
-        //var to show guard paths
-        this.showpath = false;
         //Guard Vision Range:
         this.visionRange = 200;
         //clothes sound bool
@@ -445,9 +443,6 @@ class Play extends Phaser.Scene {
         //updating the guards
         this.guardGroup.getChildren().forEach((guard) => {
             guard.path.getPoint(guard.follower.t, guard.follower.vec);
-            //draw the path for debugging
-            if (this.showpath)
-            guard.path.draw(this.graphics);
             switch(guard.state){
                 case(0)://patrolling 
                     //moving the guard on the path
