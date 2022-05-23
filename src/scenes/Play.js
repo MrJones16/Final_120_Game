@@ -33,7 +33,7 @@ class Play extends Phaser.Scene {
     create(){
         this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
         //var to show guard paths
-        this.showpath = true;
+        this.showpath = false;
         //Guard Vision Range:
         this.visionRange = 200;
         //clothes sound bool
