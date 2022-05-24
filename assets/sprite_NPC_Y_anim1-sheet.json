@@ -1,0 +1,34 @@
+{ "frames": {
+   "sprite_NPC_Y_anim1 (Layer) 0.png": {
+    "frame": { "x": 0, "y": 0, "w": 185, "h": 161 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 185, "h": 161 },
+    "sourceSize": { "w": 185, "h": 161 },
+    "duration": 100
+   },
+   "sprite_NPC_Y_anim1 (Layer) 1.png": {
+    "frame": { "x": 185, "y": 0, "w": 185, "h": 161 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 185, "h": 161 },
+    "sourceSize": { "w": 185, "h": 161 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.34.1-x64",
+  "image": "sprite_NPC_Y_anim1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 370, "h": 161 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
