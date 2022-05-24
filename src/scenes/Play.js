@@ -12,9 +12,9 @@ class Play extends Phaser.Scene {
         this.load.image('clique_yellow', './assets/sprite_NPC_Y.png');
         this.load.image('clique_pink', './assets/sprite_NPC_P.png');
         this.load.image('guard', './assets/sprite_Officer.png');
-        this.load.image('store_green', './assets/placeholder_store_green.png');
-        this.load.image('store_yellow', './assets/placeholder_store_yellow.png');
-        this.load.image('store_pink', './assets/placeholder_store_pink.png');
+        this.load.image('store_green', './assets/sprite_rack_G.png');
+        this.load.image('store_yellow', './assets/sprite_rack_Y.png');
+        this.load.image('store_pink', './assets/sprite_rack_P.png');
         this.load.image('goal', './assets/placeholder_goal.png');
         this.load.audio('sfx_alert', './assets/alert.wav');
         this.load.audio('sfx_clothes', './assets/change_clothes.wav');
@@ -22,6 +22,10 @@ class Play extends Phaser.Scene {
         this.load.audio('bgm_normal', './assets/POL-jazzy-duck-short.wav');
         this.load.image('floor_bg', './assets/Floor.png');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
+        this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
+        this.load.atlas('clique_y_atlas', './assets/sprite_NPC_Y_anim1-sheet.png', './assets/sprite_NPC_Y_anim1-sheet.json');
+        this.load.atlas('clique_g_atlas', './assets/sprite_NPC_G_anim1-sheet.png', './assets/sprite_NPC_G_anim1-sheet.json');
+        this.load.atlas('clique_p_atlas', './assets/sprite_NPC_P_anim1-sheet.png', './assets/sprite_NPC_P_anim1-sheet.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
         this.load.tilemapTiledJSON("level1", "./assets/tilemap_level1_fixed.json");
         this.load.image('test_tileset', "./assets/test_tileset.png");
@@ -42,17 +46,11 @@ class Play extends Phaser.Scene {
         this.graphics.lineStyle(2, 0xffffff, 1);
         //music bool
         musicStarted = true;
-        //Add player
+        //Add animations
         this.createPlayerAnims();
-        //this.player = new Player(this, game.config.width / 2, game.config.height / 2, 'idle_down_yellow').setOrigin(0.5, 0.5).setScale(0.75);
-        // this.player = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'player_yellow').setOrigin(0.5, 0.5).setScale(0.75);
-        // this.player.anims.play('idle_down_yellow');
-        // this.player.type = 0;
-        // this.player.touchClique = false;
-        // //this.player.timerActive = false;
-        // //this.player.timerExpired = false;
-        // this.player.cliqueLockout = false;
-        // this.player.status = 0;
+        this.createGuardAnims();
+        this.createCliqueAnims();
+    
         this.statusConfig = {
             fontFamily: 'Courier',
             fontSize: '40px',
@@ -139,35 +137,32 @@ class Play extends Phaser.Scene {
                 map1.filterObjects("Objects", (obj) => {
                     //Create cliques
                     if (obj.name == 'p_clique'){
-                        this.cliqueGroup.create(obj.x - 25, obj.y - 50, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                        this.createClique(obj.x, obj.y, 2);
                     }
                     if (obj.name == 'g_clique'){
-                        this.cliqueGroup.create(obj.x - 25, obj.y - 50, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                        this.createClique(obj.x, obj.y, 1);
                     }
                     if (obj.name == 'y_clique'){
-                        this.cliqueGroup.create(obj.x - 25, obj.y - 50, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+                        this.createClique(obj.x, obj.y, 0);
                     }
                     //Create stores
                     if (obj.name == 'p_store'){
-                        this.storeGroup.create(obj.x, obj.y - 75, 'store_pink').setOrigin(0, 0).setImmovable(true);
+                        this.storeGroup.create(obj.x, obj.y - 75, 'store_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
                     }
                     if (obj.name == 'g_store'){
-                        this.storeGroup.create(obj.x, obj.y - 75, 'store_green').setOrigin(0, 0).setImmovable(true);
+                        this.storeGroup.create(obj.x, obj.y - 75, 'store_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
                     }
                     if (obj.name == 'y_store'){
-                        this.storeGroup.create(obj.x, obj.y - 75, 'store_yellow').setOrigin(0, 0).setImmovable(true);
+                        this.storeGroup.create(obj.x, obj.y - 75, 'store_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
                     }
                     if (obj.name == 'guard'){
                         let path_array = map1.filterObjects("Objects", obj => obj.name === "path");
                         let guard = this.createGuard(obj.x, obj.y);
                         this.createGuardPath(guard, obj.x, obj.y, path_array);
-                        //deleting the array after, although this did not help with the lag :(
                         for (let i = 0; i < path_array.length; ++i){
                             delete path_array[i];
                         }
-                        console.log("Creating Guard");
-                    }
-                    
+                    }        
                     //Create goal
                     if (obj.name == 'level_goal'){
                         this.goalGroup.create(obj.x, obj.y, 'goal').setImmovable(true);
@@ -214,21 +209,6 @@ class Play extends Phaser.Scene {
                 
                 break;
         }
-
-        this.cliqueGroup.getChildren().forEach((clique) => {
-            clique.timer = 330;
-            clique.active = false;
-            clique.touching = false;
-            clique.timeText = this.add.text(clique.x - 45, clique.y - 35, Math.trunc(clique.timer / 60), this.timerConfig);
-            clique.timeText.setAlpha(0);
-            if (clique.texture.key == 'clique_yellow'){
-                clique.type = 0;
-            } else if (clique.texture.key == 'clique_green'){
-                clique.type = 1;
-            } else if (clique.texture.key == 'clique_pink'){
-                clique.type = 2;
-            }
-        });
 
         //Player collisions and overlaps
         //this.physics.add.collider(this.player, wallLayer);
@@ -297,6 +277,7 @@ class Play extends Phaser.Scene {
             //handle actual game over stuff here
             if(!this.gameOverShow && this.player.status == 2){
                 this.statusConfig.color = 'red';
+                this.statusConfig.backgroundColor = 'lightcoral';
                 this.statusConfig.fontSize = 72;
                 this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, "GAME", this.statusConfig).setOrigin(0.5).setScrollFactor(0,0);
                 this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding + 75, "OVER", this.statusConfig).setOrigin(0.5).setScrollFactor(0,0);
@@ -445,6 +426,15 @@ class Play extends Phaser.Scene {
             guard.path.getPoint(guard.follower.t, guard.follower.vec);
             switch(guard.state){
                 case(0)://patrolling 
+                    //Animation
+                    if ((guard.follower.vec.x < guard.x) && (guard.animPlaying == 1)) {
+                        guard.anims.play('guard_walk_left');
+                        guard.animPlaying = 0;
+                    }
+                    else if ((guard.follower.vec.x >= guard.x) && (guard.animPlaying == 0)) {
+                        guard.anims.play('guard_walk_right');
+                        guard.animPlaying = 1;
+                    }
                     //moving the guard on the path
                     guard.x = guard.follower.vec.x;
                     guard.y = guard.follower.vec.y;
@@ -459,6 +449,15 @@ class Play extends Phaser.Scene {
                     break;
                 case(1)://hunting player
                     this.physics.moveTo(guard, this.player.x, this.player.y, 300);
+                    //Animation
+                    if ((this.player.x < guard.x) && (guard.animPlaying == 1)) {
+                        guard.anims.play('guard_walk_left');
+                        guard.animPlaying = 0;
+                    }
+                    else if ((this.player.x >= guard.x) && (guard.animPlaying == 0)) {
+                        guard.anims.play('guard_walk_right');
+                        guard.animPlaying = 1;
+                    }
                     //console.log("moving to player");
                     if (this.player.status == 1){
                         this.returnToPath(guard);
@@ -467,6 +466,15 @@ class Play extends Phaser.Scene {
                     break;
                 case (2)://going back to path
                     this.physics.moveTo(guard, guard.storeX, guard.storeY, 300);
+                    //Animation
+                    if ((guard.storeX < guard.x) && (guard.animPlaying == 1)) {
+                        guard.anims.play('guard_walk_left');
+                        guard.animPlaying = 0;
+                    }
+                    else if ((guard.storeX >= guard.x) && (guard.animPlaying == 0)) {
+                        guard.anims.play('guard_walk_right');
+                        guard.animPlaying = 1;
+                    }
                     //console.log("moving back to path");
                     break;
                 default:
@@ -520,8 +528,31 @@ class Play extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
     }
 
+    createClique(x, y, type){
+        let clique;
+        if (type == 0){
+            clique = this.physics.add.sprite(x - 25, y - 50, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            clique.anims.play('clique_y_anim');
+        } else if (type == 1){
+            clique = this.physics.add.sprite(x - 25, y - 50, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            clique.anims.play('clique_g_anim');
+        } else if (type == 2){
+            clique = this.physics.add.sprite(x - 25, y - 50, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            clique.anims.play('clique_p_anim');
+        }
+        clique.type = type;
+        clique.timer = 330;
+        clique.active = false;
+        clique.touching = false;
+        clique.timeText = this.add.text(clique.x - 45, clique.y - 35, Math.trunc(clique.timer / 60), this.timerConfig);
+        clique.timeText.setAlpha(0);
+        this.cliqueGroup.add(clique);
+    }
+
     createGuard(x, y){
         let guard = this.physics.add.sprite(x,y,'guard').setScale(0.5);
+        guard.anims.play('guard_walk_left');
+        guard.animPlaying = 0;
         this.guardGroup.add(guard);
         //let guard = this.guardGroup.create(x, y, 'guard').setScale(0.5);
         guard.storeX = 0;
@@ -709,6 +740,62 @@ class Play extends Phaser.Scene {
         else if (!keyA.isDown && !keyD.isDown && !keyW.isDown && keyS.isDown) {
             this.determineAnim(this.player, 'run_down');
         }
+    }
+
+    createGuardAnims(){
+        this.anims.create({
+            key: 'guard_walk_left',
+            frames: this.anims.generateFrameNames('guard_atlas', {
+                prefix: 'guard_left_',
+                start: 1,
+                end: 3,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: 'guard_walk_right',
+            frames: this.anims.generateFrameNames('guard_atlas', {
+                prefix: 'guard_right_',
+                start: 1,
+                end: 3,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+    }
+
+    createCliqueAnims(){
+        this.anims.create({
+            key: 'clique_y_anim',
+            frames: this.anims.generateFrameNames('clique_y_atlas', {
+                prefix: 'clique_y_',
+                start: 1,
+                end: 2,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: 'clique_g_anim',
+            frames: this.anims.generateFrameNames('clique_g_atlas', {
+                prefix: 'clique_g_',
+                start: 1,
+                end: 2,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: 'clique_p_anim',
+            frames: this.anims.generateFrameNames('clique_p_atlas', {
+                prefix: 'clique_p_',
+                start: 1,
+                end: 2,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
     }
 
     // Set up animations

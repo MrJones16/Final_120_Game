@@ -1,5 +1,5 @@
 { "frames": {
-   "sprite_Officer (Layer) 0.aseprite": {
+   "guard_left_1": {
     "frame": { "x": 0, "y": 0, "w": 61, "h": 161 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 61, "h": 161 },
     "duration": 100
    },
-   "sprite_Officer (Layer) 1.aseprite": {
+   "guard_left_2": {
     "frame": { "x": 61, "y": 0, "w": 61, "h": 161 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 61, "h": 161 },
     "duration": 100
    },
-   "sprite_Officer (Layer) 2.aseprite": {
+   "guard_left_3": {
     "frame": { "x": 122, "y": 0, "w": 61, "h": 161 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 61, "h": 161 },
     "duration": 100
    },
-   "sprite_Officer (Layer) 0.aseprite": {
+   "guard_right_1": {
     "frame": { "x": 0, "y": 161, "w": 61, "h": 161 },
     "rotated": false,
     "trimmed": false,
@@ -31,7 +31,7 @@
     "sourceSize": { "w": 61, "h": 161 },
     "duration": 100
    },
-   "sprite_Officer (Layer) 1.aseprite": {
+   "guard_right_2": {
     "frame": { "x": 61, "y": 161, "w": 61, "h": 161 },
     "rotated": false,
     "trimmed": false,
@@ -39,7 +39,7 @@
     "sourceSize": { "w": 61, "h": 161 },
     "duration": 100
    },
-   "sprite_Officer (Layer) 2.aseprite": {
+   "guard_right_3": {
     "frame": { "x": 122, "y": 161, "w": 61, "h": 161 },
     "rotated": false,
     "trimmed": false,

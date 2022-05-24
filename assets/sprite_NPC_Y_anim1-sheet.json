@@ -1,5 +1,5 @@
 { "frames": {
-   "sprite_NPC_Y_anim1 (Layer) 0.png": {
+   "clique_y_1": {
     "frame": { "x": 0, "y": 0, "w": 185, "h": 161 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 185, "h": 161 },
     "duration": 100
    },
-   "sprite_NPC_Y_anim1 (Layer) 1.png": {
+   "clique_y_2": {
     "frame": { "x": 185, "y": 0, "w": 185, "h": 161 },
     "rotated": false,
     "trimmed": false,
