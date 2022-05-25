@@ -121,57 +121,7 @@ class Play extends Phaser.Scene {
         switch (currentLevel){
             //Level 1
             case 1:
-                //Load tilemap and tileset, create layers
-                const map1 = this.add.tilemap("level1");
-                const tileset1 = map1.addTilesetImage("MallTileSet", null, 64, 64, 1, 2);
-                const backgroundLayer = map1.createLayer("Background", tileset1, 0, 0);
-                //Create player after background and before everything else
-                const playerSpawn = map1.findObject("Player", obj => obj.name === "player");
-                this.createPlayer(playerSpawn.x, playerSpawn.y);
-                //Walls and collision
-                const wallLayer = map1.createLayer("Walls", tileset1, 0, 0);
-                wallLayer.setCollisionByProperty({ 
-                    collides: true 
-                });
-                //Placing game objects at respective Tiled objects positions
-                map1.filterObjects("Objects", (obj) => {
-                    //Create cliques
-                    if (obj.name == 'p_clique'){
-                        this.createClique(obj.x, obj.y, 2);
-                    }
-                    if (obj.name == 'g_clique'){
-                        this.createClique(obj.x, obj.y, 1);
-                    }
-                    if (obj.name == 'y_clique'){
-                        this.createClique(obj.x, obj.y, 0);
-                    }
-                    //Create stores
-                    if (obj.name == 'p_store'){
-                        this.storeGroup.create(obj.x, obj.y - 75, 'store_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                    }
-                    if (obj.name == 'g_store'){
-                        this.storeGroup.create(obj.x, obj.y - 75, 'store_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                    }
-                    if (obj.name == 'y_store'){
-                        this.storeGroup.create(obj.x, obj.y - 75, 'store_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                    }
-                    if (obj.name == 'guard'){
-                        let path_array = map1.filterObjects("Objects", obj => obj.name === "path");
-                        let guard = this.createGuard(obj.x, obj.y);
-                        this.createGuardPath(guard, obj.x, obj.y, path_array);
-                        for (let i = 0; i < path_array.length; ++i){
-                            delete path_array[i];
-                        }
-                    }        
-                    //Create goal
-                    if (obj.name == 'level_goal'){
-                        this.goalGroup.create(obj.x, obj.y, 'goal').setImmovable(true);
-                    }
-                });
-                this.physics.add.collider(this.player, wallLayer);
-                this.physics.add.collider(this.guardGroup, wallLayer);
-
-    
+                this.loadLevel("level1");
                 break;
             //TEMP LEVEL LOADS SO GAME DOESN'T CRASH WHEN GOING TO FUTURE LEVELS WITH NOTHING IN THEM
             //The scene loads are here just so I could test the level load screens.
@@ -600,6 +550,58 @@ class Play extends Phaser.Scene {
             }
         }
         
+    }
+
+    loadLevel(levelstr){
+        //Load tilemap and tileset, create layers
+        const map1 = this.add.tilemap(levelstr);
+        const tileset1 = map1.addTilesetImage("MallTileSet", null, 64, 64, 1, 2);
+        const backgroundLayer = map1.createLayer("Background", tileset1, 0, 0);
+        //Create player after background and before everything else
+        const playerSpawn = map1.findObject("Player", obj => obj.name === "player");
+        this.createPlayer(playerSpawn.x, playerSpawn.y);
+        //Walls and collision
+        const wallLayer = map1.createLayer("Walls", tileset1, 0, 0);
+        wallLayer.setCollisionByProperty({ 
+            collides: true 
+        });
+        //Placing game objects at respective Tiled objects positions
+        map1.filterObjects("Objects", (obj) => {
+            //Create cliques
+            if (obj.name == 'p_clique'){
+                this.createClique(obj.x, obj.y, 2);
+            }
+            if (obj.name == 'g_clique'){
+                this.createClique(obj.x, obj.y, 1);
+            }
+            if (obj.name == 'y_clique'){
+                this.createClique(obj.x, obj.y, 0);
+            }
+            //Create stores
+            if (obj.name == 'p_store'){
+                this.storeGroup.create(obj.x, obj.y - 75, 'store_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            }
+            if (obj.name == 'g_store'){
+                this.storeGroup.create(obj.x, obj.y - 75, 'store_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            }
+            if (obj.name == 'y_store'){
+                this.storeGroup.create(obj.x, obj.y - 75, 'store_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            }
+            if (obj.name == 'guard'){
+                let path_array = map1.filterObjects("Objects", obj => obj.name === "path");
+                let guard = this.createGuard(obj.x, obj.y);
+                this.createGuardPath(guard, obj.x, obj.y, path_array);
+                for (let i = 0; i < path_array.length; ++i){
+                    delete path_array[i];
+                }
+            }        
+            //Create goal
+            if (obj.name == 'level_goal'){
+                this.goalGroup.create(obj.x, obj.y, 'goal').setImmovable(true);
+            }
+        });
+        this.physics.add.collider(this.player, wallLayer);
+        this.physics.add.collider(this.guardGroup, wallLayer);
     }
 
 
