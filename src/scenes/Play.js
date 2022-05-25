@@ -171,42 +171,26 @@ class Play extends Phaser.Scene {
                 this.physics.add.collider(this.player, wallLayer);
                 this.physics.add.collider(this.guardGroup, wallLayer);
 
-                // //Level 1 clique creation
-                // this.cliqueGroup.create(250, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                // this.cliqueGroup.create(700, 500, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                // this.cliqueGroup.create(1000, 150, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                // //Level 1 store creation
-                // this.storeGroup.create(500, 150, 'store_yellow').setOrigin(0, 0).setImmovable(true);
-                // this.storeGroup.create(1000, 550, 'store_green').setOrigin(0, 0).setImmovable(true);
-                // this.storeGroup.create(100, 550, 'store_pink').setOrigin(0, 0).setImmovable(true);
-                // //Level 1 walls creation
-                // this.wallGroup.create(100, 100, 'wall').setOrigin(0, 0).setImmovable(true);
-                // this.wallGroup.create(300, 400, 'wall').setOrigin(0, 0).setImmovable(true);
-                // this.wallGroup.create(800, 300, 'wall').setOrigin(0, 0).setImmovable(true);    
-                // //Level 1 guard creation
-                // //uncomment for guard paths//this.showpath = true;
-                // this.guard = this.createGuard(10,10);
-                // this.GuardLineTo(this.guard,750,10);
-                // this.GuardLineTo(this.guard,750,300);
+    
                 break;
+            //TEMP LEVEL LOADS SO GAME DOESN'T CRASH WHEN GOING TO FUTURE LEVELS WITH NOTHING IN THEM
+            //The scene loads are here just so I could test the level load screens.
+            //I highly suggest reloading the game if you complete the level or press P to skip to next level when this code is here. Or your ears will be destroyed
             //Level 2
             case 2:
-                // //Level 2 clique creation
-                // this.cliqueGroup.create(100, 250, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                // this.cliqueGroup.create(500, 250, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                // this.cliqueGroup.create(900, 250, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
-                // //Level 2 store creation
-                // this.storeGroup.create(500, 500, 'store_yellow').setOrigin(0, 0).setImmovable(true);
-                // this.storeGroup.create(100, 500, 'store_green').setOrigin(0, 0).setImmovable(true);
-                // this.storeGroup.create(900, 500, 'store_pink').setOrigin(0, 0).setImmovable(true);
-                // //Level 2 walls creation
-                // this.wallGroup.create(0, -50, 'wall').setOrigin(0, 0).setImmovable(true);
-                // this.wallGroup.create(400, -50, 'wall').setOrigin(0, 0).setImmovable(true);
-                // this.wallGroup.create(800, -50, 'wall').setOrigin(0, 0).setImmovable(true);
+                this.scene.start('levelLoadScene');
                 break;
             //Level 3
             case 3:
-                
+                this.scene.start('levelLoadScene');
+                break;
+            //Level 4
+            case 4:
+                this.scene.start('levelLoadScene');
+                break;
+            //Level 5
+            case 5:
+                this.scene.start('levelLoadScene');
                 break;
         }
 
@@ -216,7 +200,7 @@ class Play extends Phaser.Scene {
             if (clique.type == this.player.type && !this.player.cliqueLockout){
                 this.player.touchClique = true;
                 clique.touching = true;
-                clique.active = true;
+                clique.isActive = true;
             } else {
                 this.player.status = 2;
             }
@@ -338,7 +322,7 @@ class Play extends Phaser.Scene {
         //LEVEL CHEAT (TEMP)
         if (keyP.isDown) {
             this.stopMusicPlay();
-            if (currentLevel == 3) {
+            if (currentLevel == 5) {
                 this.scene.start('menuScene');
             } else {
                 this.scene.start('levelLoadScene');
@@ -368,9 +352,9 @@ class Play extends Phaser.Scene {
         this.cliqueGroup.getChildren().forEach((clique) => {
             if (clique.timer == 330){
                 clique.timeText.setAlpha(0);
-                clique.active = false;
+                clique.isActive = false;
             }
-            if (clique.active) {
+            if (clique.isActive) {
                 clique.timeText.setAlpha(100);
                 clique.timeText.text = Math.trunc(clique.timer / 60);
             }
@@ -542,7 +526,7 @@ class Play extends Phaser.Scene {
         }
         clique.type = type;
         clique.timer = 330;
-        clique.active = false;
+        clique.isActive = false;
         clique.touching = false;
         clique.timeText = this.add.text(clique.x - 45, clique.y - 35, Math.trunc(clique.timer / 60), this.timerConfig);
         clique.timeText.setAlpha(0);

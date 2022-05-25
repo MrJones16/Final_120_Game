@@ -11,7 +11,7 @@ class Instruction extends Phaser.Scene{
     create(){
         // Back button
         let backConfig = {
-          fontFamily: 'Rockwell',
+          fontFamily: 'Century Gothic',
           fontSize: '48px',
           fontStyle: 'bold',
           color: 'dodgerblue',
@@ -27,7 +27,7 @@ class Instruction extends Phaser.Scene{
         this.backButton.on('pointerdown', () => { this.scene.start('menuScene'); })
 
         let instructionConfig = {
-            fontFamily: 'Rockwell',
+            fontFamily: 'Century Gothic',
             fontSize: '32px',
             color: 'goldenrod',
             align: 'middle',

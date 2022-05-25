@@ -40,7 +40,7 @@ class Menu extends Phaser.Scene {
         //this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
         let menuConfig = {
-            fontFamily: 'Rockwell',
+            fontFamily: 'Century Gothic',
             fontSize: '48px',
             fontStyle: 'bold',
             color: 'lightsteelblue',
