@@ -41,7 +41,7 @@ class Menu extends Phaser.Scene {
 
         let menuConfig = {
             fontFamily: 'Century Gothic',
-            fontSize: '48px',
+            fontSize: '72px',
             fontStyle: 'bold',
             color: 'lightsteelblue',
             stroke: 'black',
@@ -55,8 +55,8 @@ class Menu extends Phaser.Scene {
         }
 
         //show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "FINAL PROJECT PROTOTYPE", menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 - 75, "Dat Boi in Da Mall", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 85, "HIDE-N-OUT", menuConfig).setOrigin(0.5);
+        menuConfig.fontSize = '48px';
         menuConfig.color = "lime";
         this.startButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Start", menuConfig).setOrigin(0.5).setInteractive();
         this.startButton.on('pointerdown', () => { this.bgmMenu.stop(); this.scene.start('levelLoadScene'); })

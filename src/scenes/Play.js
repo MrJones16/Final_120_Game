@@ -160,7 +160,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.goalGroup, () => {
             this.stopMusicPlay();
             if (currentLevel == 1) {
-                this.scene.start('menuScene');
+                this.scene.start('victoryScene');
             } else {
                 this.scene.start('levelLoadScene');
             }
@@ -219,7 +219,7 @@ class Play extends Phaser.Scene {
                 this.gameOverShow = true;
                 this.stopMusicPlay();
                 this.time.delayedCall(1000, () => {
-                    this.scene.start('menuScene');
+                    this.scene.start('gameOverScene');
                     this.stopMusicPlay();
                 }, null, this);
             }     
@@ -273,7 +273,7 @@ class Play extends Phaser.Scene {
         if (keyP.isDown) {
             this.stopMusicPlay();
             if (currentLevel == 5) {
-                this.scene.start('menuScene');
+                this.scene.start('gameOverScene');
             } else {
                 this.scene.start('levelLoadScene');
             }

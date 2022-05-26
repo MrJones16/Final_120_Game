@@ -23,7 +23,7 @@ let config = {
         //debug: true
       }
     },
-    scene: [Menu, Play, Instruction, LevelLoad]
+    scene: [Menu, Play, Instruction, LevelLoad, GameOver, Victory]
   }
 let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
