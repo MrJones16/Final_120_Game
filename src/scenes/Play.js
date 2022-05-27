@@ -522,6 +522,8 @@ class Play extends Phaser.Scene {
                         guard.anims.play('guard_walk_right');
                         guard.animPlaying = 1;
                     }
+
+                    //locking onto path when in range of last spot
                     let xdif = guard.x - guard.storeX;
                     let ydif = guard.y - guard.storeY;
                     if (xdif > -1.5 && xdif < 1.5){
