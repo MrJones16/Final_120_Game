@@ -147,7 +147,7 @@ class Play extends Phaser.Scene {
             //Level 1
             case 1:
                 this.loadLevel("level1");
-                this.keycardLevel = true;
+                this.keycardLevel = false;
                 break;
             //TEMP LEVEL LOADS SO GAME DOESN'T CRASH WHEN GOING TO FUTURE LEVELS WITH NOTHING IN THEM
             //The scene loads are here just so I could test the level load screens.
@@ -208,7 +208,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.goalGroup, () => {
             if (this.openedExit){
                 this.stopMusicPlay();
-                if (currentLevel == 1) {
+                if (currentLevel == 2) {
                     this.scene.start('victoryScene');
                 } else {
                     this.scene.start('levelLoadScene');
@@ -296,6 +296,7 @@ class Play extends Phaser.Scene {
         });
 
         this.statusText.setDepth(100);
+
     }
     
     update(time, delta) {
@@ -457,6 +458,13 @@ class Play extends Phaser.Scene {
                 }
             } else {
                 this.keycardText.text = "Keycards: " + this.player.keycards + "/3";
+            }
+        } else if (!this.keycardLevel) {
+            if (!this.openedExit) {
+                this.goalGroup.getChildren().forEach((goal) => {
+                    goal.anims.play('door_open');
+                });
+                this.openedExit = true;
             }
         }
         
