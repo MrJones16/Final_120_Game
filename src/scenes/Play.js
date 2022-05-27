@@ -34,7 +34,16 @@ class Play extends Phaser.Scene {
         this.load.atlas('clique_p_atlas', './assets/sprite_NPC_P_anim1-sheet.png', './assets/sprite_NPC_P_anim1-sheet.json');
         this.load.atlas('goal_atlas', './assets/door.png', './assets/door.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
-        this.load.tilemapTiledJSON("level1", "./assets/tilemap_level1_fixed.json");
+        switch (currentLevel){
+            case 1:
+                this.load.tilemapTiledJSON("level1", "./assets/Level1.json");
+                break;
+            case 2:
+                this.load.tilemapTiledJSON("level2", "./assets/tilemap_level1_fixed.json");
+                break;
+            default:
+                break;
+        }
         this.load.image('test_tileset', "./assets/test_tileset.png");
         this.load.image('MallTileSet', "./assets/MallTileSet.png");
     }
@@ -145,7 +154,8 @@ class Play extends Phaser.Scene {
             //I highly suggest reloading the game if you complete the level or press P to skip to next level when this code is here. Or your ears will be destroyed
             //Level 2
             case 2:
-                this.scene.start('levelLoadScene');
+                this.loadLevel("level2");
+                this.keycardLevel = true;
                 break;
             //Level 3
             case 3:
