@@ -679,6 +679,11 @@ class Play extends Phaser.Scene {
         wallLayer.setCollisionByProperty({ 
             collides: true 
         });
+        //Camera and world bounds stuff
+        this.physics.world.setBounds(0, 0, map1.widthInPixels, map1.heightInPixels);
+        //this.player.setCollideWorldBounds(true);
+        this.cameras.main.setBounds(0, 0, map1.widthInPixels, map1.heightInPixels);
+        //this.cameras.main.startFollow(this.player);
         //Placing game objects at respective Tiled objects positions
         map1.filterObjects("Objects", (obj) => {
             //Create cliques
