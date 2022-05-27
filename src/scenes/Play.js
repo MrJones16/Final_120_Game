@@ -21,6 +21,9 @@ class Play extends Phaser.Scene {
         this.load.image('goal', './assets/placeholder_goal.png');
         this.load.audio('sfx_alert', './assets/alert.wav');
         this.load.audio('sfx_clothes', './assets/change_clothes.wav');
+        this.load.audio('sfx_hello', './assets/hello.wav');
+        this.load.audio('sfx_touch', './assets/guard_touch.wav');
+        this.load.audio('sfx_collect', './assets/keycard_collect.wav');
         this.load.audio('bgm_alert', './assets/POL-elevators-short.wav');
         this.load.audio('bgm_normal', './assets/POL-jazzy-duck-short.wav');
         this.load.image('floor_bg', './assets/Floor.png');
@@ -29,6 +32,7 @@ class Play extends Phaser.Scene {
         this.load.atlas('clique_y_atlas', './assets/sprite_NPC_Y_anim1-sheet.png', './assets/sprite_NPC_Y_anim1-sheet.json');
         this.load.atlas('clique_g_atlas', './assets/sprite_NPC_G_anim1-sheet.png', './assets/sprite_NPC_G_anim1-sheet.json');
         this.load.atlas('clique_p_atlas', './assets/sprite_NPC_P_anim1-sheet.png', './assets/sprite_NPC_P_anim1-sheet.json');
+        this.load.atlas('goal_atlas', './assets/door.png', './assets/door.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
         this.load.tilemapTiledJSON("level1", "./assets/tilemap_level1_fixed.json");
         this.load.image('test_tileset', "./assets/test_tileset.png");
@@ -40,7 +44,7 @@ class Play extends Phaser.Scene {
     create(){
         this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
         //Guard Vision Range:
-        this.visionRange = 200;
+        this.visionRange = 275;
         //clothes sound bool
         this.changeClothesSound = false;
         //initialize path graphics FOR DEBUGGING
@@ -53,6 +57,7 @@ class Play extends Phaser.Scene {
         this.createPlayerAnims();
         this.createGuardAnims();
         this.createCliqueAnims();
+        this.createDoorAnims();
     
         this.statusConfig = {
             fontFamily: 'Courier',
@@ -71,26 +76,11 @@ class Play extends Phaser.Scene {
         }
         this.statusText = this.add.text(game.config.width - (borderUISize + borderPadding * 15), borderUISize + borderPadding, "Unsafe", this.statusConfig).setScrollFactor(0,0);
 
-        this.keycardConfig = {
-            fontFamily: 'Courier',
-            fontSize: '40px',
-            fontStyle: 'bold',
-            color: 'royalblue',
-            backgroundColor: 'lightskyblue',
-            stroke: 'black',
-            strokeThickness: 5,
-            align: 'center',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 350
-        }
-        this.keycardText = this.add.text(game.config.width - (borderUISize + borderPadding * 72), borderUISize + borderPadding, "Keycards: ", this.keycardConfig).setScrollFactor(0,0);
-
+        this.keycardLevel = false;
         this.openedExit = false;
         this.lockoutShow = false;
         this.gameOverShow = false;
+        this.helloPlayed = false;
         
         //Camera and world bounds stuff
         this.physics.world.setBounds(0, 0, game.config.width * 2, game.config.height * 2);
@@ -101,6 +91,9 @@ class Play extends Phaser.Scene {
         //SFX
         this.sfxAlert = this.sound.add('sfx_alert', {volume: 0.5});
         this.sfxClothes = this.sound.add('sfx_clothes', {volume: 0.65});
+        this.sfxTouch = this.sound.add('sfx_touch', {volume: 0.75});
+        this.sfxCollect = this.sound.add('sfx_collect', {volume: 0.75});
+        this.sfxHello = this.sound.add('sfx_hello', {volume: 0.65});
 
         //BGM
         this.bgmNormal = this.sound.add('bgm_normal', {volume: 0.2, loop: true, rate: 0.95});
@@ -145,6 +138,7 @@ class Play extends Phaser.Scene {
             //Level 1
             case 1:
                 this.loadLevel("level1");
+                this.keycardLevel = true;
                 break;
             //TEMP LEVEL LOADS SO GAME DOESN'T CRASH WHEN GOING TO FUTURE LEVELS WITH NOTHING IN THEM
             //The scene loads are here just so I could test the level load screens.
@@ -165,6 +159,27 @@ class Play extends Phaser.Scene {
             case 5:
                 this.scene.start('levelLoadScene');
                 break;
+        }
+
+        //Keycard text setup
+        if (this.keycardLevel){
+            this.keycardConfig = {
+                fontFamily: 'Courier',
+                fontSize: '40px',
+                fontStyle: 'bold',
+                color: 'royalblue',
+                backgroundColor: 'lightskyblue',
+                stroke: 'black',
+                strokeThickness: 5,
+                align: 'center',
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
+                fixedWidth: 350
+            }
+            this.keycardText = this.add.text(game.config.width - (borderUISize + borderPadding * 72), borderUISize + borderPadding, "Keycards: ", this.keycardConfig).setScrollFactor(0,0);
+            this.keycardText.setDepth(100);
         }
 
         //Player collisions and overlaps
@@ -242,6 +257,7 @@ class Play extends Phaser.Scene {
                 this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding + 75, "OVER", this.statusConfig).setOrigin(0.5).setScrollFactor(0,0);
                 this.statusConfig.fontSize = 40;
                 this.gameOverShow = true;
+                this.sfxTouch.play();
                 this.stopMusicPlay();
                 this.time.delayedCall(1000, () => {
                     this.scene.start('gameOverScene');
@@ -253,17 +269,23 @@ class Play extends Phaser.Scene {
         //Collect keycard
         this.physics.add.overlap(this.player, this.keycardGroup, (player, keycard) => {
             keycard.destroy();
+            this.sfxCollect.play();
             this.player.keycards += 1;
         });
 
         //Original keycard y pos
-        this.keycardGroup.getChildren().forEach((keycard) => {
-            keycard.origY = keycard.y;
-            keycard.moveUp = true;
+        if (this.keycardLevel){
+            this.keycardGroup.getChildren().forEach((keycard) => {
+                keycard.origY = keycard.y;
+                keycard.moveUp = true;
+            });
+        }
+
+        this.doorGroup.getChildren().forEach((door) => {
+            door.anims.play('door_closed');
         });
 
         this.statusText.setDepth(100);
-        this.keycardText.setDepth(100);
     }
     
     update(time, delta) {
@@ -371,18 +393,20 @@ class Play extends Phaser.Scene {
         }
 
         //Keycard movement
-        this.keycardGroup.getChildren().forEach((keycard) => {
-            if (keycard.y < keycard.origY - 10){
-                keycard.moveUp = false;
-            } else if (keycard.y > keycard.origY){
-                keycard.moveUp = true;
-            }
-            if (keycard.moveUp){
-                keycard.y -= 1;
-            } else {
-                keycard.y += 1;
-            }
-        });
+        if (this.keycardLevel){
+            this.keycardGroup.getChildren().forEach((keycard) => {
+                if (keycard.y < keycard.origY - 10){
+                    keycard.moveUp = false;
+                } else if (keycard.y > keycard.origY){
+                    keycard.moveUp = true;
+                }
+                if (keycard.moveUp){
+                    keycard.y -= 1;
+                } else {
+                    keycard.y += 1;
+                }
+            });
+        }
 
         //Player status
         switch (this.player.status){
@@ -391,12 +415,17 @@ class Play extends Phaser.Scene {
                 this.statusText.setColor('yellow');
                 this.statusText.text = "Unsafe";
                 this.statusText.setBackgroundColor('khaki');
+                this.helloPlayed = false;
                 break;
             //Player is safe (hiding)
             case 1:
                 this.statusText.setColor('lime');
                 this.statusText.text = "Safe";
                 this.statusText.setBackgroundColor('palegreen');
+                if (!this.helloPlayed){
+                    this.sfxHello.play();
+                    this.helloPlayed = true;
+                }
                 break;
             //Player is found (spotted)
             case 2:
@@ -407,11 +436,13 @@ class Play extends Phaser.Scene {
         }
 
         //Keycard counter and open exit
-        if (this.player.keycards == 3){
-            this.openedExit = true;
-            this.keycardText.text = "Exit opened!";
-        } else {
-            this.keycardText.text = "Keycards: " + this.player.keycards + "/3";
+        if (this.keycardLevel){
+            if (this.player.keycards == 3){
+                this.openedExit = true;
+                this.keycardText.text = "Exit opened!";
+            } else {
+                this.keycardText.text = "Keycards: " + this.player.keycards + "/3";
+            }
         }
         
         //updating the guards
@@ -661,13 +692,13 @@ class Play extends Phaser.Scene {
             }
             //Create keycards
             if (obj.name == 'p_keycard'){
-                this.keycardGroup.create(obj.x, obj.y - 75, 'pink_keycard').setOrigin(0, 0);
+                this.keycardGroup.create(obj.x, obj.y - 75, 'pink_keycard').setOrigin(0, 0).setScale(0.65);
             }
             if (obj.name == 'b_keycard'){
-                this.keycardGroup.create(obj.x, obj.y - 75, 'blue_keycard').setOrigin(0, 0);
+                this.keycardGroup.create(obj.x, obj.y - 75, 'blue_keycard').setOrigin(0, 0).setScale(0.65);
             }
             if (obj.name == 'r_keycard'){
-                this.keycardGroup.create(obj.x, obj.y - 75, 'red_keycard').setOrigin(0, 0);
+                this.keycardGroup.create(obj.x, obj.y - 75, 'red_keycard').setOrigin(0, 0).setScale(0.65);
             }
         });
         this.physics.add.collider(this.player, wallLayer);
@@ -848,6 +879,29 @@ class Play extends Phaser.Scene {
                 prefix: 'clique_p_',
                 start: 1,
                 end: 2,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+    }
+
+    createDoorAnims(){
+        this.anims.create({
+            key: 'door_closed',
+            frames: this.anims.generateFrameNames('goal_atlas', {
+                prefix: 'door',
+                start: 1,
+                end: 1,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: 'door_open',
+            frames: this.anims.generateFrameNames('goal_atlas', {
+                prefix: 'door',
+                start: 1,
+                end: 4,
             }),
             frameRate: 10,
             repeat: -1,

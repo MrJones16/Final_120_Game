@@ -1226,20 +1226,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":2368,
-                 "y":1344
-                }, 
-                {
-                 "gid":26,
-                 "height":64,
-                 "id":96,
-                 "name":"level_goal",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":2368,
-                 "y":1280
+                 "x":2304,
+                 "y":1408
                 }, 
                 {
                  "gid":12,

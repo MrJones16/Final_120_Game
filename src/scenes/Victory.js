@@ -3,7 +3,7 @@ class Victory extends Phaser.Scene{
         super("victoryScene");
     }
     preload() {
-        this.load.image('floor_bg', './assets/Floor.png');
+        this.load.image('floor_bg', './assets/biggerFloorTiles.png');
         this.load.image('grass_bg', './assets/grass.png');
         this.load.image('player', './assets/sprite_boy_Y.png');
         this.load.image('guard', './assets/sprite_Officer.png');
@@ -52,7 +52,7 @@ class Victory extends Phaser.Scene{
             victoryConfig.fontSize = '48px';
             victoryConfig.color = "darkorchid";
             this.creditsButton = this.add.text(game.config.width/2 - 300, game.config.height/2 + borderUISize + borderPadding + 50, "Credits", victoryConfig).setOrigin(0.5).setInteractive();
-            this.creditsButton.on('pointerdown', () => { this.scene.start('menuScene'); })
+            this.creditsButton.on('pointerdown', () => { this.scene.start('creditsScene'); })
             victoryConfig.color = "yellow";
             this.menuButton = this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 50, "Main Menu", victoryConfig).setOrigin(0.5).setInteractive();
             this.menuButton.on('pointerdown', () => { this.scene.start('menuScene'); })

@@ -3,7 +3,7 @@ class LevelLoad extends Phaser.Scene{
         super("levelLoadScene");
     }
     preload(){
-        this.load.image('floor_bg', './assets/Floor.png');
+        this.load.image('floor_bg', './assets/biggerFloorTiles.png');
         this.load.atlas('clique_g_atlas', './assets/sprite_NPC_G_anim1-sheet.png', './assets/sprite_NPC_G_anim1-sheet.json');
         this.load.atlas('clique_p_atlas', './assets/sprite_NPC_P_anim1-sheet.png', './assets/sprite_NPC_P_anim1-sheet.json');
         this.load.image('clique_yellow', './assets/sprite_NPC_Y.png');

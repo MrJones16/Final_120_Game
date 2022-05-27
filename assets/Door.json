@@ -1,5 +1,5 @@
 { "frames": {
-   "Door 0.aseprite": {
+   "door1": {
     "frame": { "x": 0, "y": 0, "w": 64, "h": 64 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 100
    },
-   "Door 1.aseprite": {
+   "door2": {
     "frame": { "x": 64, "y": 0, "w": 64, "h": 64 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 100
    },
-   "Door 2.aseprite": {
+   "door3": {
     "frame": { "x": 128, "y": 0, "w": 64, "h": 64 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 64, "h": 64 },
     "duration": 100
    },
-   "Door 3.aseprite": {
+   "door4": {
     "frame": { "x": 192, "y": 0, "w": 64, "h": 64 },
     "rotated": false,
     "trimmed": false,

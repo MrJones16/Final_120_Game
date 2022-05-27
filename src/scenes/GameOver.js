@@ -3,14 +3,16 @@ class GameOver extends Phaser.Scene{
         super("gameOverScene");
     }
     preload() {
-        this.load.image('floor_bg', './assets/Floor.png');
+        this.load.image('floor_bg', './assets/biggerFloorTiles.png');
         this.load.image('player', './assets/sprite_boy_Y.png');
         this.load.image('guard', './assets/sprite_Officer.png');
         this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
+        this.load.audio('sfx_gameover', './assets/game_over.wav');
     }
     create(){
         this.background = this.add.tileSprite(0, 0, 1800, 1075, 'floor_bg').setOrigin(0, 0).setScale(0.8);
+        this.sfxGameOver = this.sound.add('sfx_gameover');
         let overConfig = {
             fontFamily: 'Century Gothic',
             fontSize: '72px',
@@ -28,6 +30,7 @@ class GameOver extends Phaser.Scene{
 
         //show game over text
         this.time.delayedCall(1650, () => {
+            this.sfxGameOver.play();
             this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "GAME OVER", overConfig).setOrigin(0.5);
             overConfig.fontSize = '60px';
             this.add.text(game.config.width/2, game.config.height/2 - 75, "You were caught!", overConfig).setOrigin(0.5);
