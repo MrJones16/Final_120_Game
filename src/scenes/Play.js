@@ -281,8 +281,8 @@ class Play extends Phaser.Scene {
             });
         }
 
-        this.doorGroup.getChildren().forEach((door) => {
-            door.anims.play('door_closed');
+        this.goalGroup.getChildren().forEach((goal) => {
+            goal.anims.play('door_closed');
         });
 
         this.statusText.setDepth(100);
@@ -438,8 +438,13 @@ class Play extends Phaser.Scene {
         //Keycard counter and open exit
         if (this.keycardLevel){
             if (this.player.keycards == 3){
-                this.openedExit = true;
                 this.keycardText.text = "Exit opened!";
+                if (!this.openedExit) {
+                    this.goalGroup.getChildren().forEach((goal) => {
+                        goal.anims.play('door_open');
+                    });
+                    this.openedExit = true;
+                }
             } else {
                 this.keycardText.text = "Keycards: " + this.player.keycards + "/3";
             }
@@ -688,7 +693,7 @@ class Play extends Phaser.Scene {
             }        
             //Create goal
             if (obj.name == 'level_goal'){
-                this.goalGroup.create(obj.x, obj.y, 'goal').setImmovable(true);
+                this.goalGroup.create(obj.x, obj.y - 100, 'goal').setImmovable(true);
             }
             //Create keycards
             if (obj.name == 'p_keycard'){
