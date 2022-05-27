@@ -15,6 +15,9 @@ class Play extends Phaser.Scene {
         this.load.image('store_green', './assets/sprite_rack_G.png');
         this.load.image('store_yellow', './assets/sprite_rack_Y.png');
         this.load.image('store_pink', './assets/sprite_rack_P.png');
+        this.load.image('red_keycard', './assets/redKeyCard.png');
+        this.load.image('blue_keycard', './assets/blueKeyCard.png');
+        this.load.image('pink_keycard', './assets/pinkKeyCard.png');
         this.load.image('goal', './assets/placeholder_goal.png');
         this.load.audio('sfx_alert', './assets/alert.wav');
         this.load.audio('sfx_clothes', './assets/change_clothes.wav');
@@ -67,6 +70,25 @@ class Play extends Phaser.Scene {
             fixedWidth: 200
         }
         this.statusText = this.add.text(game.config.width - (borderUISize + borderPadding * 15), borderUISize + borderPadding, "Unsafe", this.statusConfig).setScrollFactor(0,0);
+
+        this.keycardConfig = {
+            fontFamily: 'Courier',
+            fontSize: '40px',
+            fontStyle: 'bold',
+            color: 'royalblue',
+            backgroundColor: 'lightskyblue',
+            stroke: 'black',
+            strokeThickness: 5,
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 350
+        }
+        this.keycardText = this.add.text(game.config.width - (borderUISize + borderPadding * 72), borderUISize + borderPadding, "Keycards: ", this.keycardConfig).setScrollFactor(0,0);
+
+        this.openedExit = false;
         this.lockoutShow = false;
         this.gameOverShow = false;
         
@@ -116,6 +138,7 @@ class Play extends Phaser.Scene {
         // this.wallGroup = this.physics.add.group();
         this.guardGroup = this.physics.add.group();
         this.goalGroup = this.physics.add.group();
+        this.keycardGroup = this.physics.add.group();
 
         //Different level loading
         switch (currentLevel){
@@ -158,11 +181,13 @@ class Play extends Phaser.Scene {
 
         //Player touches goal/exit of level, go to next
         this.physics.add.collider(this.player, this.goalGroup, () => {
-            this.stopMusicPlay();
-            if (currentLevel == 1) {
-                this.scene.start('victoryScene');
-            } else {
-                this.scene.start('levelLoadScene');
+            if (this.openedExit){
+                this.stopMusicPlay();
+                if (currentLevel == 1) {
+                    this.scene.start('victoryScene');
+                } else {
+                    this.scene.start('levelLoadScene');
+                }
             }
         });
 
@@ -207,7 +232,7 @@ class Play extends Phaser.Scene {
         //this.physics.add.collider(this.guardGroup, this.wallGroup);
         this.physics.add.collider(this.guardGroup, this.player, (guard, player) => {
             //Guard collides with player
-
+            this.openedExit = false;
             //handle actual game over stuff here
             if(!this.gameOverShow && this.player.status == 2){
                 this.statusConfig.color = 'red';
@@ -225,7 +250,20 @@ class Play extends Phaser.Scene {
             }     
         });
 
+        //Collect keycard
+        this.physics.add.overlap(this.player, this.keycardGroup, (player, keycard) => {
+            keycard.destroy();
+            this.player.keycards += 1;
+        });
+
+        //Original keycard y pos
+        this.keycardGroup.getChildren().forEach((keycard) => {
+            keycard.origY = keycard.y;
+            keycard.moveUp = true;
+        });
+
         this.statusText.setDepth(100);
+        this.keycardText.setDepth(100);
     }
     
     update(time, delta) {
@@ -332,6 +370,20 @@ class Play extends Phaser.Scene {
             }
         }
 
+        //Keycard movement
+        this.keycardGroup.getChildren().forEach((keycard) => {
+            if (keycard.y < keycard.origY - 10){
+                keycard.moveUp = false;
+            } else if (keycard.y > keycard.origY){
+                keycard.moveUp = true;
+            }
+            if (keycard.moveUp){
+                keycard.y -= 1;
+            } else {
+                keycard.y += 1;
+            }
+        });
+
         //Player status
         switch (this.player.status){
             //Player is unsafe (not hiding, but not spotted)
@@ -354,6 +406,13 @@ class Play extends Phaser.Scene {
                 break;
         }
 
+        //Keycard counter and open exit
+        if (this.player.keycards == 3){
+            this.openedExit = true;
+            this.keycardText.text = "Exit opened!";
+        } else {
+            this.keycardText.text = "Keycards: " + this.player.keycards + "/3";
+        }
         
         //updating the guards
         this.guardGroup.getChildren().forEach((guard) => {
@@ -458,6 +517,7 @@ class Play extends Phaser.Scene {
         this.player.touchClique = false;
         this.player.cliqueLockout = false;
         this.player.status = 0;
+        this.player.keycards = 0;
         this.player.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.player);
     }
@@ -598,6 +658,16 @@ class Play extends Phaser.Scene {
             //Create goal
             if (obj.name == 'level_goal'){
                 this.goalGroup.create(obj.x, obj.y, 'goal').setImmovable(true);
+            }
+            //Create keycards
+            if (obj.name == 'p_keycard'){
+                this.keycardGroup.create(obj.x, obj.y - 75, 'pink_keycard').setOrigin(0, 0);
+            }
+            if (obj.name == 'b_keycard'){
+                this.keycardGroup.create(obj.x, obj.y - 75, 'blue_keycard').setOrigin(0, 0);
+            }
+            if (obj.name == 'r_keycard'){
+                this.keycardGroup.create(obj.x, obj.y - 75, 'red_keycard').setOrigin(0, 0);
             }
         });
         this.physics.add.collider(this.player, wallLayer);

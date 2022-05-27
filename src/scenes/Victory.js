@@ -54,7 +54,7 @@ class Victory extends Phaser.Scene{
             this.creditsButton = this.add.text(game.config.width/2 - 300, game.config.height/2 + borderUISize + borderPadding + 50, "Credits", victoryConfig).setOrigin(0.5).setInteractive();
             this.creditsButton.on('pointerdown', () => { this.scene.start('menuScene'); })
             victoryConfig.color = "yellow";
-            this.menuButton = this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 50, "Menu", victoryConfig).setOrigin(0.5).setInteractive();
+            this.menuButton = this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 50, "Main Menu", victoryConfig).setOrigin(0.5).setInteractive();
             this.menuButton.on('pointerdown', () => { this.scene.start('menuScene'); })
         }, null, this);
        
@@ -135,20 +135,5 @@ class Victory extends Phaser.Scene{
                 this.p.x += 4;
             }
         }
-    //     if ((this.g1.x < 550) && (this.g2.x < 550) && (this.g3.x > 650) && (this.g4.x > 650)){
-    //         this.g1.x += 1;
-    //         this.g1.y += 1;
-    //         this.g2.x += 1;
-    //         this.g2.y -= 1;
-    //         this.g3.x -= 1;
-    //         this.g3.y -= 1;
-    //         this.g4.x -= 1;
-    //         this.g4.y += 1;
-    //     } else {
-    //         this.g1.anims.stop();
-    //         this.g2.anims.stop();
-    //         this.g3.anims.stop();
-    //         this.g4.anims.stop();
-    //     }
     }
 }
