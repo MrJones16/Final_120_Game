@@ -55,8 +55,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":289.212121212121,
-                 "y":362.30303030303
+                 "x":289.212,
+                 "y":362.303
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1276,6 +1276,42 @@
                  "width":64,
                  "x":2240,
                  "y":192
+                }, 
+                {
+                 "gid":62,
+                 "height":64,
+                 "id":100,
+                 "name":"r_keycard",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":349.818181818182,
+                 "y":1171.39393939394
+                }, 
+                {
+                 "gid":69,
+                 "height":64,
+                 "id":101,
+                 "name":"b_keycard",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":2048,
+                 "y":384
+                }, 
+                {
+                 "gid":76,
+                 "height":64,
+                 "id":102,
+                 "name":"p_keycard",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1728,
+                 "y":1344
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1323,7 +1359,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":100,
+ "nextobjectid":103,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",
@@ -1333,8 +1369,8 @@
          "columns":7,
          "firstgid":1,
          "image":"MallTileSet.png",
-         "imageheight":463,
-         "imagewidth":463,
+         "imageheight":462,
+         "imagewidth":462,
          "margin":1,
          "name":"MallTileSet",
          "spacing":2,
@@ -1361,15 +1397,6 @@
                 }, 
                 {
                  "id":2,
-                 "properties":[
-                        {
-                         "name":"collides",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":5,
                  "properties":[
                         {
                          "name":"collides",
@@ -1513,6 +1540,10 @@
                         }]
                 }],
          "tilewidth":64
+        }, 
+        {
+         "firstgid":50,
+         "source":"MallTileSet_menu.tsx"
         }],
  "tilewidth":64,
  "type":"map",

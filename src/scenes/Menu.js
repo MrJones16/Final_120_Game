@@ -58,11 +58,14 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 85, "HIDE-N-OUT", menuConfig).setOrigin(0.5);
         menuConfig.fontSize = '48px';
         menuConfig.color = "lime";
-        this.startButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Start", menuConfig).setOrigin(0.5).setInteractive();
+        this.startButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding - 50, "Start", menuConfig).setOrigin(0.5).setInteractive();
         this.startButton.on('pointerdown', () => { this.bgmMenu.stop(); this.scene.start('levelLoadScene'); })
         menuConfig.color = "yellow";
-        this.instrButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 75, "Instructions", menuConfig).setOrigin(0.5).setInteractive();
+        this.instrButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 25, "Instructions", menuConfig).setOrigin(0.5).setInteractive();
         this.instrButton.on('pointerdown', () => { this.bgmMenu.stop(); this.scene.start('instructionScene'); })
+        menuConfig.color = "darkorchid";
+        this.creditsButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 100, "Credits", menuConfig).setOrigin(0.5).setInteractive();
+        this.creditsButton.on('pointerdown', () => { this.bgmMenu.stop(); this.scene.start('creditsScene'); })
         // menuConfig.color = "red";
         // this.exitButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 150, "Exit", menuConfig).setOrigin(0.5).setInteractive();
         // this.exitButton.on('pointerdown', () => { game.destroy(); })

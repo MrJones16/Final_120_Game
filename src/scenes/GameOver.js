@@ -33,13 +33,13 @@ class GameOver extends Phaser.Scene{
             this.add.text(game.config.width/2, game.config.height/2 - 75, "You were caught!", overConfig).setOrigin(0.5);
             overConfig.fontSize = '48px';
             overConfig.color = "lime";
-            this.restartButton = this.add.text(game.config.width/2 - 300, game.config.height/2 + borderUISize + borderPadding + 50, "Restart", overConfig).setOrigin(0.5).setInteractive();
+            this.restartButton = this.add.text(game.config.width/2 - 300, game.config.height/2 + borderUISize + borderPadding + 50, "Continue", overConfig).setOrigin(0.5).setInteractive();
             this.restartButton.on('pointerdown', () => { this.scene.start('playScene'); })
             overConfig.fontSize = '20px';
             this.add.text(game.config.width/2 - 300, game.config.height/2 + borderUISize + borderPadding + 85, "(From Current Level)", overConfig).setOrigin(0.5);
             overConfig.fontSize = '48px';
             overConfig.color = "red";
-            this.menuButton = this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 50, "Menu", overConfig).setOrigin(0.5).setInteractive();
+            this.menuButton = this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 50, "Main Menu", overConfig).setOrigin(0.5).setInteractive();
             this.menuButton.on('pointerdown', () => { this.scene.start('menuScene'); })
             overConfig.fontSize = '20px';
             this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 85, "(Reset to Level 1)", overConfig).setOrigin(0.5);
