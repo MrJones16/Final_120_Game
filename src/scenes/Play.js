@@ -522,6 +522,24 @@ class Play extends Phaser.Scene {
                         guard.anims.play('guard_walk_right');
                         guard.animPlaying = 1;
                     }
+                    let xdif = guard.x - guard.storeX;
+                    let ydif = guard.y - guard.storeY;
+                    if (xdif > -1.5 && xdif < 1.5){
+                        guard.state = 0;
+                        guard.delcall.destroy();
+                        guard.body.setVelocityX(0);
+                        guard.body.setVelocityY(0);
+                        //console.log("Setting guard velocity to 0");
+                        guard.tween.resume();
+                    }
+                    if (ydif > -1 && ydif < 1){
+                        guard.state = 0;
+                        guard.delcall.destroy();
+                        guard.body.setVelocityX(0);
+                        guard.body.setVelocityY(0);
+                        //console.log("Setting guard velocity to 0");
+                        guard.tween.resume();
+                    }
                     //console.log("moving back to path");
                     break;
                 default:
@@ -547,7 +565,7 @@ class Play extends Phaser.Scene {
         this.physics.moveTo(guard, guard.storeX, guard.storeY, 300, 3000);
         guard.state = 2;
         //console.log("calling return to path");
-        this.timeRemaining = this.time.delayedCall(3000, () => {
+        guard.delcall = this.time.delayedCall(3000, () => {
             guard.body.setVelocityX(0);
             guard.body.setVelocityY(0);
             //console.log("Setting guard velocity to 0");
