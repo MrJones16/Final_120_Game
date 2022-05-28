@@ -39,12 +39,15 @@ class Play extends Phaser.Scene {
                 this.load.tilemapTiledJSON("level1", "./assets/Level1.json");
                 break;
             case 2:
-                this.load.tilemapTiledJSON("level2", "./assets/tilemap_level1_fixed.json");
+                this.load.tilemapTiledJSON("level2", "./assets/Level2.json");
                 break;
             case 3:
-                this.load.tilemapTiledJSON("level4", "./assets/tilemap_level4.json");
+                this.load.tilemapTiledJSON("level3", "./assets/tilemap_level1_fixed.json");
                 break;
             case 4:
+                this.load.tilemapTiledJSON("level4", "./assets/tilemap_level4.json");
+                break;
+            case 5:
                 this.load.tilemapTiledJSON("level5", "./assets/tilemap_level5.json");
                 break;
             default:
@@ -168,16 +171,20 @@ class Play extends Phaser.Scene {
                 break;
             //Level 3
             case 3:
+                this.loadLevel("level3");
+                this.keycardLevel = true;
+                break;
+            case 4:
                 this.loadLevel("level4");
                 this.keycardLevel = true;
                 break;
             //Level 4
-            case 4:
+            case 5:
                 this.loadLevel("level5");
                 this.keycardLevel = true;
                 break;
             //Level 5
-            case 5:
+            case 6:
                 this.scene.start('levelLoadScene');
                 break;
         }
