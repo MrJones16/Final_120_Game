@@ -41,6 +41,12 @@ class Play extends Phaser.Scene {
             case 2:
                 this.load.tilemapTiledJSON("level2", "./assets/tilemap_level1_fixed.json");
                 break;
+            case 3:
+                this.load.tilemapTiledJSON("level4", "./assets/tilemap_level4.json");
+                break;
+            case 4:
+                this.load.tilemapTiledJSON("level5", "./assets/tilemap_level5.json");
+                break;
             default:
                 break;
         }
@@ -53,7 +59,8 @@ class Play extends Phaser.Scene {
     create(){
         this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
         //Guard Vision Range:
-        this.visionRange = 275;
+        this.visionRange = 225;
+        this.CLIQUETIME = 480;
         //clothes sound bool
         this.changeClothesSound = false;
         //initialize path graphics FOR DEBUGGING
@@ -146,6 +153,8 @@ class Play extends Phaser.Scene {
         switch (currentLevel){
             //Level 1
             case 1:
+                //this.loadLevel("level1");
+                //this.keycardLevel = false;
                 this.loadLevel("level1");
                 this.keycardLevel = false;
                 break;
@@ -159,11 +168,13 @@ class Play extends Phaser.Scene {
                 break;
             //Level 3
             case 3:
-                this.scene.start('levelLoadScene');
+                this.loadLevel("level4");
+                this.keycardLevel = true;
                 break;
             //Level 4
             case 4:
-                this.scene.start('levelLoadScene');
+                this.loadLevel("level5");
+                this.keycardLevel = true;
                 break;
             //Level 5
             case 5:
@@ -208,7 +219,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.goalGroup, () => {
             if (this.openedExit){
                 this.stopMusicPlay();
-                if (currentLevel == 2) {
+                if (currentLevel == 4) {
                     this.scene.start('victoryScene');
                 } else {
                     this.scene.start('levelLoadScene');
@@ -359,7 +370,7 @@ class Play extends Phaser.Scene {
 
         // Individual clique timer code
         this.cliqueGroup.getChildren().forEach((clique) => {
-            if ((!clique.touching || this.player.status == 2) && clique.timer < 330) {
+            if ((!clique.touching || this.player.status == 2) && clique.timer < this.CLIQUETIME) {
                 clique.timer += 0.5;
             } else if (clique.touching && clique.timer > 30) {
                 clique.timer -= 1;
@@ -371,7 +382,7 @@ class Play extends Phaser.Scene {
 
         //Individual clique timer text
         this.cliqueGroup.getChildren().forEach((clique) => {
-            if (clique.timer == 330){
+            if (clique.timer == this.CLIQUETIME){
                 clique.timeText.setAlpha(0);
                 clique.isActive = false;
             }
@@ -495,7 +506,7 @@ class Play extends Phaser.Scene {
                     }
                     break;
                 case(1)://hunting player
-                    this.physics.moveTo(guard, this.player.x, this.player.y, 300);
+                    this.physics.moveTo(guard, this.player.x, this.player.y, 285);
                     //Animation
                     if ((this.player.x < guard.x) && (guard.animPlaying == 1)) {
                         guard.anims.play('guard_walk_left');
@@ -512,7 +523,7 @@ class Play extends Phaser.Scene {
                     }
                     break;
                 case (2)://going back to path
-                    this.physics.moveTo(guard, guard.storeX, guard.storeY, 300);
+                    this.physics.moveTo(guard, guard.storeX, guard.storeY, 270);
                     //Animation
                     if ((guard.storeX < guard.x) && (guard.animPlaying == 1)) {
                         guard.anims.play('guard_walk_left');
@@ -599,17 +610,17 @@ class Play extends Phaser.Scene {
     createClique(x, y, type){
         let clique;
         if (type == 0){
-            clique = this.physics.add.sprite(x - 25, y - 50, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            clique = this.physics.add.sprite(x - 20, y - 60, 'clique_yellow').setOrigin(0, 0).setImmovable(true).setScale(0.5);
             clique.anims.play('clique_y_anim');
         } else if (type == 1){
-            clique = this.physics.add.sprite(x - 25, y - 50, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            clique = this.physics.add.sprite(x - 20, y - 60, 'clique_green').setOrigin(0, 0).setImmovable(true).setScale(0.5);
             clique.anims.play('clique_g_anim');
         } else if (type == 2){
-            clique = this.physics.add.sprite(x - 25, y - 50, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
+            clique = this.physics.add.sprite(x - 20, y - 60, 'clique_pink').setOrigin(0, 0).setImmovable(true).setScale(0.5);
             clique.anims.play('clique_p_anim');
         }
         clique.type = type;
-        clique.timer = 330;
+        clique.timer = this.CLIQUETIME;
         clique.isActive = false;
         clique.touching = false;
         clique.timeText = this.add.text(clique.x - 45, clique.y - 35, Math.trunc(clique.timer / 60), this.timerConfig);

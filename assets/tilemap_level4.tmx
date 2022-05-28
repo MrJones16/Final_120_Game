@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="106">
+ <editorsettings>
+  <export target="tilemap_level4.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="MallTileSet" tilewidth="64" tileheight="64" spacing="2" margin="1" tilecount="49" columns="7">
+  <image source="MallTileSet.png" width="462" height="462"/>
+  <tile id="0">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer id="1" name="Background" width="40" height="30" locked="1">
+  <data encoding="csv">
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22
+</data>
+ </layer>
+ <objectgroup id="2" name="Player" locked="1">
+  <object id="3" name="player" gid="6" x="286.182" y="159.273" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="3" name="Objects">
+  <object id="1" name="level_goal" gid="26" x="70.0606" y="542.303" width="64" height="64"/>
+  <object id="2" name="r_keycard" gid="13" x="192" y="896" width="64" height="64"/>
+  <object id="4" name="guard" gid="25" x="512" y="1344" width="64" height="64"/>
+  <object id="5" name="path" gid="26" x="448" y="1344" width="64" height="64"/>
+  <object id="7" name="path" gid="26" x="384" y="1344" width="64" height="64"/>
+  <object id="8" name="path" gid="26" x="320" y="1344" width="64" height="64"/>
+  <object id="9" name="path" gid="26" x="256" y="1344" width="64" height="64"/>
+  <object id="10" name="path" gid="26" x="192" y="1344" width="64" height="64"/>
+  <object id="11" name="path" gid="26" x="192" y="1280" width="64" height="64"/>
+  <object id="12" name="path" gid="26" x="192" y="1216" width="64" height="64"/>
+  <object id="13" name="path" gid="26" x="192" y="1152" width="64" height="64"/>
+  <object id="14" name="path" gid="26" x="192" y="1088" width="64" height="64"/>
+  <object id="15" name="path" gid="26" x="192" y="1024" width="64" height="64"/>
+  <object id="16" name="path" gid="26" x="256" y="1024" width="64" height="64"/>
+  <object id="17" name="path" gid="26" x="320" y="1024" width="64" height="64"/>
+  <object id="18" name="path" gid="26" x="384" y="1024" width="64" height="64"/>
+  <object id="19" name="path" gid="26" x="448" y="1024" width="64" height="64"/>
+  <object id="20" name="path" gid="26" x="512" y="1024" width="64" height="64"/>
+  <object id="21" name="path" gid="26" x="512" y="1088" width="64" height="64"/>
+  <object id="22" name="path" gid="26" x="512" y="1152" width="64" height="64"/>
+  <object id="23" name="p_clique" gid="12" x="512" y="896" width="64" height="64"/>
+  <object id="24" name="p_store" gid="11" x="192" y="1792" width="64" height="64"/>
+  <object id="25" name="y_store" gid="18" x="320" y="1792" width="64" height="64"/>
+  <object id="26" name="y_clique" gid="19" x="192" y="1536" width="64" height="64"/>
+  <object id="27" name="g_clique" gid="5" x="1408" y="640" width="64" height="64"/>
+  <object id="29" name="y_clique" gid="19" x="704" y="512" width="64" height="64"/>
+  <object id="30" name="g_store" gid="4" x="960" y="384" width="64" height="64"/>
+  <object id="31" name="b_keycard" gid="20" x="1728" y="192" width="64" height="64"/>
+  <object id="32" name="guard" gid="25" x="832" y="512" width="64" height="64"/>
+  <object id="33" name="path" gid="26" x="896" y="512" width="64" height="64"/>
+  <object id="34" name="path" gid="26" x="960" y="512" width="64" height="64"/>
+  <object id="35" name="path" gid="26" x="1024" y="512" width="64" height="64"/>
+  <object id="36" name="path" gid="26" x="1088" y="512" width="64" height="64"/>
+  <object id="37" name="path" gid="26" x="1152" y="512" width="64" height="64"/>
+  <object id="38" name="path" gid="26" x="1216" y="512" width="64" height="64"/>
+  <object id="39" name="path" gid="26" x="1280" y="512" width="64" height="64"/>
+  <object id="40" name="path" gid="26" x="1344" y="512" width="64" height="64"/>
+  <object id="41" name="path" gid="26" x="1344" y="448" width="64" height="64"/>
+  <object id="42" name="path" gid="26" x="1344" y="384" width="64" height="64"/>
+  <object id="43" name="path" gid="26" x="1344" y="320" width="64" height="64"/>
+  <object id="44" name="path" gid="26" x="1344" y="256" width="64" height="64"/>
+  <object id="45" name="path" gid="26" x="1344" y="192" width="64" height="64"/>
+  <object id="46" name="path" gid="26" x="1408" y="192" width="64" height="64"/>
+  <object id="47" name="path" gid="26" x="1472" y="192" width="64" height="64"/>
+  <object id="48" name="path" gid="26" x="1536" y="192" width="64" height="64"/>
+  <object id="49" name="p_store" gid="11" x="1600" y="512" width="64" height="64"/>
+  <object id="50" name="p_clique" gid="12" x="1024" y="640" width="64" height="64"/>
+  <object id="51" name="p_clique" gid="12" x="2048" y="320" width="64" height="64"/>
+  <object id="52" name="y_store" gid="18" x="2048" y="640" width="64" height="64"/>
+  <object id="53" name="guard" gid="25" x="2368" y="320" width="64" height="64"/>
+  <object id="54" name="path" gid="26" x="2368" y="384" width="64" height="64"/>
+  <object id="55" name="path" gid="26" x="2368" y="704" width="64" height="64"/>
+  <object id="56" name="path" gid="26" x="2368" y="448" width="64" height="64"/>
+  <object id="57" name="path" gid="26" x="2368" y="512" width="64" height="64"/>
+  <object id="58" name="path" gid="26" x="2368" y="576" width="64" height="64"/>
+  <object id="59" name="path" gid="26" x="2368" y="640" width="64" height="64"/>
+  <object id="60" name="path" gid="26" x="2368" y="768" width="64" height="64"/>
+  <object id="61" name="path" gid="26" x="2368" y="832" width="64" height="64"/>
+  <object id="62" name="path" gid="26" x="2368" y="896" width="64" height="64"/>
+  <object id="63" name="path" gid="26" x="2368" y="1024" width="64" height="64"/>
+  <object id="64" name="path" gid="26" x="2368" y="960" width="64" height="64"/>
+  <object id="65" name="p_keycard" gid="27" x="2215.76" y="1024" width="64" height="64"/>
+  <object id="66" name="g_store" gid="4" x="2240" y="320" width="64" height="64"/>
+  <object id="67" name="g_clique" gid="5" x="2112" y="896" width="64" height="64"/>
+  <object id="68" name="y_clique" gid="19" x="2368" y="1216" width="64" height="64"/>
+  <object id="69" name="guard" gid="25" x="2048" y="1664" width="64" height="64"/>
+  <object id="70" name="path" gid="26" x="2048" y="1600" width="64" height="64"/>
+  <object id="71" name="path" gid="26" x="2048" y="1536" width="64" height="64"/>
+  <object id="72" name="path" gid="26" x="2048" y="1472" width="64" height="64"/>
+  <object id="73" name="path" gid="26" x="2048" y="1408" width="64" height="64"/>
+  <object id="74" name="path" gid="26" x="2048" y="1344" width="64" height="64"/>
+  <object id="75" name="path" gid="26" x="2048" y="1280" width="64" height="64"/>
+  <object id="76" name="path" gid="26" x="2048" y="1216" width="64" height="64"/>
+  <object id="77" name="path" gid="26" x="2048" y="1152" width="64" height="64"/>
+  <object id="78" name="path" gid="26" x="2048" y="1088" width="64" height="64"/>
+  <object id="79" name="p_store" gid="11" x="2368" y="1408" width="64" height="64"/>
+  <object id="80" name="p_clique" gid="12" x="2149.82" y="1316.85" width="64" height="64"/>
+  <object id="81" name="g_store" gid="4" x="1600" y="1792" width="64" height="64"/>
+  <object id="83" name="g_clique" gid="5" x="2240" y="1792" width="64" height="64"/>
+  <object id="84" name="y_store" gid="18" x="2368" y="1664" width="64" height="64"/>
+  <object id="85" name="guard" gid="25" x="1024" y="1728" width="64" height="64"/>
+  <object id="87" name="path" gid="26" x="1024" y="1664" width="64" height="64"/>
+  <object id="88" name="path" gid="26" x="1024" y="1600" width="64" height="64"/>
+  <object id="89" name="path" gid="26" x="1088" y="1408" width="64" height="64"/>
+  <object id="90" name="path" gid="26" x="1024" y="1472" width="64" height="64"/>
+  <object id="91" name="path" gid="26" x="1152" y="1344" width="64" height="64"/>
+  <object id="92" name="path" gid="26" x="1216" y="1344" width="64" height="64"/>
+  <object id="93" name="path" gid="26" x="1280" y="1344" width="64" height="64"/>
+  <object id="94" name="path" gid="26" x="1344" y="1344" width="64" height="64"/>
+  <object id="95" name="path" gid="26" x="1408" y="1344" width="64" height="64"/>
+  <object id="96" name="path" gid="26" x="1472" y="1344" width="64" height="64"/>
+  <object id="97" name="path" gid="26" x="1536" y="1344" width="64" height="64"/>
+  <object id="98" name="path" gid="26" x="1600" y="1408" width="64" height="64"/>
+  <object id="99" name="path" gid="26" x="1600" y="1536" width="64" height="64"/>
+  <object id="100" name="path" gid="26" x="1600" y="1472" width="64" height="64"/>
+  <object id="101" name="y_clique" gid="19" x="1856" y="1728" width="64" height="64"/>
+  <object id="102" name="g_clique" gid="5" x="1319.52" y="1441.09" width="64" height="64"/>
+  <object id="103" name="p_clique" gid="12" x="1186.18" y="1516.85" width="64" height="64"/>
+  <object id="104" name="y_clique" gid="19" x="704" y="1728" width="64" height="64"/>
+  <object id="105" name="path" gid="26" x="1024" y="1536" width="64" height="64"/>
+ </objectgroup>
+ <layer id="4" name="Walls" width="40" height="30">
+  <data encoding="csv">
+9,9,10,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,45,16,16,16,16,16,16,16,16,16,16,44,9,9,9,9,9,9,9,9,9,9,
+9,9,10,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,10,0,0,0,0,0,0,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,
+9,9,10,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,10,0,0,0,0,0,0,0,0,0,0,8,45,16,16,16,16,16,16,16,16,44,
+9,9,10,0,0,0,0,8,9,9,9,9,9,45,16,16,16,44,10,0,0,0,0,0,0,0,0,0,0,8,10,0,0,0,0,0,0,0,0,8,
+9,9,10,0,0,0,0,8,9,9,9,9,9,10,0,0,0,8,10,0,0,0,0,0,23,24,24,23,24,8,10,0,0,0,0,0,0,0,0,8,
+16,16,17,0,0,0,0,15,16,16,16,16,16,17,0,0,0,15,17,0,0,0,0,0,24,24,23,24,23,15,17,0,0,0,0,0,0,0,0,8,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,8,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,0,0,0,8,
+0,0,0,0,7,0,7,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,36,0,0,0,8,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,0,0,0,1,2,3,0,0,0,1,2,2,2,2,2,3,0,0,0,0,36,0,0,0,8,
+9,45,16,16,16,16,16,16,16,16,44,9,9,9,38,2,2,2,37,9,38,2,2,2,37,9,9,9,9,9,10,0,0,0,0,36,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,0,0,0,0,43,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,9,9,9,9,9,45,16,16,16,16,16,16,44,9,9,9,9,10,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,30,32,0,0,0,8,9,9,9,9,9,9,45,17,23,24,24,23,23,24,15,44,9,9,9,10,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,23,24,0,0,0,8,9,9,9,9,9,45,17,0,0,0,0,0,0,0,0,15,44,9,9,10,0,0,0,0,29,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,9,9,45,17,0,0,0,0,0,0,0,0,0,0,15,44,9,10,0,0,0,0,36,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,9,45,17,0,0,0,0,0,0,0,0,0,0,0,0,8,9,10,0,0,0,0,36,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,8,9,9,45,17,0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,10,0,0,0,0,36,0,0,0,8,
+9,10,0,0,0,1,3,0,0,0,8,9,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,10,0,0,0,0,43,0,0,0,8,
+9,10,0,0,0,8,10,0,0,0,15,16,16,17,0,0,0,0,0,0,1,2,2,3,0,0,0,0,15,16,17,0,0,0,0,7,0,0,0,8,
+9,10,0,0,0,15,17,0,0,0,33,34,34,35,0,0,0,0,0,0,8,9,9,10,0,0,0,0,33,34,35,0,0,0,0,0,0,0,0,8,
+9,10,23,24,23,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
+9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
+9,38,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,37,9,9,38,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,37
+</data>
+ </layer>
+</map>
