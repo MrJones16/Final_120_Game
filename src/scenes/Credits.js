@@ -2,7 +2,15 @@ class Credits extends Phaser.Scene{
     constructor(){
         super("creditsScene");
     }
-    create(){ 
+    preload(){
+        this.load.image('arrow', './assets/arrow.png');
+        this.load.image('floor_bg', './assets/biggerFloorTiles.png');
+    }
+    create(){
+        this.background = this.add.tileSprite(0, 0, 1800, 1075, 'floor_bg').setOrigin(0, 0).setScale(0.8).setAlpha(0.25); 
+        this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.arrow = this.add.sprite(game.config.width/2 - 150, game.config.height/2 + borderUISize + borderPadding + 200, 'arrow');
+
         let creditsConfig = {
             fontFamily: 'Century Gothic',
             fontSize: '72px',
@@ -50,5 +58,10 @@ class Credits extends Phaser.Scene{
         this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 135, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
         this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 100, "“Elevators”, from PlayOnLoop.com", creditsConfig);
         this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 85, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
+    }
+    update(){
+        if (this.keySPACE.isDown) {
+            this.scene.start('menuScene');
+        }
     }
 }

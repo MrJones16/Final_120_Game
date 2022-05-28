@@ -9,8 +9,20 @@ class GameOver extends Phaser.Scene{
         this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         this.load.audio('sfx_gameover', './assets/game_over.wav');
+        this.load.image('arrow', './assets/arrow.png');
     }
     create(){
+        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.ARROWY = game.config.height/2 + borderUISize + borderPadding + 50;
+        this.CONTINUEX = game.config.width/2 - 425;
+        this.MENUX = game.config.width/2 + 150;
+        this.arrow = this.add.sprite(this.CONTINUEX, this.ARROWY, 'arrow');
+        this.arrow.setAlpha(0);
+        this.canPress = false;
+
         this.background = this.add.tileSprite(0, 0, 1800, 1075, 'floor_bg').setOrigin(0, 0).setScale(0.8);
         this.sfxGameOver = this.sound.add('sfx_gameover');
         let overConfig = {
@@ -46,6 +58,8 @@ class GameOver extends Phaser.Scene{
             this.menuButton.on('pointerdown', () => { this.scene.start('menuScene'); })
             overConfig.fontSize = '20px';
             this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 85, "(Reset to Level 1)", overConfig).setOrigin(0.5);
+            this.arrow.setAlpha(1);
+            this.canPress = true;
         }, null, this);
 
         //Show animation
@@ -91,6 +105,8 @@ class GameOver extends Phaser.Scene{
         this.g2.anims.play('guard_walk_right');
         this.g3.anims.play('guard_walk_left');
         this.g4.anims.play('guard_walk_left');
+
+        this.arrow.setDepth(2);
         
     }
     update(){
@@ -108,6 +124,28 @@ class GameOver extends Phaser.Scene{
             this.g2.anims.stop();
             this.g3.anims.stop();
             this.g4.anims.stop();
+        }
+
+        if (this.canPress){
+            if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
+                if (this.arrow.x == this.MENUX) {
+                    this.arrow.x = this.CONTINUEX;
+                }
+            }
+
+            if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
+                if (this.arrow.x == this.CONTINUEX) {
+                    this.arrow.x = this.MENUX;
+                }
+            }
+
+            if (this.keySPACE.isDown) {
+                if (this.arrow.x == this.CONTINUEX) {
+                    this.scene.start('playScene');
+                } else if (this.arrow.x == this.MENUX) {
+                    this.scene.start('menuScene');
+                }
+            }
         }
     }
 }

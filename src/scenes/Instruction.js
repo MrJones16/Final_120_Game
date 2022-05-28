@@ -5,16 +5,24 @@ class Instruction extends Phaser.Scene{
     preload() {
         this.load.image('clique', './assets/sprite_NPC_G.png');
         this.load.image('player', './assets/sprite_boy_Y.png');
-        this.load.image('store', './assets/placeholder_store_pink.png');
+        this.load.image('store', './assets/sprite_rack_P.png');
         this.load.image('guard', './assets/sprite_Officer.png');
+        this.load.image('arrow', './assets/arrow.png');
+        this.load.image('floor_bg', './assets/biggerFloorTiles.png');
     }
     create(){
+        this.background = this.add.tileSprite(0, 0, 1800, 1075, 'floor_bg').setOrigin(0, 0).setScale(0.8).setAlpha(0.25);
+        this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.arrow = this.add.sprite(game.config.width/2 - 150, game.config.height/2 + borderUISize + borderPadding + 200, 'arrow');
+
         // Back button
         let backConfig = {
           fontFamily: 'Century Gothic',
           fontSize: '48px',
           fontStyle: 'bold',
           color: 'dodgerblue',
+          stroke: 'black',
+        strokeThickness: 5,
           align: 'middle',
           padding: {
               top: 5,
@@ -23,13 +31,15 @@ class Instruction extends Phaser.Scene{
           fixedWidth: 0
         }
      
-        this.backButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 200, "Back", backConfig).setOrigin(0.5).setInteractive();
+        this.backButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 200, "Main Menu", backConfig).setOrigin(0.5).setInteractive();
         this.backButton.on('pointerdown', () => { this.scene.start('menuScene'); })
 
         let instructionConfig = {
             fontFamily: 'Century Gothic',
             fontSize: '32px',
-            color: 'goldenrod',
+            color: 'gold',
+            stroke: 'black',
+            strokeThickness: 5,
             align: 'middle',
             padding: {
                 top: 5,
@@ -50,7 +60,13 @@ class Instruction extends Phaser.Scene{
         this.add.text(game.config.width/2 - 250, game.config.height/2 + borderUISize + borderPadding + 200, "Player", instructionConfig).setOrigin(0.5);
         this.add.image(game.config.width/2 + 250, game.config.height/2 + borderUISize + borderPadding + 125, 'guard').setScale(0.5);
         this.add.text(game.config.width/2 + 250, game.config.height/2 + borderUISize + borderPadding + 200, "Guard", instructionConfig).setOrigin(0.5);
-        this.add.image(game.config.width/2 + 450, game.config.height/2 + borderUISize + borderPadding + 125, 'store');
+        this.add.image(game.config.width/2 + 450, game.config.height/2 + borderUISize + borderPadding + 125, 'store').setScale(0.5);
         this.add.text(game.config.width/2 + 450, game.config.height/2 + borderUISize + borderPadding + 200, "Store", instructionConfig).setOrigin(0.5);
+        this.arrow.setDepth(2);
+    }
+    update(){
+        if (this.keySPACE.isDown) {
+            this.scene.start('menuScene');
+        }
     }
 }

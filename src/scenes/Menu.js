@@ -11,6 +11,7 @@ class Menu extends Phaser.Scene {
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
         this.load.audio('bgm_menu', './assets/POL-pet-park-short.wav');
+        this.load.image('arrow', './assets/arrow.png');
         // load audio
         // this.load.audio('sfx_select', './assets/blip_select12.wav');
         // this.load.image('background', './assets/runner_bg.png');
@@ -18,26 +19,36 @@ class Menu extends Phaser.Scene {
     }
 
     create(){
+        this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.ARROWX = game.config.width/2 - 150;
+        this.STARTY = game.config.height/2 + borderUISize + borderPadding - 50;
+        this.INSTRY = game.config.height/2 + borderUISize + borderPadding + 25;
+        this.CREDY = game.config.height/2 + borderUISize + borderPadding + 100;
+
+        this.arrow = this.add.sprite(this.ARROWX, this.STARTY, 'arrow');
+
         this.bgmMenu = this.sound.add('bgm_menu', {volume: 0.35, loop: true, rate: 0.90});
         this.bgmMenu.play();
         const map_menu = this.add.tilemap("menu");
         const tileset_menu = map_menu.addTilesetImage("MallTileSet", null, 64, 64, 1, 2);
         const backgroundLayer = map_menu.createLayer("Background", tileset_menu, 0, 0);
         currentLevel = 0;
-        //this.scene.start('playScene');
 
-        // Play and loop background music
-        // if (!musicStarted) {
-        //   let musicConfig = {
-        //       volume: 0.25,
-        //       loop: true
-        //   }
-        //   var bgm = this.sound.add('bgm', musicConfig);
-        //   bgm.play();
-        //   musicStarted = true;
-        // }
-
-        //this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+        let smallConfig = {
+            fontFamily: 'Century Gothic',
+            fontSize: '20px',
+            color: 'black',
+            align: 'middle',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding + 375, "Menu controls: WASD to navigate / SPACE to select", smallConfig).setOrigin(0.5);
 
         let menuConfig = {
             fontFamily: 'Century Gothic',
@@ -148,6 +159,7 @@ class Menu extends Phaser.Scene {
         this.guardP.anims.play('guard_walk_left');
 
         this.currPlayerMove = 0;
+        this.arrow.setDepth(2);
     }
     update(){
         switch (this.currPlayerMove){
@@ -196,6 +208,33 @@ class Menu extends Phaser.Scene {
                     this.currPlayerMove = 0;
                 }
                 break;
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.keyS)) {
+            if (this.arrow.y == this.STARTY) {
+                this.arrow.y = this.INSTRY;
+            } else if (this.arrow.y == this.INSTRY) {
+                this.arrow.y = this.CREDY;
+            }
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.keyW)) {
+            if (this.arrow.y == this.CREDY) {
+                this.arrow.y = this.INSTRY;
+            } else if (this.arrow.y == this.INSTRY) {
+                this.arrow.y = this.STARTY;
+            }
+        }
+
+        if (this.keySPACE.isDown) {
+            this.bgmMenu.stop();
+            if (this.arrow.y == this.STARTY) {
+                this.scene.start('levelLoadScene');
+            } else if (this.arrow.y == this.INSTRY) {
+                this.scene.start('instructionScene');
+            } else if (this.arrow.y == this.CREDY) {
+                this.scene.start('creditsScene');
+            }
         }
     }
 }

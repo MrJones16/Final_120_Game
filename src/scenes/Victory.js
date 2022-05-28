@@ -11,8 +11,20 @@ class Victory extends Phaser.Scene{
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         this.load.image('goal', './assets/placeholder_goal.png');
         this.load.atlas('goal_atlas', './assets/door.png', './assets/door.json');
+        this.load.image('arrow', './assets/arrow.png');
     }
     create(){
+        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.ARROWY = game.config.height/2 + borderUISize + borderPadding + 50;
+        this.CREDITSX = game.config.width/2 - 400;
+        this.MENUX = game.config.width/2 + 150;
+        this.arrow = this.add.sprite(this.CREDITSX, this.ARROWY, 'arrow');
+        this.arrow.setAlpha(0);
+        this.canPress = false;
+
         this.moveFloor = false;
         this.moveGuard = false;
         this.moveGrass = false;
@@ -69,6 +81,8 @@ class Victory extends Phaser.Scene{
             victoryConfig.color = "yellow";
             this.menuButton = this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 50, "Main Menu", victoryConfig).setOrigin(0.5).setInteractive();
             this.menuButton.on('pointerdown', () => { this.scene.start('menuScene'); })
+            this.arrow.setAlpha(1);
+            this.canPress = true;
         }, null, this);
        
         //Show animation
@@ -112,6 +126,8 @@ class Victory extends Phaser.Scene{
         this.g1.anims.play('guard_walk_right');
         this.g2.anims.play('guard_walk_right');
         this.g3.anims.play('guard_walk_right');
+
+        this.arrow.setDepth(2);
         
     }
     update(){
@@ -146,6 +162,28 @@ class Victory extends Phaser.Scene{
         } else {
             if (this.p.x < 1220){
                 this.p.x += 4;
+            }
+        }
+
+        if (this.canPress){
+            if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
+                if (this.arrow.x == this.MENUX) {
+                    this.arrow.x = this.CREDITSX;
+                }
+            }
+
+            if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
+                if (this.arrow.x == this.CREDITSX) {
+                    this.arrow.x = this.MENUX;
+                }
+            }
+
+            if (this.keySPACE.isDown) {
+                if (this.arrow.x == this.CREDITSX) {
+                    this.scene.start('creditsScene');
+                } else if (this.arrow.x == this.MENUX) {
+                    this.scene.start('menuScene');
+                }
             }
         }
     }
