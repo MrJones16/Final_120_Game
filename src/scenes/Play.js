@@ -1173,7 +1173,7 @@ class Play extends Phaser.Scene {
                 end: 3,
                 suffix: '_yellow',
             }),
-            frameRate: 15,
+            frameRate: 12,
             repeat: -1
         });
         // Run up green
@@ -1209,7 +1209,7 @@ class Play extends Phaser.Scene {
                 end: 3,
                 suffix: '_yellow',
             }),
-            frameRate: 15,
+            frameRate: 12,
             repeat: -1
         });
         // Run left green
@@ -1245,7 +1245,7 @@ class Play extends Phaser.Scene {
                 end: 2,
                 suffix: '_yellow',
             }),
-            frameRate: 15,
+            frameRate: 5,
             repeat: -1
         });
         // Run right green
@@ -1281,7 +1281,7 @@ class Play extends Phaser.Scene {
                 end: 2,
                 suffix: '_yellow',
             }),
-            frameRate: 15,
+            frameRate: 5,
             repeat: -1
         });
     }
