@@ -52,7 +52,7 @@ class Menu extends Phaser.Scene {
 
         let menuConfig = {
             fontFamily: 'Century Gothic',
-            fontSize: '72px',
+            fontSize: '90px',
             fontStyle: 'bold',
             color: 'lightsteelblue',
             stroke: 'black',

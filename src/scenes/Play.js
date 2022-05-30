@@ -31,7 +31,7 @@ class Play extends Phaser.Scene {
         this.load.atlas('clique_y_atlas', './assets/sprite_NPC_Y_anim1-sheet.png', './assets/sprite_NPC_Y_anim1-sheet.json');
         this.load.atlas('clique_g_atlas', './assets/sprite_NPC_G_anim1-sheet.png', './assets/sprite_NPC_G_anim1-sheet.json');
         this.load.atlas('clique_p_atlas', './assets/sprite_NPC_P_anim1-sheet.png', './assets/sprite_NPC_P_anim1-sheet.json');
-        this.load.atlas('goal_atlas', './assets/door.png', './assets/door.json');
+        this.load.atlas('goal_atlas', './assets/Door.png', './assets/Door.json');
         // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
         switch (currentLevel){
             case 1:

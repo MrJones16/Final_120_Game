@@ -12,7 +12,7 @@ class Instruction extends Phaser.Scene{
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
         this.load.atlas('clique_g_atlas', './assets/sprite_NPC_G_anim1-sheet.png', './assets/sprite_NPC_G_anim1-sheet.json');
-        this.load.atlas('goal_atlas', './assets/door.png', './assets/door.json');
+        this.load.atlas('goal_atlas', './assets/Door.png', './assets/Door.json');
         this.load.image('red_keycard', './assets/redKeyCard.png');
         this.load.image('goal', './assets/placeholder_goal.png');
         this.load.audio('bgm_instr', './assets/POL-find-the-exit-short.wav');
