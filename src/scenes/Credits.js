@@ -58,6 +58,14 @@ class Credits extends Phaser.Scene{
         this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 135, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
         this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 100, "“Elevators”, from PlayOnLoop.com", creditsConfig);
         this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 85, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 50, "“8 Ball Cafe”, from PlayOnLoop.com", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding - 35, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding, "“Lone Wolf”, from PlayOnLoop.com", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding + 15, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding + 50, "“Starry Night”, from PlayOnLoop.com", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding + 65, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding + 100, "“Find the Exit”, from PlayOnLoop.com", creditsConfig);
+        this.add.text(game.config.width/2 + 100, game.config.height/2 + borderUISize + borderPadding + 115, "Licensed under Creative Commons by Attribution 4.0", creditsConfig);
     }
     update(){
         if (this.keySPACE.isDown) {

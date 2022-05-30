@@ -12,6 +12,7 @@ class Victory extends Phaser.Scene{
         this.load.image('goal', './assets/placeholder_goal.png');
         this.load.atlas('goal_atlas', './assets/door.png', './assets/door.json');
         this.load.image('arrow', './assets/arrow.png');
+        this.load.audio('bgm_end', './assets/POL-starry-night-short.wav');
     }
     create(){
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -28,6 +29,7 @@ class Victory extends Phaser.Scene{
         this.moveFloor = false;
         this.moveGuard = false;
         this.moveGrass = false;
+        this.bgmEnding = this.sound.add('bgm_end', {volume: 0.2, loop: true, rate: 0.95});
         this.grass = this.add.tileSprite(0, 0, 1200, 675, 'grass_bg').setOrigin(0, 0);
         this.floor = this.add.tileSprite(0, 0, 510, 850, 'floor_bg').setOrigin(0, 0).setScale(0.8);
         this.goal = this.add.sprite(25, 350, 'goal');
@@ -71,16 +73,17 @@ class Victory extends Phaser.Scene{
         }, null, this);
 
         this.time.delayedCall(11000, () => {
+            this.bgmEnding.play();
             this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding - 100, "CONGRATULATIONS!", victoryConfig).setOrigin(0.5);
             victoryConfig.fontSize = '60px';
             this.add.text(game.config.width/2, game.config.height/2 - 75, "You escaped the mall!", victoryConfig).setOrigin(0.5);
             victoryConfig.fontSize = '48px';
             victoryConfig.color = "darkorchid";
             this.creditsButton = this.add.text(game.config.width/2 - 300, game.config.height/2 + borderUISize + borderPadding + 50, "Credits", victoryConfig).setOrigin(0.5).setInteractive();
-            this.creditsButton.on('pointerdown', () => { this.scene.start('creditsScene'); })
+            this.creditsButton.on('pointerdown', () => { this.bgmEnding.stop(); this.scene.start('creditsScene'); })
             victoryConfig.color = "yellow";
             this.menuButton = this.add.text(game.config.width/2 + 300, game.config.height/2 + borderUISize + borderPadding + 50, "Main Menu", victoryConfig).setOrigin(0.5).setInteractive();
-            this.menuButton.on('pointerdown', () => { this.scene.start('menuScene'); })
+            this.menuButton.on('pointerdown', () => { this.bgmEnding.stop(); this.scene.start('menuScene'); })
             this.arrow.setAlpha(1);
             this.canPress = true;
         }, null, this);
@@ -180,8 +183,10 @@ class Victory extends Phaser.Scene{
 
             if (this.keySPACE.isDown) {
                 if (this.arrow.x == this.CREDITSX) {
+                    this.bgmEnding.stop();
                     this.scene.start('creditsScene');
                 } else if (this.arrow.x == this.MENUX) {
+                    this.bgmEnding.stop();
                     this.scene.start('menuScene');
                 }
             }

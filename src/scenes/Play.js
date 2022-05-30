@@ -25,7 +25,6 @@ class Play extends Phaser.Scene {
         this.load.audio('sfx_touch', './assets/guard_touch.wav');
         this.load.audio('sfx_collect', './assets/keycard_collect.wav');
         this.load.audio('bgm_alert', './assets/POL-elevators-short.wav');
-        this.load.audio('bgm_normal', './assets/POL-jazzy-duck-short.wav');
         this.load.image('floor_bg', './assets/Floor.png');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
@@ -37,18 +36,23 @@ class Play extends Phaser.Scene {
         switch (currentLevel){
             case 1:
                 this.load.tilemapTiledJSON("level1", "./assets/Level1.json");
+                this.load.audio('bgm_easy', './assets/POL-jazzy-duck-short.wav');
                 break;
             case 2:
                 this.load.tilemapTiledJSON("level2", "./assets/Level2.json");
+                this.load.audio('bgm_easy', './assets/POL-jazzy-duck-short.wav');
                 break;
             case 3:
                 this.load.tilemapTiledJSON("level3", "./assets/tilemap_level1_fixed.json");
+                this.load.audio('bgm_medium', './assets/POL-8-ball-cafe-short.wav');
                 break;
             case 4:
                 this.load.tilemapTiledJSON("level4", "./assets/tilemap_level4.json");
+                this.load.audio('bgm_medium', './assets/POL-8-ball-cafe-short.wav');
                 break;
             case 5:
                 this.load.tilemapTiledJSON("level5", "./assets/tilemap_level5.json");
+                this.load.audio('bgm_hard', './assets/POL-lone-wolf-short.wav');
                 break;
             default:
                 break;
@@ -95,7 +99,7 @@ class Play extends Phaser.Scene {
         }
         this.statusText = this.add.text(game.config.width - (borderUISize + borderPadding * 15), borderUISize + borderPadding, "Unsafe", this.statusConfig).setScrollFactor(0,0);
 
-        this.keycardLevel = false;
+        this.keycardAmount = 0;
         this.openedExit = false;
         this.lockoutShow = false;
         this.gameOverShow = false;
@@ -115,7 +119,13 @@ class Play extends Phaser.Scene {
         this.sfxHello = this.sound.add('sfx_hello', {volume: 0.65});
 
         //BGM
-        this.bgmNormal = this.sound.add('bgm_normal', {volume: 0.2, loop: true, rate: 0.95});
+        if ((currentLevel == 1) || (currentLevel == 2)){
+            this.bgmNormal = this.sound.add('bgm_easy', {volume: 0.2, loop: true, rate: 0.95});
+        } else if ((currentLevel == 3) || (currentLevel == 4)){
+            this.bgmNormal = this.sound.add('bgm_medium', {volume: 0.2, loop: true, rate: 0.95});
+        } else if (currentLevel == 5){
+            this.bgmNormal = this.sound.add('bgm_hard', {volume: 0.2, loop: true, rate: 0.95});
+        }
         this.bgmAlert = this.sound.add('bgm_alert', {volume: 0.2, loop: true, rate: 1.05});
         this.bgmPlaying = 0;
         this.bgmNormal.play();
@@ -159,7 +169,7 @@ class Play extends Phaser.Scene {
                 //this.loadLevel("level1");
                 //this.keycardLevel = false;
                 this.loadLevel("level1");
-                this.keycardLevel = false;
+                this.keycardAmount = 0;
                 break;
             //TEMP LEVEL LOADS SO GAME DOESN'T CRASH WHEN GOING TO FUTURE LEVELS WITH NOTHING IN THEM
             //The scene loads are here just so I could test the level load screens.
@@ -167,21 +177,21 @@ class Play extends Phaser.Scene {
             //Level 2
             case 2:
                 this.loadLevel("level2");
-                this.keycardLevel = true;
+                this.keycardAmount = 1;
                 break;
             //Level 3
             case 3:
                 this.loadLevel("level3");
-                this.keycardLevel = true;
+                this.keycardAmount = 3;
                 break;
             case 4:
                 this.loadLevel("level4");
-                this.keycardLevel = true;
+                this.keycardAmount = 3;
                 break;
             //Level 4
             case 5:
                 this.loadLevel("level5");
-                this.keycardLevel = true;
+                this.keycardAmount = 3;
                 break;
             //Level 5
             case 6:
@@ -190,7 +200,7 @@ class Play extends Phaser.Scene {
         }
 
         //Keycard text setup
-        if (this.keycardLevel){
+        if (this.keycardAmount > 0){
             this.keycardConfig = {
                 fontFamily: 'Courier',
                 fontSize: '40px',
@@ -226,7 +236,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.goalGroup, () => {
             if (this.openedExit){
                 this.stopMusicPlay();
-                if (currentLevel == 4) {
+                if (currentLevel == 5) {
                     this.scene.start('victoryScene');
                 } else {
                     this.scene.start('levelLoadScene');
@@ -302,7 +312,7 @@ class Play extends Phaser.Scene {
         });
 
         //Original keycard y pos
-        if (this.keycardLevel){
+        if (this.keycardAmount > 0){
             this.keycardGroup.getChildren().forEach((keycard) => {
                 keycard.origY = keycard.y;
                 keycard.moveUp = true;
@@ -362,7 +372,7 @@ class Play extends Phaser.Scene {
         if (keyP.isDown) {
             this.stopMusicPlay();
             if (currentLevel == 5) {
-                this.scene.start('gameOverScene');
+                this.scene.start('victoryScene');
             } else {
                 this.scene.start('levelLoadScene');
             }
@@ -422,7 +432,7 @@ class Play extends Phaser.Scene {
         }
 
         //Keycard movement
-        if (this.keycardLevel){
+        if (this.keycardAmount > 0){
             this.keycardGroup.getChildren().forEach((keycard) => {
                 if (keycard.y < keycard.origY - 10){
                     keycard.moveUp = false;
@@ -465,8 +475,8 @@ class Play extends Phaser.Scene {
         }
 
         //Keycard counter and open exit
-        if (this.keycardLevel){
-            if (this.player.keycards == 3){
+        if (this.keycardAmount > 0){
+            if (this.player.keycards == this.keycardAmount){
                 this.keycardText.text = "Exit opened!";
                 if (!this.openedExit) {
                     this.goalGroup.getChildren().forEach((goal) => {
@@ -475,9 +485,9 @@ class Play extends Phaser.Scene {
                     this.openedExit = true;
                 }
             } else {
-                this.keycardText.text = "Keycards: " + this.player.keycards + "/3";
+                this.keycardText.text = "Keycards: " + this.player.keycards + "/" + this.keycardAmount;
             }
-        } else if (!this.keycardLevel) {
+        } else if (this.keycardAmount == 0) {
             if (!this.openedExit) {
                 this.goalGroup.getChildren().forEach((goal) => {
                     goal.anims.play('door_open');
@@ -488,6 +498,8 @@ class Play extends Phaser.Scene {
         
         //updating the guards
         this.guardGroup.getChildren().forEach((guard) => {
+            guard.detectionRadius.x = guard.x;
+            guard.detectionRadius.y = guard.y;
             guard.path.getPoint(guard.follower.t, guard.follower.vec);
             switch(guard.state){
                 case(0)://patrolling 
@@ -511,6 +523,9 @@ class Play extends Phaser.Scene {
                         this.playerSpotted(guard, this.player);
                         //console.log("Player is in range to begin hunting");
                     }
+                    if (guard.detectionRadius.alpha != 0.05){
+                        guard.detectionRadius.setAlpha(0.05);
+                    }
                     break;
                 case(1)://hunting player
                     this.physics.moveTo(guard, this.player.x, this.player.y, 285);
@@ -527,6 +542,9 @@ class Play extends Phaser.Scene {
                     if (this.player.status == 1){
                         this.returnToPath(guard);
                         //console.log("player is safe, go back to path");
+                    }
+                    if (guard.detectionRadius.alpha != 0){
+                        guard.detectionRadius.setAlpha(0);
                     }
                     break;
                 case (2)://going back to path
@@ -560,7 +578,9 @@ class Play extends Phaser.Scene {
                         //console.log("Setting guard velocity to 0");
                         guard.tween.resume();
                     }
-                    //console.log("moving back to path");
+                    if (guard.detectionRadius.alpha != 0.05){
+                        guard.detectionRadius.setAlpha(0.05);
+                    }
                     break;
                 default:
                     break;
@@ -640,7 +660,7 @@ class Play extends Phaser.Scene {
         guard.anims.play('guard_walk_left');
         guard.animPlaying = 0;
         this.guardGroup.add(guard);
-        //let guard = this.guardGroup.create(x, y, 'guard').setScale(0.5);
+        guard.detectionRadius = this.add.circle(x, y, this.visionRange, 0x4d4b08).setAlpha(0.05);
         guard.storeX = 0;
         guard.storeY = 0;
         guard.state = 0;
