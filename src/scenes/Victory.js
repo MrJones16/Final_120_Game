@@ -10,7 +10,7 @@ class Victory extends Phaser.Scene{
         this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
         this.load.atlas('player_atlas', './assets/sprite_boy_sheet.png', './assets/sprite_boy_sheet.json');
         this.load.image('goal', './assets/placeholder_goal.png');
-        this.load.atlas('goal_atlas', './assets/Door.png', './assets/Door.json');
+        this.load.atlas('end_atlas', './assets/Door_ending.png', './assets/Door_ending.json');
         this.load.image('arrow', './assets/arrow.png');
         this.load.audio('bgm_end', './assets/POL-starry-night-short.wav');
     }
@@ -34,16 +34,17 @@ class Victory extends Phaser.Scene{
         this.floor = this.add.tileSprite(0, 0, 510, 850, 'floor_bg').setOrigin(0, 0).setScale(0.8);
         this.goal = this.add.sprite(25, 350, 'goal');
         this.anims.create({
-            key: 'door_open',
-            frames: this.anims.generateFrameNames('goal_atlas', {
+            key: 'door_end',
+            frames: this.anims.generateFrameNames('end_atlas', {
                 prefix: 'door',
+                suffix: '_dark',
                 start: 1,
                 end: 4,
             }),
             frameRate: 10,
             repeat: -1,
         });
-        this.goal.anims.play('door_open');
+        this.goal.anims.play('door_end');
         this.goal.angle = 90;
         let victoryConfig = {
             fontFamily: 'Century Gothic',

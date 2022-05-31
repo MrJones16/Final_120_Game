@@ -12,10 +12,6 @@ class Menu extends Phaser.Scene {
         this.load.atlas('guard_atlas', './assets/sprite_Officer_anim.png', './assets/sprite_Officer_anim.json');
         this.load.audio('bgm_menu', './assets/POL-pet-park-short.wav');
         this.load.image('arrow', './assets/arrow.png');
-        // load audio
-        // this.load.audio('sfx_select', './assets/blip_select12.wav');
-        // this.load.image('background', './assets/runner_bg.png');
-        // this.load.audio('bgm', './assets/POL-rocket-station-short.wav');
     }
 
     create(){
@@ -77,14 +73,6 @@ class Menu extends Phaser.Scene {
         menuConfig.color = "darkorchid";
         this.creditsButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 100, "Credits", menuConfig).setOrigin(0.5).setInteractive();
         this.creditsButton.on('pointerdown', () => { this.bgmMenu.stop(); this.scene.start('creditsScene'); })
-        // menuConfig.color = "red";
-        // this.exitButton = this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 150, "Exit", menuConfig).setOrigin(0.5).setInteractive();
-        // this.exitButton.on('pointerdown', () => { game.destroy(); })
-        // menuConfig.color = "darkorchid";
-        // menuConfig.fontSize = '20px';
-        // this.creditsButton = this.add.text(game.config.width/2 - 275, game.config.height/2 + borderUISize + borderPadding + 175, "Credits", menuConfig).setOrigin(0.5).setInteractive();
-        // this.creditsButton.on('pointerdown', () => { this.scene.start('creditsScene'); })
-        // this.add.text(game.config.width/2 + 200, game.config.height/2 + borderUISize + borderPadding + 175, "Version 1.0");
 
         this.anims.create({
             key: 'guard_walk_left',

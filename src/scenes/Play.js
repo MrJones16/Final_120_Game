@@ -32,7 +32,6 @@ class Play extends Phaser.Scene {
         this.load.atlas('clique_g_atlas', './assets/sprite_NPC_G_anim1-sheet.png', './assets/sprite_NPC_G_anim1-sheet.json');
         this.load.atlas('clique_p_atlas', './assets/sprite_NPC_P_anim1-sheet.png', './assets/sprite_NPC_P_anim1-sheet.json');
         this.load.atlas('goal_atlas', './assets/Door.png', './assets/Door.json');
-        // this.load.spritesheet('helicopter', './assets/helicopter-sheet.png', { frameWidth: 128, frameHeight: 64 });
         switch (currentLevel){
             case 1:
                 this.load.tilemapTiledJSON("level1", "./assets/Level1.json");
@@ -60,8 +59,6 @@ class Play extends Phaser.Scene {
         this.load.image('test_tileset', "./assets/test_tileset.png");
         this.load.image('MallTileSet', "./assets/MallTileSet.png");
     }
-    
-    
 
     create(){
         this.add.tileSprite(0, 0, game.config.width * 4, game.config.height * 4, 'floor_bg').setOrigin(0, 0).setScale(0.5);
@@ -166,14 +163,9 @@ class Play extends Phaser.Scene {
         switch (currentLevel){
             //Level 1
             case 1:
-                //this.loadLevel("level1");
-                //this.keycardLevel = false;
                 this.loadLevel("level1");
                 this.keycardAmount = 0;
                 break;
-            //TEMP LEVEL LOADS SO GAME DOESN'T CRASH WHEN GOING TO FUTURE LEVELS WITH NOTHING IN THEM
-            //The scene loads are here just so I could test the level load screens.
-            //I highly suggest reloading the game if you complete the level or press P to skip to next level when this code is here. Or your ears will be destroyed
             //Level 2
             case 2:
                 this.loadLevel("level2");
@@ -184,16 +176,17 @@ class Play extends Phaser.Scene {
                 this.loadLevel("level3");
                 this.keycardAmount = 3;
                 break;
+            //Level 4
             case 4:
                 this.loadLevel("level4");
                 this.keycardAmount = 3;
                 break;
-            //Level 4
+            //Level 5
             case 5:
                 this.loadLevel("level5");
                 this.keycardAmount = 3;
                 break;
-            //Level 5
+            //Case break
             case 6:
                 this.scene.start('levelLoadScene');
                 break;
@@ -221,7 +214,6 @@ class Play extends Phaser.Scene {
         }
 
         //Player collisions and overlaps
-        //this.physics.add.collider(this.player, wallLayer);
         this.physics.add.overlap(this.player, this.cliqueGroup, (player, clique) => {
             if (clique.type == this.player.type && !this.player.cliqueLockout){
                 this.player.touchClique = true;
@@ -281,7 +273,6 @@ class Play extends Phaser.Scene {
             }
         });
 
-
         //this.physics.add.collider(this.guardGroup, this.wallGroup);
         this.physics.add.collider(this.guardGroup, this.player, (guard, player) => {
             //Guard collides with player
@@ -324,7 +315,6 @@ class Play extends Phaser.Scene {
         });
 
         this.statusText.setDepth(100);
-
     }
     
     update(time, delta) {
@@ -368,7 +358,7 @@ class Play extends Phaser.Scene {
             this.whichIdle(this.player);
         }
 
-        //LEVEL CHEAT (TEMP)
+        //LEVEL CHEAT
         if (keyP.isDown) {
             this.stopMusicPlay();
             if (currentLevel == 5) {
@@ -518,10 +508,8 @@ class Play extends Phaser.Scene {
                     //checking for the player
                     if (Phaser.Math.Distance.Between(guard.x, guard.y, this.player.x, this.player.y) <= this.visionRange && this.player.status == 0){
                         this.playerSpotted(guard, this.player);
-                        //console.log("Player is in range to begin hunting");
                     } else if (this.player.status == 2){
                         this.playerSpotted(guard, this.player);
-                        //console.log("Player is in range to begin hunting");
                     }
                     if (guard.detectionRadius.alpha != 0.05){
                         guard.detectionRadius.setAlpha(0.05);
@@ -538,10 +526,8 @@ class Play extends Phaser.Scene {
                         guard.anims.play('guard_walk_right');
                         guard.animPlaying = 1;
                     }
-                    //console.log("moving to player");
                     if (this.player.status == 1){
                         this.returnToPath(guard);
-                        //console.log("player is safe, go back to path");
                     }
                     if (guard.detectionRadius.alpha != 0){
                         guard.detectionRadius.setAlpha(0);
@@ -567,7 +553,6 @@ class Play extends Phaser.Scene {
                         guard.delcall.destroy();
                         guard.body.setVelocityX(0);
                         guard.body.setVelocityY(0);
-                        //console.log("Setting guard velocity to 0");
                         guard.tween.resume();
                     }
                     if (ydif > -1 && ydif < 1){
@@ -575,7 +560,6 @@ class Play extends Phaser.Scene {
                         guard.delcall.destroy();
                         guard.body.setVelocityX(0);
                         guard.body.setVelocityY(0);
-                        //console.log("Setting guard velocity to 0");
                         guard.tween.resume();
                     }
                     if (guard.detectionRadius.alpha != 0.05){
@@ -591,7 +575,6 @@ class Play extends Phaser.Scene {
     }
 
     playerSpotted(guard, player){
-        //console.log("Player Spotted");
         guard.storeX = guard.x;
         guard.storeY = guard.y;
         guard.state = 1;
@@ -604,11 +587,9 @@ class Play extends Phaser.Scene {
     returnToPath(guard){
         this.physics.moveTo(guard, guard.storeX, guard.storeY, 300, 3000);
         guard.state = 2;
-        //console.log("calling return to path");
         guard.delcall = this.time.delayedCall(3000, () => {
             guard.body.setVelocityX(0);
             guard.body.setVelocityY(0);
-            //console.log("Setting guard velocity to 0");
             guard.tween.resume();
             guard.state = 0;
         }, null, this);
@@ -739,9 +720,7 @@ class Play extends Phaser.Scene {
         });
         //Camera and world bounds stuff
         this.physics.world.setBounds(0, 0, map1.widthInPixels, map1.heightInPixels);
-        //this.player.setCollideWorldBounds(true);
         this.cameras.main.setBounds(0, 0, map1.widthInPixels, map1.heightInPixels);
-        //this.cameras.main.startFollow(this.player);
         //Placing game objects at respective Tiled objects positions
         map1.filterObjects("Objects", (obj) => {
             //Create cliques
